@@ -37,6 +37,7 @@ section > p, .notes { max-width: 78ch; }
 .legend span { display: inline-flex; align-items: center; gap: 7px; }
 .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
 .legend .s-ok { background: var(--ok); } .legend .s-data { background: var(--data); } .legend .s-part { background: var(--part); } .legend .s-rstn { background: var(--rstn); } .legend .s-new { background: var(--new); }
+.lines svg { display: block; }
 .pill-k { font-family: var(--mono); font-size: 11px; padding: 1px 7px; border-radius: 9px; }
 .frame { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
 .frame svg { display: block; min-width: 1100px; width: 100%; height: auto; }
@@ -80,6 +81,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
 .edge-d { stroke: var(--edge); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
 .edge-a { stroke: var(--accent); stroke-width: 1.6; fill: none; }
 .edge-n { stroke: var(--new); stroke-width: 1.4; fill: none; }
+.edge-dot { stroke: var(--edge); stroke-width: 1.5; fill: none; stroke-dasharray: 1.5 3; stroke-linecap: round; }
 .edge-nd { stroke: var(--new); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
 .el { font-size: 10.5px; fill: var(--muted); }
 .el-a { font-size: 10.5px; font-weight: 600; fill: var(--accent); }
@@ -108,6 +110,14 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <span><i class="dot s-rstn"></i>RSTN / NTU scope</span>
       <span><span class="pill-k" style="background:var(--accent);color:var(--surface)">LLM</span>language-model step</span>
       <span><span class="pill-k" style="border:1px solid var(--edge);color:var(--muted)">rules</span>fixed, testable rules</span>
+    </div>
+    <div class="legend lines">
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge"/></svg>every enquiry</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-d"/></svg>only when it happens: follow-up, failure, staff change, status update</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-dot"/></svg>data the step looks up</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-n"/></svg>preparation, before or between runs</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-nd"/></svg>testing and feedback (staff edits feed phase 2)</span>
+      <span><svg width="34" height="14" aria-hidden="true"><rect x="2" y="2" width="30" height="10" rx="3" class="box-grey"/></svg>dashed box: owned by RSTN / NTU</span>
     </div>
     <div class="frame">
 <!-- DIAGRAM:START -->
@@ -202,9 +212,9 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <text x="836" y="314" class="t1">Knowledge base</text><text x="836" y="329" class="t2">RSTN on-prem · versioned</text>
   <rect x="920" y="296" width="140" height="44" rx="6" class="box-grey"/>
   <text x="990" y="314" class="t1">Payment · TMS</text><text x="990" y="329" class="t2">manual until authorised</text>
-  <path d="M682,296 V278" class="edge-d" marker-end="url(#ar)"/>
-  <path d="M836,296 V278" class="edge-d" marker-end="url(#ar)"/>
-  <path d="M960,296 L872,278" class="edge-d" marker-end="url(#ar)"/>
+  <path d="M682,296 V278" class="edge-dot" marker-end="url(#ar)"/>
+  <path d="M836,296 V278" class="edge-dot" marker-end="url(#ar)"/>
+  <path d="M960,296 L872,278" class="edge-dot" marker-end="url(#ar)"/>
 
   <!-- trace bar -->
   <rect x="150" y="354" width="1064" height="26" rx="5" class="trace"/>
@@ -212,22 +222,24 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <!-- offline knowledge -->
   <rect x="150" y="414" width="130" height="50" rx="6" class="box-grey"/>
-  <text x="215" y="434" class="t1">Historical emails</text><text x="215" y="450" class="t2">NTU-authorised set</text>
-  <rect x="296" y="414" width="196" height="50" rx="6" class="box-new"/>
-  <text x="394" y="434" class="t1">Curate</text><text x="394" y="450" class="t2">de-identify · de-dupe · drop stale</text>
-  <circle cx="486" cy="414" r="6" class="s-new"/>
-  <rect x="508" y="414" width="112" height="50" rx="6" class="box-grey"/>
-  <text x="564" y="434" class="t1">NTU review</text><text x="564" y="450" class="t2">approve the set</text>
+  <text x="215" y="434" class="t1">Sample emails</text><text x="215" y="450" class="t2">provided by PaCE</text>
+  <rect x="296" y="414" width="170" height="50" rx="6" class="box-new"/>
+  <text x="381" y="434" class="t1">Label &amp; de-identify</text><text x="381" y="450" class="t2">expected owner · action</text>
+  <circle cx="460" cy="414" r="6" class="s-new"/>
+  <rect x="482" y="414" width="130" height="50" rx="6" class="box-new"/>
+  <text x="547" y="434" class="t1">Test set</text><text x="547" y="450" class="t2">accuracy before go-live</text>
+  <circle cx="606" cy="414" r="6" class="s-new"/>
   <rect x="766" y="414" width="140" height="92" rx="6" class="box-new"/>
-  <text x="836" y="436" class="t1">Publish knowledge</text><text x="836" y="452" class="t2">versioned · indexed</text><text x="836" y="465" class="t2">current sources win</text><text x="836" y="478" class="t2">over history</text>
+  <text x="836" y="436" class="t1">Publish knowledge</text><text x="836" y="452" class="t2">versioned · indexed</text><text x="836" y="465" class="t2">NTU-approved</text><text x="836" y="478" class="t2">sources only</text>
   <circle cx="900" cy="414" r="6" class="s-new"/>
   <rect x="930" y="414" width="130" height="50" rx="6" class="box-grey"/>
   <text x="995" y="434" class="t1">FAQs · policies</text><text x="995" y="450" class="t2">+ NTU web pages</text>
   <rect x="592" y="476" width="156" height="36" rx="6" class="box-p2"/>
-  <text x="670" y="491" class="t1" style="font-size:11.5px">Self-learning · phase 2</text><text x="670" y="505" class="t2">evaluate approved corrections</text>
+  <text x="670" y="491" class="t1" style="font-size:11.5px">Self-learning · phase 2</text><text x="670" y="505" class="t2">gated by the test set</text>
   <path d="M280,439 H294" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M492,439 H506" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M620,439 H764" class="edge-n" marker-end="url(#arn)"/>
+  <path d="M466,439 H480" class="edge-n" marker-end="url(#arn)"/>
+  <path d="M547,414 V278" class="edge-nd" marker-end="url(#arn)"/>
+  <text x="541" y="300" class="el-n" text-anchor="end">accuracy tests</text>
   <path d="M930,439 H908" class="edge-n" marker-end="url(#arn)"/>
   <path d="M748,494 H764" class="edge-nd" marker-end="url(#arn)"/>
   <path d="M836,414 V342" class="edge-n" marker-end="url(#arn)"/>
@@ -268,7 +280,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
     <ul class="notes">
       <li>RSTN calls the engine once per email. When staff change how an issue is handled, a second, smaller call re-checks only that issue; an invalid change is rejected with a reason and the plan stays as it was.</li>
       <li>If the engine fails at any step, nothing it produced reaches the enquirer. RSTN sends its approved acknowledgement and queues the case for staff.</li>
-      <li>Past PaCE emails become approved, citable knowledge only after curation and NTU sign-off. No model is trained on them.</li>
+      <li>Sample emails from PaCE are used as a test set and to find knowledge gaps. They are never used to train a model or cited as a source of facts.</li>
     </ul>
   </section>
 
@@ -330,17 +342,17 @@ svg text { font-family: var(--display); fill: var(--fg); }
   </section>
 
   <section aria-labelledby="hist">
-    <h2 id="hist">Using PaCE's historical correspondence</h2>
-    <p>Past emails are turned into approved question-and-answer knowledge the engine can cite, through a controlled process:</p>
-    <ol class="steps">
-      <li>NTU selects the emails it is authorised to use: date range, mailboxes, programmes.</li>
-      <li>Personal data is removed: names, email addresses, phone numbers, NRIC, payment details.</li>
-      <li>Near-duplicates are grouped and the best-answered example of each question is kept.</li>
-      <li>Question-and-answer pairs are extracted and tagged with programme, intent and date.</li>
-      <li>Obsolete, contradictory and sensitive items are dropped, checked against the registry and current web content.</li>
-      <li>NTU reviews and approves the set, which is then published as a versioned knowledge source.</li>
-    </ol>
-    <p>When a historical answer conflicts with current programme pages or policy, the current source wins and the issue is flagged rather than answered. The same curated set doubles as a test set, so accuracy can be measured on real PaCE questions before go-live.</p>
+    <h2 id="hist">How sample emails are used</h2>
+    <p>No model is trained on NTU emails. The engine answers only from NTU-approved sources: programme pages, FAQs and policies. Sample emails from PaCE are used to test and tune it:</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Use</th><th>How</th></tr></thead>
+      <tbody>
+        <tr><td>Test set</td><td>Each sample is de-identified and labelled with PaCE: the right programme, owner and action, and what a good reply covers. Accuracy is measured on this set before go-live and after every change.</td></tr>
+        <tr><td>Gap list</td><td>Questions that come up in samples but no approved source answers are listed for NTU, so FAQs and pages can be added before go-live instead of those emails falling to manual handling.</td></tr>
+        <tr><td>Reply style</td><td>A few approved replies show PaCE's tone and structure. They guide wording only and are never cited as a source of facts.</td></tr>
+      </tbody>
+    </table></div>
+    <p>What helps most is a few hundred de-identified emails covering the main programmes, multi-question emails, follow-ups and attachments, together with how PaCE actually handled each one (answered, forwarded and to whom, or asked for details).</p>
   </section>
 
   <section aria-labelledby="dep">
@@ -372,7 +384,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
         <tr><td>Knowledge base interface on the on-prem server, and how versions and withdrawals are exposed</td><td>Every cited fact must point to a current, approved source</td></tr>
         <tr><td>Data policy: may excerpts be processed by a cloud model? Approved providers and residency rules</td><td>Decides option A, B or C</td></tr>
         <tr><td>Programme registry and routing directory: programmes, aliases, owning teams, inboxes; who maintains them</td><td>Programme and owner identification, referrals</td></tr>
-        <tr><td>Authorised historical emails: scope, export format, approver</td><td>Historical knowledge and the accuracy test set</td></tr>
+        <tr><td>De-identified sample emails, with how PaCE handled each one</td><td>Accuracy test set and knowledge gap list</td></tr>
         <tr><td>XML schema or sample payloads, thread identifiers, attachment handling</td><td>Freeze the API contract</td></tr>
         <tr><td>10–30 redacted sample screenshots and attachments</td><td>Choose OCR or vision</td></tr>
         <tr><td>Peak volume, acceptable time per email, synchronous or callback</td><td>Sizing and deployment</td></tr>

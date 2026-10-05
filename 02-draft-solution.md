@@ -26,11 +26,11 @@ adapters), which RSTN already owns.
 | Mailbox/form intake, attachment storage | RSTN |
 | Case and thread identity, case status, dashboard | RSTN |
 | Programme registry and approved knowledge (authoring, approval, revocation) | NTU / RSTN |
-| Choosing which historical emails NTU is authorised to use | NTU |
+| Providing sample emails for reference | NTU / PaCE |
 | Payment, TMS, application state | NTU systems (manual handling until an authorised interface exists) |
 | Staff UI, approval, sending, forwarding, static fallback wording | RSTN / PaCE |
 | **Understanding, programme/owner resolution, sufficiency, treatment, grounded reply, verification, override validation, decision trace** | **Synvo** |
-| **Curating historical correspondence into approved knowledge (offline)** | **Synvo builds, NTU approves** |
+| **Labelling sample emails into a test set; knowledge-gap list (offline)** | **Synvo builds, PaCE confirms labels** |
 
 Non-execution semantics stay explicit: **`HANDOFF` ≠ forwarded, `SAFE_TO_REVIEW` ≠ approved,
 `MANUAL_REVIEW` ≠ reviewed, candidate reply ≠ sent email.** Run health is separate from business treatment:
@@ -68,11 +68,11 @@ the knowledge base current. The diagram version is in `03-architecture-and-unit-
           invalid change → plan unchanged + reason
 
  OFFLINE — knowledge path (batch, not per email)
- NTU-approved historical emails ─► de-identify ─► de-duplicate ─► extract Q&A pairs
-   ─► tag programme / intent / date ─► drop obsolete, contradictory, sensitive
-   ─► NTU review ─► publish versioned knowledge ─► index
- NTU web pages, FAQs, policies ─► crawl/import ─► version ─► index
- (phase 2) staff edits & overrides ─► evaluation ─► approved corrections ─► knowledge
+ NTU web pages, FAQs, policies ─► crawl/import ─► version ─► index      (the only fact sources)
+ PaCE sample emails ─► de-identify ─► label expected owner / action / answer points
+   ─► test set (accuracy before go-live and after every change)
+   ─► gap list (questions no approved source answers → NTU adds FAQs)
+ (phase 2) staff edits & overrides ─► evaluation on test set ─► approved corrections ─► knowledge
 ```
 
 Failure contract: a failed stage is never returned as a business answer. No semantic retry for a preferred
@@ -95,11 +95,11 @@ case for staff.
 | Model gateway | `src/ai/model-gateway.ts` | Direct. Per-stage model choice without touching rules |
 | Override validation | POC "Change handling" path | Extract as an API |
 | [2] Attachment reading | POC handled a receipt image | Productionise once samples arrive |
-| Offline historical curation | — | **New build** |
+| Sample-email test set and gap list | POC evaluation harness (`evaluation/`) | Extend with real samples |
 | UI, case lifecycle, persistence, execution | `src/app`, `src/domain`, `src/persistence`, `src/integrations` | Out of scope |
 
 The core is built and evidenced. The work is integration, the XML contract, re-pointing at RSTN data,
-indexed retrieval, the historical-curation pipeline, deployment and cost engineering.
+indexed retrieval, the sample-email test set, deployment and cost engineering.
 
 ## 5. Knowledge base on RSTN's on-prem server
 
@@ -114,23 +114,24 @@ Determines both topology and cost. **ASSUMPTION** until RSTN answers.
 Recommendation: **A**, with **C** if NTU requires it. **B** changes the unit cost from a per-call bill to GPU
 amortisation and must be decided before a price goes out.
 
-## 6. Historical correspondence (Prof Boh's requirement)
+## 6. Sample emails (replaces the historical-correspondence plan)
 
-We do not train a model on past emails. We turn **approved** past emails into **approved knowledge** the
-engine can cite, which matches LoadStone's own wording ("reusable institutional response knowledge").
+**Update 2026-10-05:** NTU will not share historical emails for pre-training; sample emails are available for
+reference. Nothing is trained on NTU emails, and sample emails are never cited as a source of facts. The
+engine answers only from NTU web pages, FAQs and policies.
 
-1. NTU selects the emails it is authorised to use (date range, mailboxes, programmes).
-2. De-identify: names, emails, phone numbers, NRIC, payment details.
-3. Cluster near-duplicates; keep the best-answered example per question pattern.
-4. Extract question → answer pairs, tagged with programme, intent and date.
-5. Drop obsolete (closed programmes, old fees and intakes), contradictory and sensitive items, using the
-   registry and current web content as the check.
-6. NTU reviews and approves the set; publish as a versioned knowledge source.
-7. At run time the engine cites a historical answer as `HISTORICAL_APPROVED` evidence. Current web/policy
-   content wins over a historical answer when they conflict, and a conflict yields `CONFLICTING`, not a guess.
+Sample emails are used three ways:
 
-The same pairs also give us an **evaluation set** (real questions with real accepted answers) to measure
-accuracy before go-live. This is a one-off build plus periodic refresh, priced outside the per-email cost.
+| Use | How |
+|---|---|
+| **Test set** | De-identify; label with PaCE the expected programme, owner, treatment and the points a good reply covers. Measure accuracy before go-live and after every prompt, model or knowledge change. |
+| **Gap list** | Questions in the samples that no approved source answers. NTU adds FAQs or pages before go-live, so fewer emails fall to Manual handling. |
+| **Reply style** | A handful of approved replies as tone/structure examples in the drafting prompt. Wording only, never facts. |
+
+What to ask for: a few hundred de-identified emails covering the main programmes, multi-question emails,
+follow-ups and attachments, each with how PaCE actually handled it (answered, forwarded and to whom, or asked
+for details). This extends the POC's evaluation harness; it is a one-off build priced outside the per-email
+cost. It also gives Self-Learning (phase 2) its gate: no correction is folded in unless the test set holds.
 
 ## 7. API contract (semantics now, XSD with RSTN)
 
@@ -166,7 +167,7 @@ Result
 │   ├── rationale                                       the "Why" shown to staff
 │   ├── missingInformation[], requiredInstitutionalContext[]
 │   └── evidence[] { evidenceId, sourceType, url | locator, version, excerpt,
-│                    authority: INSTITUTIONAL | APPROVED_KNOWLEDGE | HISTORICAL_APPROVED | SENDER_PROVIDED }
+│                    authority: INSTITUTIONAL | APPROVED_KNOWLEDGE | SENDER_PROVIDED }
 ├── reply?                                              one per enquiry
 │   ├── text, coversIssueIds[]
 │   ├── claims[] { claimText, evidenceIds[] }
@@ -225,7 +226,7 @@ Reported model cost: **~$0.0025 per email**, ~$12.43 for a 5,000-email week. Ter
 ### 9.2 Why production will cost more per email than Round A
 
 - **Retrieved context.** Round A grounded on a tiny fictional store. Real excerpts from NTU web pages and
-  historical answers make P0-D and P0-E inputs larger; plan for 2–3× input tokens on those stages.
+  FAQ/policy excerpts make P0-D and P0-E inputs larger; plan for 2–3× input tokens on those stages.
 - **Attachments.** OCR is cheap; a vision call adds roughly one extra model call with image tokens per
   attachment. The share of emails with screenshots is unknown.
 - **Embeddings and index hosting** for retrieval; small per email, plus a fixed monthly cost.
@@ -239,7 +240,7 @@ cost per email = Σ over stages ( calls × (input tokens × input price + output
                + attachment share × reading cost
                + retrieval cost per query
                + (hosting + monitoring) ÷ emails per month
-fixed (not per email) = integration build, historical curation, evaluation, support
+fixed (not per email) = integration build, sample-email test set, evaluation, support
 ```
 
 Planning range for model cost only, in multiples of the measured Round A figure:
@@ -261,7 +262,7 @@ GPU amortisation (option B) as separate lines; they are not comparable units.
 |---|---|
 | Fluent but unsupported reply | Independent verification + rule-based validation, fail closed |
 | Receipt or screenshot read as institutional truth | `SENDER_PROVIDED` authority; payment confirmation is always Manual handling |
-| Stale or contradictory historical answers | Curation in §6; current sources win; `CONFLICTING` / `STALE` states |
+| Stale or contradictory knowledge | Versioned sources; `CONFLICTING` / `STALE` states; gap list from §6 |
 | Prompt injection in email text | Email is data, never instructions; facts only from retrieval |
 | Programme ambiguity (`Data Science`, `Cyber Security` variants) | Registry returns `AMBIGUOUS` + candidates → Ask for clarification |
 | XML contract churn | Freeze semantics now, version the schema |
@@ -271,11 +272,11 @@ GPU amortisation (option B) as separate lines; they are not comparable units.
 ## 11. Division of work
 
 **RSTN / NTU provide:** XML contract and sample payloads; programme registry; knowledge base access; routing
-directory; authorised historical emails; sample screenshots; volume/latency profile; residency and model
+directory; de-identified sample emails with how PaCE handled them; sample screenshots; volume/latency profile; residency and model
 policy; fallback wording; escalation policy for blocked runs.
 
 **Synvo builds:** the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's
-store, historical-curation pipeline (§6), XML contract, per-stage cost/latency telemetry, evaluation set and
+store, sample-email test set and gap list (§6), XML contract, per-stage cost/latency telemetry, evaluation set and
 accuracy report, shadow-run cost report, the internal architecture diagram.
 
 Open items and owners: `TODO.md`.

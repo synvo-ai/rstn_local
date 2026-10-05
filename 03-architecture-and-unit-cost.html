@@ -35,6 +35,7 @@ section > p, .notes { max-width: 75ch; }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 7px; }
 .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.lines svg { display: block; }
 .pill-k { font-family: var(--mono); font-size: 11px; padding: 1px 7px; border-radius: 9px; }
 .frame { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
 .frame svg { display: block; min-width: 1100px; width: 100%; height: auto; }
@@ -78,6 +79,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
 .edge-a { stroke: var(--accent); stroke-width: 1.6; fill: none; }
 .edge-n { stroke: var(--new); stroke-width: 1.4; fill: none; }
 .el { font-size: 10.5px; fill: var(--muted); }
+.edge-dot { stroke: var(--edge); stroke-width: 1.5; fill: none; stroke-dasharray: 1.5 3; stroke-linecap: round; }
 .edge-nd { stroke: var(--new); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
 .el-n { font-size: 10.5px; fill: var(--new); }
 .el-a { font-size: 10.5px; font-weight: 600; fill: var(--accent); }
@@ -93,7 +95,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <header>
     <div class="eyebrow">NTU PaCE · General enquiries · Synvo engine for RSTN</div>
     <h1>How the engine works, and what one email costs</h1>
-    <p class="lede"><b>Internal: do not share.</b> Cost basis for the commercial 1-pager. The customer-facing version, without cost figures, is <code>04-engine-architecture.html</code>. Built on slide 2 of the pitch deck: the same five lanes, with the Synvo AI lane opened up into its stages and the offline knowledge path added for NTU's historical correspondence.</p>
+    <p class="lede"><b>Internal: do not share.</b> Cost basis for the commercial 1-pager. The customer-facing version, without cost figures, is <code>04-engine-architecture.html</code>. Built on slide 2 of the pitch deck: the same five lanes, with the Synvo AI lane opened up into its stages and the offline path for knowledge and sample-email testing.</p>
   </header>
 
   <section aria-labelledby="wf">
@@ -106,6 +108,14 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <span><i class="dot s-rstn"></i>RSTN scope</span>
       <span><span class="pill-k" style="background:var(--accent);color:var(--surface)">LLM</span>model call, billed per token</span>
       <span><span class="pill-k" style="border:1px solid var(--edge);color:var(--muted)">rules</span>deterministic, near-zero cost</span>
+    </div>
+    <div class="legend lines">
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge"/></svg>every enquiry</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-d"/></svg>only when it happens: follow-up, failure, staff change, status update</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-dot"/></svg>data the step looks up</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-n"/></svg>preparation, before or between runs</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-nd"/></svg>testing and feedback (staff edits feed phase 2)</span>
+      <span><svg width="34" height="14" aria-hidden="true"><rect x="2" y="2" width="30" height="10" rx="3" class="box-grey"/></svg>dashed box: owned by RSTN / NTU</span>
     </div>
     <div class="frame">
 <!-- DIAGRAM:START -->
@@ -200,9 +210,9 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <text x="836" y="314" class="t1">Knowledge base</text><text x="836" y="329" class="t2">RSTN on-prem · versioned</text>
   <rect x="920" y="296" width="140" height="44" rx="6" class="box-grey"/>
   <text x="990" y="314" class="t1">Payment · TMS</text><text x="990" y="329" class="t2">manual until authorised</text>
-  <path d="M682,296 V278" class="edge-d" marker-end="url(#ar)"/>
-  <path d="M836,296 V278" class="edge-d" marker-end="url(#ar)"/>
-  <path d="M960,296 L872,278" class="edge-d" marker-end="url(#ar)"/>
+  <path d="M682,296 V278" class="edge-dot" marker-end="url(#ar)"/>
+  <path d="M836,296 V278" class="edge-dot" marker-end="url(#ar)"/>
+  <path d="M960,296 L872,278" class="edge-dot" marker-end="url(#ar)"/>
 
   <!-- trace bar -->
   <rect x="150" y="354" width="1064" height="26" rx="5" class="trace"/>
@@ -210,22 +220,24 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <!-- offline knowledge -->
   <rect x="150" y="414" width="130" height="50" rx="6" class="box-grey"/>
-  <text x="215" y="434" class="t1">Historical emails</text><text x="215" y="450" class="t2">NTU-authorised set</text>
-  <rect x="296" y="414" width="196" height="50" rx="6" class="box-new"/>
-  <text x="394" y="434" class="t1">Curate</text><text x="394" y="450" class="t2">de-identify · de-dupe · drop stale</text>
-  <circle cx="486" cy="414" r="6" class="s-new"/>
-  <rect x="508" y="414" width="112" height="50" rx="6" class="box-grey"/>
-  <text x="564" y="434" class="t1">NTU review</text><text x="564" y="450" class="t2">approve the set</text>
+  <text x="215" y="434" class="t1">Sample emails</text><text x="215" y="450" class="t2">provided by PaCE</text>
+  <rect x="296" y="414" width="170" height="50" rx="6" class="box-new"/>
+  <text x="381" y="434" class="t1">Label &amp; de-identify</text><text x="381" y="450" class="t2">expected owner · action</text>
+  <circle cx="460" cy="414" r="6" class="s-new"/>
+  <rect x="482" y="414" width="130" height="50" rx="6" class="box-new"/>
+  <text x="547" y="434" class="t1">Test set</text><text x="547" y="450" class="t2">accuracy before go-live</text>
+  <circle cx="606" cy="414" r="6" class="s-new"/>
   <rect x="766" y="414" width="140" height="92" rx="6" class="box-new"/>
-  <text x="836" y="436" class="t1">Publish knowledge</text><text x="836" y="452" class="t2">versioned · indexed</text><text x="836" y="465" class="t2">current sources win</text><text x="836" y="478" class="t2">over history</text>
+  <text x="836" y="436" class="t1">Publish knowledge</text><text x="836" y="452" class="t2">versioned · indexed</text><text x="836" y="465" class="t2">NTU-approved</text><text x="836" y="478" class="t2">sources only</text>
   <circle cx="900" cy="414" r="6" class="s-new"/>
   <rect x="930" y="414" width="130" height="50" rx="6" class="box-grey"/>
   <text x="995" y="434" class="t1">FAQs · policies</text><text x="995" y="450" class="t2">+ NTU web pages</text>
   <rect x="592" y="476" width="156" height="36" rx="6" class="box-p2"/>
-  <text x="670" y="491" class="t1" style="font-size:11.5px">Self-learning · phase 2</text><text x="670" y="505" class="t2">evaluate approved corrections</text>
+  <text x="670" y="491" class="t1" style="font-size:11.5px">Self-learning · phase 2</text><text x="670" y="505" class="t2">gated by the test set</text>
   <path d="M280,439 H294" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M492,439 H506" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M620,439 H764" class="edge-n" marker-end="url(#arn)"/>
+  <path d="M466,439 H480" class="edge-n" marker-end="url(#arn)"/>
+  <path d="M547,414 V278" class="edge-nd" marker-end="url(#arn)"/>
+  <text x="541" y="300" class="el-n" text-anchor="end">accuracy tests</text>
   <path d="M930,439 H908" class="edge-n" marker-end="url(#arn)"/>
   <path d="M748,494 H764" class="edge-nd" marker-end="url(#arn)"/>
   <path d="M836,414 V342" class="edge-n" marker-end="url(#arn)"/>
@@ -267,7 +279,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <li>RSTN calls the engine once per email and gets one result back. Staff changing a treatment triggers a second, smaller call that re-checks only that issue.</li>
       <li>Only steps 3 and 7 always call a model; step 2 runs only with attachments, step 4 only when the programme is unclear, and steps 1, 5, 6 are pure rules. That is why the unit cost is low and predictable: about four model calls per email in the POC (understand ~1.5k tokens, programme ~0.7k when ambiguous, draft + verify ~3.8k).</li>
       <li>If the engine fails, RSTN sends its static acknowledgement and queues the email for staff. A failed run never reaches the enquirer as an answer.</li>
-      <li>Historical emails become approved, citable knowledge after curation and NTU sign-off. We do not train a model on them.</li>
+      <li>Sample emails from PaCE become a labelled test set and a knowledge-gap list. NTU will not share historical emails for training (confirmed 5 Oct), and samples are never cited as facts.</li>
     </ul>
   </section>
 
@@ -317,14 +329,14 @@ svg text { font-family: var(--display); fill: var(--fg); }
                + retrieval cost per query (embeddings, search)
                + (hosting + monitoring per month) ÷ emails per month
 
-fixed, priced separately = integration build · historical curation · evaluation · support · phase 2</pre>
+fixed, priced separately = integration build · sample-email test set · evaluation · support · phase 2</pre>
 
     <div class="caveat">Before quoting a price: re-price the token counts at today's provider rates, then run the engine beside the live inbox for 1–2 weeks with nothing sent, and report cost and latency per email by type (simple, multi-question, follow-up, with attachment). If NTU requires models to run on-prem, the variable cost becomes GPU amortisation and has to be quoted as a separate line.</div>
 
     <h3>What moves the number</h3>
     <ul class="notes">
       <li><b>Where models may run</b> (open with RSTN). Cloud model API: cost scales per email. On-prem GPU: mostly fixed cost, higher at this volume.</li>
-      <li><b>Size of retrieved evidence.</b> Real NTU pages and historical answers are larger than the POC store. Capping evidence per issue keeps draft and verify in check.</li>
+      <li><b>Size of retrieved evidence.</b> Real NTU pages, FAQs and policies are larger than the POC store. Capping evidence per issue keeps draft and verify in check.</li>
       <li><b>Screenshots.</b> OCR adds little. Vision adds roughly one extra model call per attachment. We need sample screenshots to choose.</li>
       <li><b>Model choice per stage.</b> Through the model gateway, simple stages can use a cheaper model without touching business rules. In Round A, Luna was the cheapest and also scored highest in blind review (18.5 of 21).</li>
     </ul>

@@ -56,12 +56,15 @@ response, forward to a school, or route to a human for exceptions.
 | "Supported outcome?" with 3 branches | Tailored direct response → draft with evidence → FlexiMasters review & send; programme-owner response required → structured routing & handoff; insufficient/conflicting/ambiguous evidence → human exception queue |
 | Static approved wording → acknowledgement, escalation and failure fallback only | A non-AI fallback reply when the AI path fails or is not allowed |
 | Decision audit and service reporting | Every decision must be auditable and reportable |
-| Approved historical email correspondence + approved FAQs/policies/programme info → governed response knowledge base | Historical emails become a **knowledge source**, after curation that removes obsolete, duplicate, contradictory, sensitive or unsuitable examples |
+| Approved historical email correspondence + approved FAQs/policies/programme info → governed response knowledge base | **Superseded (2026-10-05):** NTU will not share historical emails for training or as a knowledge source. We will get **sample emails for reference**. The knowledge base is NTU web pages, FAQs and policies only |
 | Reviewer feedback and approved corrections → controlled evaluation and knowledge refresh → knowledge base | A governed feedback loop; this is what our group now calls **Self-Learning** (phase 2) |
 
 Our POC already covers the decision branches (as four treatments, see §4), the audit trail and the
-fail-closed behaviour. It does **not** yet ingest historical correspondence; that is new work (see
-`02-draft-solution.md` §6).
+fail-closed behaviour.
+
+**Update 2026-10-05:** NTU will not share historical emails for pre-training, but sample emails are
+available for reference. We use them as a labelled test set, to list knowledge gaps for NTU, and as
+reply-style examples, never as a source of facts (`02-draft-solution.md` §6).
 
 ## 3. Desired future state (customer)
 
@@ -122,7 +125,7 @@ What the POC screens (slides 3–10) commit us to returning:
 | Grounded consolidated reply with claim-to-source trace, independently verified | Sending, forwarding, case-state updates |
 | Validation of staff handling changes | Staff UI, SSO, roles, approval policy |
 | Screenshots/receipts read as sender evidence | Treating a receipt as institutional truth |
-| Curation pipeline turning approved historical emails into knowledge (new) | Authorising which historical emails may be used |
+| Labelled test set and knowledge-gap list built from PaCE sample emails (new) | Providing and de-identifying sample emails |
 | Decision trace for audit and reporting | Reporting platform, follow-up chasing, FAQ portal |
 
 ## 5. Capability readiness (as agreed in the call with Tom, Guowei, Lisa)
@@ -140,7 +143,7 @@ What the POC screens (slides 3–10) commit us to returning:
 Give RSTN an API-callable correspondence-intelligence engine that accepts an enquiry (email content,
 permitted thread context and attachments) in XML; splits it into material issues; resolves each to a
 programme and owner from the governed registry; decides per issue whether approved knowledge (NTU web
-content, FAQs, policies and curated historical correspondence) is sufficient; recommends one of
+content, FAQs and policies) is sufficient; recommends one of
 Reply directly / Refer / Clarify / Manual handling per issue; produces one verified, source-cited reply
 where allowed; validates staff handling changes; and returns everything as structured output with a full
 decision trace and an explicit cost per run. It never sends, routes or invents institutional facts.

@@ -20,8 +20,10 @@ Owners are suggestions; adjust after Lisa consolidates scope.
       exist, or must it be built? Customer said no master directory exists today. Who maintains it?
 - [ ] **A4. Routing/ownership directory.** Owner per programme × intent (admission, fees, credit transfer…),
       with team inboxes. Read access for us?
-- [ ] **A5. Historical correspondence (Prof Boh).** Which emails NTU is authorised to let us use (date range,
-      mailboxes, programmes), export format, volume, and who approves the curated set.
+- [ ] **A5. Sample emails.** NTU will not share historical emails for pre-training (confirmed 2026-10-05), but
+      sample emails are available for reference. Ask for a few hundred, de-identified, covering main programmes,
+      multi-question, follow-ups and attachments, each with how PaCE handled it (answered / forwarded to whom /
+      asked for details). Who de-identifies, and who confirms our labels?
 - [ ] **A6. Other approved sources.** FAQs, policies, fee tables, intake calendars: which, where, how current.
       Confirm NTU public programme pages are an approved source (the POC cites them).
 - [ ] **A7. Institutional state.** Any authorised read interface for payment, application or TMS status? If
@@ -74,10 +76,12 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [ ] **B12. Per-stage cost/latency telemetry** in every result trace (tokens, model, cost, ms).
 - [ ] **B13. Deployment package** for the chosen topology (A/B/C); retrieval service if it must sit on-prem.
 
-### Historical knowledge (after A5)
-- [ ] **B14. Curation pipeline**: de-identify → de-duplicate → extract Q&A → tag → drop obsolete/conflicting
-      → NTU review → versioned publish.
-- [ ] **B15. Evaluation set** from curated historical Q&A; accuracy report for routing, treatment and reply.
+### Sample emails (after A5)
+- [-] ~~B14. Historical-email curation pipeline~~ — dropped: NTU will not share historical emails.
+- [ ] **B14b. Label sample emails** (expected programme, owner, treatment, reply points) with PaCE confirming.
+- [ ] **B15. Test set + accuracy report** for routing, treatment and reply, on the labelled samples; extend the
+      POC evaluation harness. Re-run after every prompt/model/knowledge change.
+- [ ] **B15b. Knowledge-gap list** for NTU: sample questions no approved source answers.
 
 ### Before commercial commitment
 - [ ] **B16. Shadow run** 1–2 weeks on live traffic, nothing sent; cost and latency per email by type.
@@ -92,4 +96,5 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-05 | No historical emails for pre-training; sample emails for reference → used as test set, gap list, reply style only | NTU (via group) |
 | 2026-09-28 | GPT-5.6 Luna default model for next POC stage (Round A) | Synvo |
