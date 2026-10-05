@@ -356,7 +356,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <section aria-labelledby="cost">
     <h2 id="cost">What drives cost per email</h2>
     <ul class="notes">
-      <li><b>Few model calls.</b> Four of the seven steps are fixed rules. In the POC an email averaged about four language-model calls, most of them in drafting and checking the reply.</li>
+      <li><b>Few model calls.</b> Only two of the seven steps always use a language model; two more use one only when needed (attachments, unclear programme), and three are fixed rules. In the POC an email averaged about four language-model calls, most of them in drafting and checking the reply.</li>
       <li><b>Where models run.</b> Cloud API cost scales per email; on-prem hardware is mostly a fixed cost (see options above).</li>
       <li><b>How much evidence is retrieved.</b> Drafting and checking grow with the size of the source excerpts, so evidence per issue is capped.</li>
       <li><b>Attachments.</b> Text-heavy receipts can be read cheaply with OCR; app screenshots may need a vision model. Sample screenshots will settle this.</li>

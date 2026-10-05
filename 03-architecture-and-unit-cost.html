@@ -265,7 +265,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
     </div>
     <ul class="notes">
       <li>RSTN calls the engine once per email and gets one result back. Staff changing a treatment triggers a second, smaller call that re-checks only that issue.</li>
-      <li>Four of the seven stages are rules, not model calls. That is why the unit cost is low and predictable: about four model calls per email in the POC (understand ~1.5k tokens, programme ~0.7k when ambiguous, draft + verify ~3.8k).</li>
+      <li>Only steps 3 and 7 always call a model; step 2 runs only with attachments, step 4 only when the programme is unclear, and steps 1, 5, 6 are pure rules. That is why the unit cost is low and predictable: about four model calls per email in the POC (understand ~1.5k tokens, programme ~0.7k when ambiguous, draft + verify ~3.8k).</li>
       <li>If the engine fails, RSTN sends its static acknowledgement and queues the email for staff. A failed run never reaches the enquirer as an answer.</li>
       <li>Historical emails become approved, citable knowledge after curation and NTU sign-off. We do not train a model on them.</li>
     </ul>
