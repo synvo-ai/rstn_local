@@ -3,10 +3,10 @@
 本文用一封真实形态的邮件，从头到尾讲一遍 Synvo 引擎在 RSTN / NTU PaCE 项目里怎么工作。
 细节以这几份文档为准：
 
-- `01-requirements-summary.md`：需求（要做什么）
-- `02-draft-solution.md`：方案（怎么做）
-- `04-engine-architecture.html`：架构图和流程，**对客户版**（不含成本数字）
-- `03-architecture-and-unit-cost.html`：同一张架构图 + 单封邮件成本，**内部版，勿外发**
+- `requirements-summary.md`：需求（要做什么）
+- `draft-solution.md`：方案（怎么做）
+- `workflow-and-architecture.html`：架构图和流程，**对客户版**（不含成本数字）
+- `architecture-and-unit-cost.html`：同一张架构图 + 单封邮件成本，**内部版，勿外发**
 - `TODO.md`：待确认问题和后续工作
 
 ---
@@ -173,7 +173,7 @@ PaCE 的老问题是名字相近的课程很多（`Data Science` 有学位版和
 
 ## 8. 单封邮件成本
 
-> 本节数字是内部成本依据，只放在内部版页面 `03-…`，对客户的 `04-…` 只讲成本驱动因素，不给金额。
+> 本节数字是内部成本依据，只放在内部版页面 `architecture-and-unit-cost.html`，对客户的 `workflow-and-architecture.html` 只讲成本驱动因素，不给金额。
 
 数据来自演示项目的正式评测（Round A，2026-09-28，GPT-5.6 Luna，7 封固定测试邮件，逐封运行）：
 

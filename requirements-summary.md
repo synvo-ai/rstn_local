@@ -64,7 +64,7 @@ fail-closed behaviour.
 
 **Update 2026-10-05:** NTU will not share historical emails for pre-training, but sample emails are
 available for reference. We use them as a labelled test set, to list knowledge gaps for NTU, and as
-reply-style examples, never as a source of facts (`02-draft-solution.md` §6).
+reply-style examples, never as a source of facts (`draft-solution.md` §6).
 
 ## 3. Desired future state (customer)
 
@@ -142,7 +142,7 @@ What the POC screens (slides 3–10) commit us to returning:
 
 - **Delivery as a Synvo-hosted API** is our preferred model (more value to us: recurring revenue, IP stays
   with us, central updates, reusable across customers). On-prem only as a separately priced licence if NTU
-  policy requires it. See `02-draft-solution.md` §5.1.
+  policy requires it. See `draft-solution.md` §5.1.
 - **Client data safety is our risk too.** Because we may store client data and use cloud models, we must take
   measures on our side: mask personal data before any model call, process statelessly, use zero-retention
   enterprise model endpoints, isolate per client, and sign a data processing agreement. See §5.2.
@@ -161,4 +161,4 @@ data before any model call and keeps no copy of the email after responding. It n
 ## 7. Commercial requirement
 
 The 1-pager for Steven needs a **cost per email processed** and a workflow/architecture diagram. Draft of
-both: `03-architecture-and-unit-cost.html`. Cost model detail: `02-draft-solution.md` §9.
+both: `architecture-and-unit-cost.html`. Cost model detail: `draft-solution.md` §9.

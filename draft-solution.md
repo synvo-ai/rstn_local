@@ -1,8 +1,8 @@
 # NTU PaCE General Enquiries — Draft Solution (Synvo Correspondence Intelligence Engine)
 
 Audience: Synvo internal + RSTN architecture discussion.
-Companion documents: `01-requirements-summary.md` (what), `TODO.md` (open items),
-`03-architecture-and-unit-cost.html` (diagram + cost per email, for the commercial 1-pager).
+Companion documents: `requirements-summary.md` (what), `TODO.md` (open items),
+`architecture-and-unit-cost.html` (diagram + cost per email, for the commercial 1-pager).
 Status: **draft.** Anything waiting on RSTN/NTU is marked **ASSUMPTION** and has a matching line in `TODO.md`.
 
 ---
@@ -39,7 +39,7 @@ Non-execution semantics stay explicit: **`HANDOFF` ≠ forwarded, `SAFE_TO_REVIE
 ## 3. Architecture
 
 Two paths: an **online path** per email (the API RSTN calls), and an **offline knowledge path** that keeps
-the knowledge base current. The diagram version is in `03-architecture-and-unit-cost.html`.
+the knowledge base current. The diagram version is in `architecture-and-unit-cost.html`.
 
 ```
  ONLINE — per email (synchronous API)                         stage code   model call?

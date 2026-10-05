@@ -1,7 +1,7 @@
 # NTU PaCE / RSTN — TODO
 
-Tracks open questions for RSTN/NTU and Synvo's own work. Context: `01-requirements-summary.md`,
-`02-draft-solution.md`, `03-architecture-and-unit-cost.html`.
+Tracks open questions for RSTN/NTU and Synvo's own work. Context: `requirements-summary.md`,
+`draft-solution.md`, `architecture-and-unit-cost.html`.
 
 Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped
 Owners are suggestions; adjust after Lisa consolidates scope.
@@ -58,8 +58,8 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 ## B. Synvo internal work
 
 ### Now (this week)
-- [~] **B1. Requirement summary and draft solution** — `01-…`, `02-…` (Guowei). Revised after reviewing images.
-- [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `04-engine-architecture.html`, internal cost version `03-architecture-and-unit-cost.html`
+- [~] **B1. Requirement summary and draft solution** — `requirements-summary.md`, `draft-solution.md` (Guowei). Revised after reviewing images.
+- [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost version `architecture-and-unit-cost.html`
       (Guowei → Lisa for the 1-pager).
 - [ ] **B3. Send question list (section A) to RSTN** (Lisa), together with the commercial 1-pager (Saim → Steven).
 - [ ] **B4. Re-price Round A token usage at current provider rates** (Li-kai). The Round A price snapshot was
