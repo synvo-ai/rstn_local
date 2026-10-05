@@ -64,8 +64,9 @@ svg text { font-family: var(--display); fill: var(--fg); }
 .lane-s { font-size: 10.5px; fill: var(--muted); }
 .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
 .box-ai { fill: var(--surface); stroke: var(--accent); stroke-width: 1.6; }
-.box-src { fill: var(--surface); stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 3; }
-.box-grey { fill: var(--surface); stroke: var(--rstn); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.box-src { fill: var(--surface); stroke: var(--accent); stroke-width: 1.2; }
+.box-grey { fill: var(--surface); stroke: var(--rstn); stroke-width: 1.2; }
+.box-opt { fill: var(--surface); stroke: var(--rstn); stroke-width: 1.2; stroke-dasharray: 5 4; }
 .box-new { fill: var(--surface); stroke: var(--new); stroke-width: 1.6; }
 .box-p2 { fill: var(--surface); stroke: var(--new); stroke-width: 1.2; stroke-dasharray: 5 4; }
 .t1 { font-size: 12.5px; font-weight: 600; text-anchor: middle; }
@@ -110,12 +111,8 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <span><span class="pill-k" style="border:1px solid var(--edge);color:var(--muted)">rules</span>deterministic, near-zero cost</span>
     </div>
     <div class="legend lines">
-      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge"/></svg>every enquiry</span>
-      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-d"/></svg>only when it happens: follow-up, failure, staff change, status update</span>
-      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-dot"/></svg>data the step looks up</span>
-      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-n"/></svg>preparation, before or between runs</span>
-      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-nd"/></svg>testing and feedback (staff edits feed phase 2)</span>
-      <span><svg width="34" height="14" aria-hidden="true"><rect x="2" y="2" width="30" height="10" rx="3" class="box-grey"/></svg>dashed box: owned by RSTN / NTU</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge"/></svg>solid: happens for every enquiry</span>
+      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-d"/></svg>dashed: only in some cases, or phase 2</span>
     </div>
     <div class="frame">
 <!-- DIAGRAM:START -->
@@ -153,7 +150,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <rect x="150" y="94" width="150" height="50" rx="6" class="box-grey"/>
   <text x="225" y="115" class="t1">Intake &amp; open case</text><text x="225" y="131" class="t2">one record per enquiry</text>
   <circle cx="294" cy="94" r="6" class="s-rstn"/>
-  <rect x="320" y="94" width="180" height="50" rx="6" class="box-grey"/>
+  <rect x="320" y="94" width="180" height="50" rx="6" class="box-opt"/>
   <text x="410" y="115" class="t1">Static fallback reply</text><text x="410" y="131" class="t2">approved wording · queue for staff</text>
   <circle cx="494" cy="94" r="6" class="s-rstn"/>
   <rect x="1010" y="94" width="200" height="50" rx="6" class="box-grey"/>
@@ -208,11 +205,11 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <text x="682" y="314" class="t1">Programme registry</text><text x="682" y="329" class="t2">owners · routing</text>
   <rect x="766" y="296" width="140" height="44" rx="6" class="box-src"/>
   <text x="836" y="314" class="t1">Knowledge base</text><text x="836" y="329" class="t2">RSTN on-prem · versioned</text>
-  <rect x="920" y="296" width="140" height="44" rx="6" class="box-grey"/>
+  <rect x="920" y="296" width="140" height="44" rx="6" class="box-opt"/>
   <text x="990" y="314" class="t1">Payment · TMS</text><text x="990" y="329" class="t2">manual until authorised</text>
-  <path d="M682,296 V278" class="edge-dot" marker-end="url(#ar)"/>
-  <path d="M836,296 V278" class="edge-dot" marker-end="url(#ar)"/>
-  <path d="M960,296 L872,278" class="edge-dot" marker-end="url(#ar)"/>
+  <path d="M682,296 V278" class="edge" marker-end="url(#ar)"/>
+  <path d="M836,296 V278" class="edge" marker-end="url(#ar)"/>
+  <path d="M960,296 L872,278" class="edge-d" marker-end="url(#ar)"/>
 
   <!-- trace bar -->
   <rect x="150" y="354" width="1064" height="26" rx="5" class="trace"/>
@@ -264,7 +261,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <path d="M1074,568 H992" class="edge" marker-end="url(#ar)"/>
   <path d="M913,540 V60" class="edge" marker-end="url(#ar)"/>
   <text x="919" y="84" class="el">reply · ask</text>
-  <path d="M913,119 H1008" class="edge-d" marker-end="url(#ar)"/>
+  <path d="M913,119 H1008" class="edge" marker-end="url(#ar)"/>
   <text x="921" y="112" class="el">status recorded</text>
   <path d="M915,596 V638" class="edge" marker-end="url(#ar)"/>
   <text x="921" y="630" class="el">hand off</text>
