@@ -133,7 +133,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <rect x="0" y="620" width="1230" height="92" class="lane-a"/>
   <text x="14" y="26" class="lane-t">ENQUIRER</text>
   <text x="14" y="98" class="lane-t">RSTN SYSTEM</text><text x="14" y="113" class="lane-s">intake · case records</text>
-  <text x="14" y="186" class="lane-t" style="fill:var(--accent)">SYNVO ENGINE</text><text x="14" y="201" class="lane-s">online · per email</text><text x="14" y="215" class="lane-s">one API call</text>
+  <text x="14" y="186" class="lane-t" style="fill:var(--accent)">SYNVO ENGINE</text><text x="14" y="201" class="lane-s">hosted API · per email</text><text x="14" y="215" class="lane-s">nothing stored</text>
   <text x="14" y="424" class="lane-t" style="fill:var(--accent)">SYNVO KNOWLEDGE</text><text x="14" y="439" class="lane-s">offline · batch</text>
   <text x="14" y="546" class="lane-t">PACE STAFF</text><text x="14" y="561" class="lane-s">approve and act</text>
   <text x="14" y="644" class="lane-t">SCHOOLS &amp;</text><text x="14" y="658" class="lane-t">PROGRAMMES</text>
@@ -159,7 +159,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <!-- engine stages: x = 150 + i*154, w = 140 -->
   <rect x="150" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="220" y="218" class="t1">Validate &amp; assemble</text><text x="220" y="234" class="t2">XML · IDs · schema</text><text x="220" y="246" class="t2">inputs kept separate</text>
+  <text x="220" y="218" class="t1">Validate &amp; assemble</text><text x="220" y="234" class="t2">mask personal data</text><text x="220" y="246" class="t2">inputs kept separate</text>
   <rect x="196" y="254" width="48" height="16" rx="8" class="pl-rule"/><text x="220" y="266" class="pl pl-rule-t">rules</text>
   <circle cx="284" cy="196" r="6" class="s-ok"/>
 
@@ -332,7 +332,8 @@ fixed, priced separately = integration build · sample-email test set · evaluat
 
     <h3>What moves the number</h3>
     <ul class="notes">
-      <li><b>Where models may run</b> (open with RSTN). Cloud model API: cost scales per email. On-prem GPU: mostly fixed cost, higher at this volume.</li>
+      <li><b>Delivery model.</b> We push the hosted API (per-email revenue, IP stays with us, central updates). Model cost scales per email. An on-prem licence turns it into GPU amortisation, quoted separately.</li>
+      <li><b>Data protection overhead.</b> Masking and local OCR run before model calls; negligible per email, but zero-retention enterprise endpoints may price differently from standard APIs. Check when re-pricing (TODO B4).</li>
       <li><b>Size of retrieved evidence.</b> Real NTU pages, FAQs and policies are larger than the POC store. Capping evidence per issue keeps draft and verify in check.</li>
       <li><b>Screenshots.</b> OCR adds little. Vision adds roughly one extra model call per attachment. We need sample screenshots to choose.</li>
       <li><b>Model choice per stage.</b> Through the model gateway, simple stages can use a cheaper model without touching business rules. In Round A, Luna was the cheapest and also scored highest in blind review (18.5 of 21).</li>

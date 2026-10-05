@@ -13,9 +13,9 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 ### Knowledge and data sources
 - [ ] **A1. Knowledge base access.** Where does approved knowledge live on RSTN's on-prem server, and what
       interface do we get: query API, versioned snapshot export, or a vector index? Who approves and revokes
-      content, and how are versions exposed? *(Biggest technical unknown; decides topology and cost.)*
-- [ ] **A2. Where may processing run?** May retrieved excerpts be sent to a cloud model provider (option A),
-      or must everything stay inside NTU's network (B/C)? Approved providers and data residency rules.
+      content, and how are versions exposed? *(We propose syncing a versioned copy to our hosted index; live query API as fallback.)*
+- [ ] **A2. Hosted API acceptance.** Does NTU policy allow a Synvo-hosted API with masked email content sent to
+      a zero-retention cloud model (Singapore region)? Approved providers and residency rules. On-prem only if not.
 - [ ] **A3. Programme registry.** Does an authoritative list of programmes, aliases, status and owning teams
       exist, or must it be built? Customer said no master directory exists today. Who maintains it?
 - [ ] **A4. Routing/ownership directory.** Owner per programme × intent (admission, fees, credit transfer…),
@@ -51,6 +51,8 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [ ] **A15. RSTN architecture diagram.** Request theirs (Faye's suggestion) and reconcile with ours.
 - [ ] **A16. Acceptance criteria.** Which success measures (routing accuracy, first-contact resolution,
       handling time) define phase-1 acceptance, and the target numbers.
+- [ ] **A18. Data protection terms.** NTU's PDPA requirements for a data intermediary, DPA template, retention limits,
+      security assessment they need from us (questionnaire, pen test).
 - [ ] **A17. Environments.** Test/UAT access, sandbox data, go-live date, who supports in production.
 
 ## B. Synvo internal work
@@ -74,7 +76,10 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [ ] **B10. Registry adapter** for programme/owner resolution; handle `AMBIGUOUS` aliases.
 - [ ] **B11. Attachment reader** (OCR first; vision where samples require). Tag output `SENDER_PROVIDED`.
 - [ ] **B12. Per-stage cost/latency telemetry** in every result trace (tokens, model, cost, ms).
-- [ ] **B13. Deployment package** for the chosen topology (A/B/C); retrieval service if it must sit on-prem.
+- [ ] **B13. Hosted API deployment** (Singapore region, per-client isolation); on-prem licence package only if A2 says no.
+- [ ] **B19. Personal-data masking** before every model call, restore in final reply; re-run test set with masking on.
+- [ ] **B20. Stateless processing + trace without email text**; opt-in masked debug capture with auto-delete.
+- [ ] **B21. Security pack for RSTN/NTU**: data flow, sub-processors, retention, access control, incident process; DPA draft with Lisa.
 
 ### Sample emails (after A5)
 - [-] ~~B14. Historical-email curation pipeline~~ — dropped: NTU will not share historical emails.
@@ -96,5 +101,7 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-05 | Push Synvo-hosted API as the delivery model; on-prem only as priced licence | Group |
+| 2026-10-05 | Client data safety measures on our side: masking, stateless, zero-retention provider, DPA | Group |
 | 2026-10-05 | No historical emails for pre-training; sample emails for reference → used as test set, gap list, reply style only | NTU (via group) |
 | 2026-09-28 | GPT-5.6 Luna default model for next POC stage (Round A) | Synvo |

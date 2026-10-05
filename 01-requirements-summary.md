@@ -138,6 +138,15 @@ What the POC screens (slides 3–10) commit us to returning:
 | Self-Learning (was "RL") | Phase 2 | Scoping and commercial discussion (Faye) |
 | Delivery shape | API call | Input contract (XML expected) |
 
+## 5a. Internal positions added 2026-10-05
+
+- **Delivery as a Synvo-hosted API** is our preferred model (more value to us: recurring revenue, IP stays
+  with us, central updates, reusable across customers). On-prem only as a separately priced licence if NTU
+  policy requires it. See `02-draft-solution.md` §5.1.
+- **Client data safety is our risk too.** Because we may store client data and use cloud models, we must take
+  measures on our side: mask personal data before any model call, process statelessly, use zero-retention
+  enterprise model endpoints, isolate per client, and sign a data processing agreement. See §5.2.
+
 ## 6. Requirement statement
 
 Give RSTN an API-callable correspondence-intelligence engine that accepts an enquiry (email content,
@@ -146,7 +155,8 @@ programme and owner from the governed registry; decides per issue whether approv
 content, FAQs and policies) is sufficient; recommends one of
 Reply directly / Refer / Clarify / Manual handling per issue; produces one verified, source-cited reply
 where allowed; validates staff handling changes; and returns everything as structured output with a full
-decision trace and an explicit cost per run. It never sends, routes or invents institutional facts.
+decision trace and an explicit cost per run. It is delivered as a Synvo-hosted API that masks personal
+data before any model call and keeps no copy of the email after responding. It never sends, routes or invents institutional facts.
 
 ## 7. Commercial requirement
 

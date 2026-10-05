@@ -99,20 +99,54 @@ case for staff.
 | UI, case lifecycle, persistence, execution | `src/app`, `src/domain`, `src/persistence`, `src/integrations` | Out of scope |
 
 The core is built and evidenced. The work is integration, the XML contract, re-pointing at RSTN data,
-indexed retrieval, the sample-email test set, deployment and cost engineering.
+indexed retrieval, the sample-email test set, hosted deployment, data protection and cost engineering.
 
-## 5. Knowledge base on RSTN's on-prem server
+## 5. Delivery model and data protection
 
-Determines both topology and cost. **ASSUMPTION** until RSTN answers.
+### 5.1 Delivery: Synvo-hosted API (our position)
 
-| Option | Retrieval | Models | Trade-off |
+**Decision (internal, 2026-10-05): we push the hosted API.** It is the most valuable model for us: recurring
+per-email revenue, the engine and prompts stay on our side (IP protection), one codebase we can update and
+monitor centrally, and it is reusable for the other customers asking for the same capability. On-prem
+deployment is offered only if NTU policy forbids the hosted model, and priced as a separate licence.
+
+| Option | Engine | Knowledge for retrieval | Position |
 |---|---|---|---|
-| **A** | On RSTN's side (we deploy a retrieval service there, or call their query API); only excerpts leave | Synvo cloud / provider API | Cheapest, best model choice; needs approval for excerpts to leave NTU |
-| **B** | On-prem | On-prem GPU | Strongest residency; lower model quality, heavy ops, high fixed cost |
-| **C** | On-prem | Small local model for simple stages, provider model for hard ones | Best balance in principle; most governance work |
+| **A. Hosted API** | Synvo cloud, Singapore region | Versioned copy synced from RSTN (approved pages, FAQs, policies: mostly public content) | **Proposed** |
+| **B. Hosted API, live lookup** | Synvo cloud | RSTN exposes a query API; we fetch excerpts per email | Fallback if knowledge may not be copied |
+| **C. On-prem licence** | Inside NTU's network, on-prem GPU or approved model endpoint | Local | Only if required; separate licence, higher fixed cost, slower updates |
 
-Recommendation: **A**, with **C** if NTU requires it. **B** changes the unit cost from a per-call bill to GPU
-amortisation and must be decided before a price goes out.
+Customer-facing benefits to lead with (not our commercial reasons): nothing for RSTN to host or patch; model
+and quality improvements arrive without a redeploy; per-email pricing that scales with volume; one versioned
+API contract.
+
+The approved knowledge is mostly public NTU content, so syncing a copy to our hosted index is low risk and
+removes a live dependency on RSTN's server. **ASSUMPTION** until RSTN confirms (TODO A1, A2).
+
+### 5.2 Data protection: keep the risk off our side
+
+The hosted API means we receive enquiry emails (personal data) and pass parts of them to a cloud model. Under
+Singapore's PDPA we would be NTU's data intermediary, so our own exposure has to be engineered down, not
+just contracted away.
+
+| Risk | Measure |
+|---|---|
+| Personal data reaching the cloud model | **Mask before any model call:** names, email addresses, phone numbers, NRIC/FIN, bank and payment references replaced with placeholders (`[NAME_1]`); restored only in the final reply returned to RSTN. OCR attachments locally first; send an image to a vision model only when OCR is insufficient, after masking where possible |
+| Provider keeps or trains on our data | Enterprise endpoints only, with zero data retention and no training on inputs in the contract; Singapore region where available; provider choice fixed with NTU in writing |
+| We become a store of NTU data | **Stateless by default:** process and return; no raw email, attachment or reply stored after the response. Decision traces store IDs, labels, evidence references, tokens and timings, not the email text. Any debug capture is opt-in, masked, and auto-deleted (e.g. 30 days) |
+| Data in transit / at rest | TLS 1.2+ with mutual auth or signed requests from RSTN; encryption at rest for anything kept (test set, logs); keys in a managed KMS |
+| Unauthorised access on our side | Per-client isolated deployment and keys; least-privilege staff access with MFA; every access logged; no NTU data on laptops or in dev environments |
+| Sample emails used for testing | De-identified before they reach us (or on receipt in an isolated store); kept only for the project; deleted on request or at contract end |
+| Prompt injection in emails | Email is data, never instructions; facts only from retrieval; verifier blocks unsupported output |
+| Incident | Breach notification process aligned with PDPA timelines; documented in the data processing agreement |
+
+Commercial/legal: a data processing agreement with NTU/RSTN stating our intermediary role, purpose limits,
+retention, sub-processors (the model provider), and liability caps. Masking and statelessness are what let us
+offer that agreement with confidence.
+
+Quality impact of masking: the engine reasons on programmes and questions, not on who is asking, so masking
+names and identifiers does not affect the treatment decision. The POC test set will be re-run with masking
+on to confirm (TODO B19).
 
 ## 6. Sample emails (replaces the historical-correspondence plan)
 
@@ -254,7 +288,7 @@ Planning range for model cost only, in multiples of the measured Round A figure:
 These ranges are estimates, not measurements. Before quoting, re-price at today's rates and measure on
 shadow traffic: run the engine beside the live inbox for 1–2 weeks with nothing sent, and report cost and
 latency per email by type (simple / multi-issue / follow-up / attachment). Keep cloud API cost and on-prem
-GPU amortisation (option B) as separate lines; they are not comparable units.
+GPU amortisation (on-prem licence, option C in §5.1) as separate lines; they are not comparable units.
 
 ## 10. Risks
 
@@ -267,7 +301,8 @@ GPU amortisation (option B) as separate lines; they are not comparable units.
 | Programme ambiguity (`Data Science`, `Cyber Security` variants) | Registry returns `AMBIGUOUS` + candidates → Ask for clarification |
 | XML contract churn | Freeze semantics now, version the schema |
 | Unit cost drifting from the estimate | Per-stage cost in every trace from day one; shadow run before commitment |
-| Residency blocks option A | Decide §5 before any price goes out |
+| Residency blocks the hosted API | Lead with masking + statelessness + zero-retention provider (§5.2); on-prem licence as priced fallback |
+| Personal data leak on our side | Masking before model calls, stateless processing, isolated per-client deployment, DPA (§5.2) |
 
 ## 11. Division of work
 
@@ -275,7 +310,7 @@ GPU amortisation (option B) as separate lines; they are not comparable units.
 directory; de-identified sample emails with how PaCE handled them; sample screenshots; volume/latency profile; residency and model
 policy; fallback wording; escalation policy for blocked runs.
 
-**Synvo builds:** the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's
+**Synvo builds:** the hosted API (§5.1), masking and stateless processing (§5.2), the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's
 store, sample-email test set and gap list (§6), XML contract, per-stage cost/latency telemetry, evaluation set and
 accuracy report, shadow-run cost report, the internal architecture diagram.
 
