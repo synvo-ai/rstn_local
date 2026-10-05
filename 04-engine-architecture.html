@@ -1,4 +1,4 @@
-<title>PaCE Engine Architecture</title>
+<title>PaCE Enquiry Engine</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -22,38 +22,41 @@
   --accent: #4fb8c2; --accent-soft: #173d43;
   --ok: #5cc28a; --data: #4fb8c2; --part: #d4a24a; --rstn: #8f9ca3; --new: #e07c9e; color-scheme: dark }
 body { background: var(--bg); color: var(--fg); font-family: var(--display); font-size: 15px; line-height: 1.55; }
-.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 64px; display: grid; gap: 40px; }
-header { display: grid; gap: 8px; max-width: 70ch; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 64px; display: grid; gap: 44px; }
+header { display: grid; gap: 8px; max-width: 72ch; }
 .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
 h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.15; margin: 0; text-wrap: balance; }
 h2 { font-size: 21px; margin: 0; text-wrap: balance; }
 h3 { font-size: 15px; margin: 0; }
 p { margin: 0; }
 .lede { color: var(--muted); }
+.small { font-size: 13px; color: var(--muted); }
 section { display: grid; gap: 14px; }
-section > p, .notes { max-width: 75ch; }
+section > p, .notes { max-width: 78ch; }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 7px; }
 .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.legend .s-ok { background: var(--ok); } .legend .s-data { background: var(--data); } .legend .s-part { background: var(--part); } .legend .s-rstn { background: var(--rstn); } .legend .s-new { background: var(--new); }
 .pill-k { font-family: var(--mono); font-size: 11px; padding: 1px 7px; border-radius: 9px; }
 .frame { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
 .frame svg { display: block; min-width: 1100px; width: 100%; height: auto; }
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
-.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 2px; }
-.tile b { font-size: 24px; font-variant-numeric: tabular-nums; }
-.tile span { font-size: 13px; color: var(--muted); }
 .tablewrap { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--surface); }
 th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
-td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-tr.total td { font-weight: 600; }
-pre { font-family: var(--mono); font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 0; line-height: 1.6; }
-.notes { display: grid; gap: 6px; padding-left: 18px; margin: 0; color: var(--fg); }
+td code, p code, li code { font-family: var(--mono); font-size: 12.5px; }
+pre { font-family: var(--mono); font-size: 12.5px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 0; line-height: 1.6; }
+.notes { display: grid; gap: 6px; padding-left: 18px; margin: 0; }
 .notes li::marker { color: var(--accent); }
-.caveat { border-left: 3px solid var(--part); padding: 8px 14px; background: var(--surface); color: var(--fg); font-size: 14px; max-width: 80ch; }
-.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
 .two > div { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.rules { display: flex; flex-wrap: wrap; gap: 8px; }
+.rules span { font-family: var(--mono); font-size: 12.5px; border: 1px solid var(--line); background: var(--surface); padding: 4px 10px; border-radius: 6px; }
+.opt { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.opt div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+.opt div.rec { border-color: var(--accent); }
+.tag { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+ol.steps { margin: 0; padding-left: 20px; display: grid; gap: 4px; max-width: 78ch; }
 footer { font-size: 13px; color: var(--muted); }
 
 /* SVG */
@@ -77,23 +80,22 @@ svg text { font-family: var(--display); fill: var(--fg); }
 .edge-d { stroke: var(--edge); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
 .edge-a { stroke: var(--accent); stroke-width: 1.6; fill: none; }
 .edge-n { stroke: var(--new); stroke-width: 1.4; fill: none; }
-.el { font-size: 10.5px; fill: var(--muted); }
 .edge-nd { stroke: var(--new); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
-.el-n { font-size: 10.5px; fill: var(--new); }
+.el { font-size: 10.5px; fill: var(--muted); }
 .el-a { font-size: 10.5px; font-weight: 600; fill: var(--accent); }
+.el-n { font-size: 10.5px; fill: var(--new); }
 .trace { fill: var(--accent-soft); }
 .trace-t { font-size: 11px; fill: var(--fg); }
 .s-ok { fill: var(--ok); } .s-data { fill: var(--data); } .s-part { fill: var(--part); } .s-rstn { fill: var(--rstn); } .s-new { fill: var(--new); }
-.legend .s-ok { background: var(--ok); } .legend .s-data { background: var(--data); } .legend .s-part { background: var(--part); } .legend .s-rstn { background: var(--rstn); } .legend .s-new { background: var(--new); }
 .mk { fill: var(--edge); } .mk-a { fill: var(--accent); } .mk-n { fill: var(--new); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">NTU PaCE · General enquiries · Synvo engine for RSTN</div>
-    <h1>How the engine works, and what one email costs</h1>
-    <p class="lede"><b>Internal: do not share.</b> Cost basis for the commercial 1-pager. The customer-facing version, without cost figures, is <code>04-engine-architecture.html</code>. Built on slide 2 of the pitch deck: the same five lanes, with the Synvo AI lane opened up into its stages and the offline knowledge path added for NTU's historical correspondence.</p>
+    <div class="eyebrow">NTU PaCE · General enquiries · Synvo × RSTN</div>
+    <h1>How the enquiry engine works</h1>
+    <p class="lede">Draft for discussion, 5 October 2026. RSTN runs the system: intake, case records, status tracking and the staff screen. Synvo provides the engine behind it: one API call per email returns the issues found, a recommended action for each, a source-cited and independently checked reply, and a full decision trace. PaCE staff review and carry out every action.</p>
   </header>
 
   <section aria-labelledby="wf">
@@ -103,9 +105,9 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <span><i class="dot s-data"></i>Solved, needs NTU data source</span>
       <span><i class="dot s-part"></i>Partly solved</span>
       <span><i class="dot s-new"></i>New build</span>
-      <span><i class="dot s-rstn"></i>RSTN scope</span>
-      <span><span class="pill-k" style="background:var(--accent);color:var(--surface)">LLM</span>model call, billed per token</span>
-      <span><span class="pill-k" style="border:1px solid var(--edge);color:var(--muted)">rules</span>deterministic, near-zero cost</span>
+      <span><i class="dot s-rstn"></i>RSTN / NTU scope</span>
+      <span><span class="pill-k" style="background:var(--accent);color:var(--surface)">LLM</span>language-model step</span>
+      <span><span class="pill-k" style="border:1px solid var(--edge);color:var(--muted)">rules</span>fixed, testable rules</span>
     </div>
     <div class="frame">
 <!-- DIAGRAM:START -->
@@ -264,71 +266,122 @@ svg text { font-family: var(--display); fill: var(--fg); }
 <!-- DIAGRAM:END -->
     </div>
     <ul class="notes">
-      <li>RSTN calls the engine once per email and gets one result back. Staff changing a treatment triggers a second, smaller call that re-checks only that issue.</li>
-      <li>Four of the seven stages are rules, not model calls. That is why the unit cost is low and predictable: about four model calls per email in the POC (understand ~1.5k tokens, programme ~0.7k when ambiguous, draft + verify ~3.8k).</li>
-      <li>If the engine fails, RSTN sends its static acknowledgement and queues the email for staff. A failed run never reaches the enquirer as an answer.</li>
-      <li>Historical emails become approved, citable knowledge after curation and NTU sign-off. We do not train a model on them.</li>
+      <li>RSTN calls the engine once per email. When staff change how an issue is handled, a second, smaller call re-checks only that issue; an invalid change is rejected with a reason and the plan stays as it was.</li>
+      <li>If the engine fails at any step, nothing it produced reaches the enquirer. RSTN sends its approved acknowledgement and queues the case for staff.</li>
+      <li>Past PaCE emails become approved, citable knowledge only after curation and NTU sign-off. No model is trained on them.</li>
     </ul>
+  </section>
+
+  <section aria-labelledby="steps">
+    <h2 id="steps">The seven steps, on one example</h2>
+    <p>The POC example: <em>"I'm looking at the data science SCTP. Is the full-time intake still open? Does the programme provide a training allowance? I have attached my receipt. Can you confirm that my payment has been received?"</em> with a bank-transfer screenshot attached.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Step</th><th>What it does</th><th>On the example</th></tr></thead>
+      <tbody>
+        <tr><td>Validate &amp; assemble</td><td>Checks the request; keeps sender text, earlier thread messages and NTU data apart, so a sender's claim is never treated as an NTU fact.</td><td>One email, one attachment, no thread history.</td></tr>
+        <tr><td>Read attachments</td><td>Reads receipts and screenshots. The result is marked as sender-provided evidence.</td><td>Reads date, amount, payee and reference. Proves a receipt was sent, not that NTU received payment.</td></tr>
+        <tr><td>Understand</td><td>Splits the email into separate issues. On a follow-up, finds what is new, corrected or newly supplied.</td><td>Three issues: intake, training allowance, payment.</td></tr>
+        <tr><td>Identify programme</td><td>Matches each issue to a programme and its owning team in the registry. Similar names return a shortlist instead of a guess.</td><td>Advanced Professional Certificate in Data Science and AI, owned by PaCE.</td></tr>
+        <tr><td>Check information</td><td>Retrieves approved evidence and decides whether it answers the issue: sufficient, insufficient, conflicting or out of date.</td><td>Intake and allowance: sufficient (programme page). Payment: needs the payment system.</td></tr>
+        <tr><td>Recommend action</td><td>Picks one action per issue with fixed rules.</td><td>Reply directly, reply directly, manual handling.</td></tr>
+        <tr><td>Draft &amp; verify</td><td>Writes one reply for the answerable issues, each claim linked to its source; rule checks and a separate checker block any unsupported statement.</td><td>One reply covering intake and allowance, with links to the NTU page.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section aria-labelledby="api">
+    <h2 id="api">What RSTN sends and what comes back</h2>
+    <p>Field meanings below are proposed; the exact XML schema is to be agreed with RSTN during integration.</p>
+    <div class="two">
+      <div>
+        <h3>Request, one per email</h3>
+<pre>Request
+├─ requestId, correlationId, idempotencyKey
+├─ Message    sender, subject, body, channel,
+│             receivedAt, threadId, inReplyTo
+├─ Thread[]   permitted earlier messages
+├─ Attachments[]  type, reference or inline data
+└─ NTUContext[]   optional, authorised source only</pre>
+      </div>
+      <div>
+        <h3>Result</h3>
+<pre>Result
+├─ runHealth   SUCCEEDED | DEGRADED | FAILED
+├─ summary     issue count, count per action
+├─ issues[]    programme, owner, routing basis,
+│              action, reason, evidence[] (URL, version)
+├─ reply       text, issues covered, claims → sources,
+│              SAFE_TO_REVIEW | BLOCKED | NOT_PRODUCED
+├─ handoffNotes[]  for the receiving team
+└─ trace       per step: status, model, time</pre>
+      </div>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Action</th><th>Shown to staff as</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td><code>ANSWER</code></td><td>Reply directly</td><td>Approved information answers the issue</td></tr>
+        <tr><td><code>HANDOFF</code></td><td>Refer to receiving team</td><td>Another school or team owns it, e.g. <code>FlexiMasters in IC Design · ADMISSION → School of EEE</code></td></tr>
+        <tr><td><code>CLARIFY</code></td><td>Ask for clarification</td><td>Programme, intake or the actual question is missing or ambiguous</td></tr>
+        <tr><td><code>MANUAL_REVIEW</code></td><td>Manual handling</td><td>Needs NTU system data (payment, application, TMS) or a human judgement</td></tr>
+      </tbody>
+    </table></div>
+    <p>The engine recommends; RSTN's workflow records what actually happened. These stay distinct in the data:</p>
+    <div class="rules"><span>HANDOFF ≠ forwarded</span><span>SAFE_TO_REVIEW ≠ approved</span><span>MANUAL_REVIEW ≠ reviewed</span><span>reply draft ≠ sent email</span></div>
+  </section>
+
+  <section aria-labelledby="hist">
+    <h2 id="hist">Using PaCE's historical correspondence</h2>
+    <p>Past emails are turned into approved question-and-answer knowledge the engine can cite, through a controlled process:</p>
+    <ol class="steps">
+      <li>NTU selects the emails it is authorised to use: date range, mailboxes, programmes.</li>
+      <li>Personal data is removed: names, email addresses, phone numbers, NRIC, payment details.</li>
+      <li>Near-duplicates are grouped and the best-answered example of each question is kept.</li>
+      <li>Question-and-answer pairs are extracted and tagged with programme, intent and date.</li>
+      <li>Obsolete, contradictory and sensitive items are dropped, checked against the registry and current web content.</li>
+      <li>NTU reviews and approves the set, which is then published as a versioned knowledge source.</li>
+    </ol>
+    <p>When a historical answer conflicts with current programme pages or policy, the current source wins and the issue is flagged rather than answered. The same curated set doubles as a test set, so accuracy can be measured on real PaCE questions before go-live.</p>
+  </section>
+
+  <section aria-labelledby="dep">
+    <h2 id="dep">Where it runs</h2>
+    <p>The knowledge base sits on RSTN's on-prem server. Where the engine's retrieval and language models run depends on NTU's data policy:</p>
+    <div class="opt">
+      <div class="rec"><span class="tag">Option A · proposed</span><h3>Retrieval on-prem, models via cloud API</h3><p class="small">Only the relevant excerpts leave NTU's network. Widest model choice, lowest running cost. Needs approval for excerpts to be processed outside NTU.</p></div>
+      <div><span class="tag">Option B</span><h3>Everything on-prem</h3><p class="small">No data leaves NTU's network. Needs GPU hardware on site; model choice is narrower and fixed costs are higher.</p></div>
+      <div><span class="tag">Option C</span><h3>Hybrid</h3><p class="small">Retrieval and simpler steps on-prem; harder steps on a cloud model. Balances residency and quality; needs a per-step data classification.</p></div>
+    </div>
   </section>
 
   <section aria-labelledby="cost">
-    <h2 id="cost">Cost per email processed</h2>
-    <p>Measured on the POC's formal evaluation (Round A, 28 Sep 2026): seven fixed test emails, GPT-5.6 Luna, run one at a time. Token counts are retained originals. The dollar figure is the documented Round A result; the price list used that day was not kept, so it must be re-priced before it goes to the customer.</p>
-    <div class="tiles">
-      <div class="tile"><b>~$0.0025</b><span>model cost per email, measured</span></div>
-      <div class="tile"><b>~4.3</b><span>model calls per email</span></div>
-      <div class="tile"><b>~6,000</b><span>tokens per email (4.7k in, 1.3k out)</span></div>
-      <div class="tile"><b>13 s</b><span>median end to end, sequential</span></div>
-    </div>
-
-    <div class="two">
-      <div>
-        <h3>Where the tokens go (7 emails, Luna)</h3>
-        <div class="tablewrap"><table>
-          <thead><tr><th>Stage</th><th class="n">Calls</th><th class="n">Input</th><th class="n">Output</th><th class="n">Share</th></tr></thead>
-          <tbody>
-            <tr><td>Understand</td><td class="n">7</td><td class="n">6,186</td><td class="n">2,594</td><td class="n">21%</td></tr>
-            <tr><td>Follow-up delta</td><td class="n">1</td><td class="n">1,006</td><td class="n">756</td><td class="n">4%</td></tr>
-            <tr><td>Identify programme</td><td class="n">8</td><td class="n">4,206</td><td class="n">879</td><td class="n">12%</td></tr>
-            <tr><td>Draft reply</td><td class="n">7</td><td class="n">9,747</td><td class="n">4,141</td><td class="n">33%</td></tr>
-            <tr><td>Verify reply</td><td class="n">7</td><td class="n">11,923</td><td class="n">870</td><td class="n">30%</td></tr>
-            <tr class="total"><td>Total</td><td class="n">30</td><td class="n">33,068</td><td class="n">9,240</td><td class="n">100%</td></tr>
-          </tbody>
-        </table></div>
-        <p class="lede" style="font-size:13px">Share is of total tokens. Draft and verify are two thirds of the bill, and both grow with the size of the retrieved evidence.</p>
-      </div>
-      <div>
-        <h3>Planning range, model cost only</h3>
-        <div class="tablewrap"><table>
-          <thead><tr><th>Case</th><th class="n">Per email</th><th class="n">Per 5,000/week</th></tr></thead>
-          <tbody>
-            <tr><td>Measured<br><span class="lede" style="font-size:12.5px">POC mix, tiny fictional knowledge store</span></td><td class="n">~$0.0025</td><td class="n">~$12</td></tr>
-            <tr><td>Expected<br><span class="lede" style="font-size:12.5px">2–3× evidence in draft and verify; 10–20% emails with OCR attachments</span></td><td class="n">$0.005–0.008</td><td class="n">$25–40</td></tr>
-            <tr><td>High<br><span class="lede" style="font-size:12.5px">as above, plus vision on 20% of emails and staff override re-runs</span></td><td class="n">$0.01–0.02</td><td class="n">$50–100</td></tr>
-          </tbody>
-        </table></div>
-        <p class="lede" style="font-size:13px">Expected and High are estimates scaled from the measured run, not measurements.</p>
-      </div>
-    </div>
-
-    <h3>Unit cost formula for the 1-pager</h3>
-<pre>cost per email = Σ stages ( calls × (input tokens × input price + output tokens × output price) )
-               + attachment share × reading cost (OCR or vision)
-               + retrieval cost per query (embeddings, search)
-               + (hosting + monitoring per month) ÷ emails per month
-
-fixed, priced separately = integration build · historical curation · evaluation · support · phase 2</pre>
-
-    <div class="caveat">Before quoting a price: re-price the token counts at today's provider rates, then run the engine beside the live inbox for 1–2 weeks with nothing sent, and report cost and latency per email by type (simple, multi-question, follow-up, with attachment). If NTU requires models to run on-prem, the variable cost becomes GPU amortisation and has to be quoted as a separate line.</div>
-
-    <h3>What moves the number</h3>
+    <h2 id="cost">What drives cost per email</h2>
     <ul class="notes">
-      <li><b>Where models may run</b> (open with RSTN). Cloud model API: cost scales per email. On-prem GPU: mostly fixed cost, higher at this volume.</li>
-      <li><b>Size of retrieved evidence.</b> Real NTU pages and historical answers are larger than the POC store. Capping evidence per issue keeps draft and verify in check.</li>
-      <li><b>Screenshots.</b> OCR adds little. Vision adds roughly one extra model call per attachment. We need sample screenshots to choose.</li>
-      <li><b>Model choice per stage.</b> Through the model gateway, simple stages can use a cheaper model without touching business rules. In Round A, Luna was the cheapest and also scored highest in blind review (18.5 of 21).</li>
+      <li><b>Few model calls.</b> Four of the seven steps are fixed rules. In the POC an email averaged about four language-model calls, most of them in drafting and checking the reply.</li>
+      <li><b>Where models run.</b> Cloud API cost scales per email; on-prem hardware is mostly a fixed cost (see options above).</li>
+      <li><b>How much evidence is retrieved.</b> Drafting and checking grow with the size of the source excerpts, so evidence per issue is capped.</li>
+      <li><b>Attachments.</b> Text-heavy receipts can be read cheaply with OCR; app screenshots may need a vision model. Sample screenshots will settle this.</li>
+      <li><b>Measured, not assumed.</b> Every result carries model, tokens, cost and time per step. Before go-live, a shadow run on live traffic, with nothing sent, gives cost and latency per email by type (simple, multi-question, follow-up, with attachment).</li>
     </ul>
   </section>
 
-  <footer>Sources: slide 2 of synvo_sample_slides_2026.10.02.pdf; LoadStone proposal diagram; POC Round A call metrics (evaluation/reports/PHASE_6_ROUND_A_2026-09-28T09-36-11-001Z); PHASE_6_MODEL_SELECTION_DECISION_RECORD.md. Detail in 02-draft-solution.md §3 and §9; open items in TODO.md.</footer>
+  <section aria-labelledby="need">
+    <h2 id="need">What we need from RSTN and NTU</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Knowledge base interface on the on-prem server, and how versions and withdrawals are exposed</td><td>Every cited fact must point to a current, approved source</td></tr>
+        <tr><td>Data policy: may excerpts be processed by a cloud model? Approved providers and residency rules</td><td>Decides option A, B or C</td></tr>
+        <tr><td>Programme registry and routing directory: programmes, aliases, owning teams, inboxes; who maintains them</td><td>Programme and owner identification, referrals</td></tr>
+        <tr><td>Authorised historical emails: scope, export format, approver</td><td>Historical knowledge and the accuracy test set</td></tr>
+        <tr><td>XML schema or sample payloads, thread identifiers, attachment handling</td><td>Freeze the API contract</td></tr>
+        <tr><td>10–30 redacted sample screenshots and attachments</td><td>Choose OCR or vision</td></tr>
+        <tr><td>Peak volume, acceptable time per email, synchronous or callback</td><td>Sizing and deployment</td></tr>
+        <tr><td>Handling of failed or blocked runs; fallback acknowledgement wording</td><td>Failure path</td></tr>
+        <tr><td>Any authorised interface for payment, application or TMS status</td><td>Until then those issues stay manual handling</td></tr>
+        <tr><td>Acceptance measures and targets: routing accuracy, first-contact resolution, handling time</td><td>Phase 1 sign-off</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer>Synvo · draft for discussion with RSTN, 5 October 2026. Builds on the future-workflow view presented on 2 October.</footer>
 </div>
