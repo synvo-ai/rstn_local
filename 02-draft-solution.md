@@ -1,0 +1,281 @@
+# NTU PaCE General Enquiries — Draft Solution (Synvo Correspondence Intelligence Engine)
+
+Audience: Synvo internal + RSTN architecture discussion.
+Companion documents: `01-requirements-summary.md` (what), `TODO.md` (open items),
+`03-architecture-and-unit-cost.html` (diagram + cost per email, for the commercial 1-pager).
+Status: **draft.** Anything waiting on RSTN/NTU is marked **ASSUMPTION** and has a matching line in `TODO.md`.
+
+---
+
+## 1. Solution in one paragraph
+
+A **headless Correspondence Intelligence engine** behind an API. RSTN posts an enquiry (XML): current email,
+permitted thread context, attachments. The engine returns: the issues in the email, the programme and owner
+of each, whether approved knowledge answers it, one treatment per issue (Reply directly / Refer to receiving
+team / Ask for clarification / Manual handling), one verified reply covering the answerable issues, and a
+full decision trace with cost and latency. **The engine never sends, routes or invents facts.** RSTN
+executes; PaCE staff decide. This is slide 2's "Synvo AI" lane, without the UI.
+
+We keep the POC's intelligence core and drop its workflow shell (UI, case lifecycle, database, execution
+adapters), which RSTN already owns.
+
+## 2. Boundary with RSTN
+
+| Concern | Owner |
+|---|---|
+| Mailbox/form intake, attachment storage | RSTN |
+| Case and thread identity, case status, dashboard | RSTN |
+| Programme registry and approved knowledge (authoring, approval, revocation) | NTU / RSTN |
+| Choosing which historical emails NTU is authorised to use | NTU |
+| Payment, TMS, application state | NTU systems (manual handling until an authorised interface exists) |
+| Staff UI, approval, sending, forwarding, static fallback wording | RSTN / PaCE |
+| **Understanding, programme/owner resolution, sufficiency, treatment, grounded reply, verification, override validation, decision trace** | **Synvo** |
+| **Curating historical correspondence into approved knowledge (offline)** | **Synvo builds, NTU approves** |
+
+Non-execution semantics stay explicit: **`HANDOFF` ≠ forwarded, `SAFE_TO_REVIEW` ≠ approved,
+`MANUAL_REVIEW` ≠ reviewed, candidate reply ≠ sent email.** Run health is separate from business treatment:
+`MANUAL_REVIEW + SAFE_TO_REVIEW + SUCCEEDED` is a valid, successful result.
+
+## 3. Architecture
+
+Two paths: an **online path** per email (the API RSTN calls), and an **offline knowledge path** that keeps
+the knowledge base current. The diagram version is in `03-architecture-and-unit-cost.html`.
+
+```
+ ONLINE — per email (synchronous API)                         stage code   model call?
+ ──────────────────────────────────────────────────────────────────────────────────────
+ RSTN ──XML──► [1] Intake & validation                          —           no
+                   schema, idempotency key, correlation IDs,
+                   keep sender / thread / institutional inputs separate
+               [2] Attachment reading (only if attachments)     new         OCR or vision
+                   screenshot/receipt → text + fields, tagged SENDER_PROVIDED
+               [3] Thread delta (only if follow-up)             P0-F        yes
+               [4] Understand: split into issues                P0-A        yes
+               [5] Identify programme & owner ◄── Registry      P0-B        only if ambiguous
+               [6] Retrieve evidence ◄── Knowledge base          —           embeddings (prod)
+               [7] Check information: SUFFICIENT / INSUFFICIENT  P0-C        no (rules)
+                   / CONFLICTING / STALE
+               [8] Recommend action per issue                    —           no (rules)
+                   ANSWER · HANDOFF · CLARIFY · MANUAL_REVIEW
+               [9] Draft one reply for answerable issues        P0-D        yes
+              [10] Application validation                        —           no (rules)
+              [11] Independent verification  PASS / BLOCK        P0-E        yes
+              [12] Decision trace + cost/latency per stage       —           no
+ RSTN ◄──XML── result
+
+ OVERRIDE — staff change a treatment (slide 6)
+ RSTN ──► re-run [8]–[11] for the changed issue with the staff choice as input;
+          invalid change → plan unchanged + reason
+
+ OFFLINE — knowledge path (batch, not per email)
+ NTU-approved historical emails ─► de-identify ─► de-duplicate ─► extract Q&A pairs
+   ─► tag programme / intent / date ─► drop obsolete, contradictory, sensitive
+   ─► NTU review ─► publish versioned knowledge ─► index
+ NTU web pages, FAQs, policies ─► crawl/import ─► version ─► index
+ (phase 2) staff edits & overrides ─► evaluation ─► approved corrections ─► knowledge
+```
+
+Failure contract: a failed stage is never returned as a business answer. No semantic retry for a preferred
+answer, no silent provider fallback, no model recall in place of evidence. When the engine fails or is
+unavailable, RSTN sends its static approved acknowledgement (LoadStone's "failure fallback") and queues the
+case for staff.
+
+## 4. Mapping to the POC
+
+| Step | POC source (`ntu-pace-correspondence-intelligence`) | Reuse |
+|---|---|---|
+| [3] Thread delta | `src/ai/thread-delta.ts` | Direct. Strongest model discriminator in our evaluation (T3) |
+| [4] Understand | `src/ai/correspondence-understanding.ts` | Direct. POC-proven on multi-issue emails |
+| [5] Programme & owner | `src/ai/entity-resolution.ts` | Re-point at RSTN's registry |
+| [6]–[7] Retrieve, check | `src/knowledge/retrieval/full-retriever.ts`, `src/knowledge/availability/checker.ts` | Re-point. POC loads a small fictional store in full; production needs indexed retrieval |
+| [8] Recommend | `src/application/decision/decision-engine.ts` | Direct. Deterministic and testable |
+| [9] Draft | `src/ai/grounded-composer.ts`, `live-grounded-composer.ts` | Direct |
+| [10] Validation | validation in the review/execution services | Logic only, drop workflow coupling |
+| [11] Verify | `src/ai/response-verification.ts` | Direct. Blocked the one unsupported claim in Round A |
+| Model gateway | `src/ai/model-gateway.ts` | Direct. Per-stage model choice without touching rules |
+| Override validation | POC "Change handling" path | Extract as an API |
+| [2] Attachment reading | POC handled a receipt image | Productionise once samples arrive |
+| Offline historical curation | — | **New build** |
+| UI, case lifecycle, persistence, execution | `src/app`, `src/domain`, `src/persistence`, `src/integrations` | Out of scope |
+
+The core is built and evidenced. The work is integration, the XML contract, re-pointing at RSTN data,
+indexed retrieval, the historical-curation pipeline, deployment and cost engineering.
+
+## 5. Knowledge base on RSTN's on-prem server
+
+Determines both topology and cost. **ASSUMPTION** until RSTN answers.
+
+| Option | Retrieval | Models | Trade-off |
+|---|---|---|---|
+| **A** | On RSTN's side (we deploy a retrieval service there, or call their query API); only excerpts leave | Synvo cloud / provider API | Cheapest, best model choice; needs approval for excerpts to leave NTU |
+| **B** | On-prem | On-prem GPU | Strongest residency; lower model quality, heavy ops, high fixed cost |
+| **C** | On-prem | Small local model for simple stages, provider model for hard ones | Best balance in principle; most governance work |
+
+Recommendation: **A**, with **C** if NTU requires it. **B** changes the unit cost from a per-call bill to GPU
+amortisation and must be decided before a price goes out.
+
+## 6. Historical correspondence (Prof Boh's requirement)
+
+We do not train a model on past emails. We turn **approved** past emails into **approved knowledge** the
+engine can cite, which matches LoadStone's own wording ("reusable institutional response knowledge").
+
+1. NTU selects the emails it is authorised to use (date range, mailboxes, programmes).
+2. De-identify: names, emails, phone numbers, NRIC, payment details.
+3. Cluster near-duplicates; keep the best-answered example per question pattern.
+4. Extract question → answer pairs, tagged with programme, intent and date.
+5. Drop obsolete (closed programmes, old fees and intakes), contradictory and sensitive items, using the
+   registry and current web content as the check.
+6. NTU reviews and approves the set; publish as a versioned knowledge source.
+7. At run time the engine cites a historical answer as `HISTORICAL_APPROVED` evidence. Current web/policy
+   content wins over a historical answer when they conflict, and a conflict yields `CONFLICTING`, not a guess.
+
+The same pairs also give us an **evaluation set** (real questions with real accepted answers) to measure
+accuracy before go-live. This is a one-off build plus periodic refresh, priced outside the per-email cost.
+
+## 7. API contract (semantics now, XSD with RSTN)
+
+### 7.1 Request
+
+```
+Request
+├── requestId, correlationId, idempotencyKey, schemaVersion
+├── Message: messageId, channel (EMAIL | WEB_FORM), receivedAt, sender, subject,
+│            body (plain text), formSignals?, externalThreadId, inReplyTo, references[]
+├── ThreadContext[]          permitted prior messages, ordered
+├── Attachments[]            attachmentId, mediaType, storageRef | inlineBase64, sizeBytes
+├── InstitutionalContext[]   optional, authorised source only (source, field, value, asOf)
+└── Options                  locale, requireCandidateReply, includeDiagnostics
+```
+
+Sender, thread and institutional inputs stay structurally separate so sender evidence is never promoted to
+institutional fact.
+
+### 7.2 Response
+
+```
+Result
+├── correlation: correlationId, runId, engineVersion, knowledgeVersion, configVersion
+├── runHealth: SUCCEEDED | DEGRADED | FAILED
+├── summary: issueCount, countsByTreatment {ANSWER, HANDOFF, CLARIFY, MANUAL_REVIEW}
+├── issues[]
+│   ├── issueId, sourceSpan, summary, intent
+│   ├── programme { status: RESOLVED | AMBIGUOUS | UNRESOLVED, id?, name?, candidates[]? }
+│   ├── owner { ownerId, name, routingBasis }        e.g. "FlexiMasters in IC Design · ADMISSION → EEE"
+│   ├── answerability: SUFFICIENT | INSUFFICIENT | CONFLICTING | STALE
+│   ├── treatment: ANSWER | HANDOFF | CLARIFY | MANUAL_REVIEW
+│   ├── rationale                                       the "Why" shown to staff
+│   ├── missingInformation[], requiredInstitutionalContext[]
+│   └── evidence[] { evidenceId, sourceType, url | locator, version, excerpt,
+│                    authority: INSTITUTIONAL | APPROVED_KNOWLEDGE | HISTORICAL_APPROVED | SENDER_PROVIDED }
+├── reply?                                              one per enquiry
+│   ├── text, coversIssueIds[]
+│   ├── claims[] { claimText, evidenceIds[] }
+│   └── safety: SAFE_TO_REVIEW | BLOCKED | NOT_PRODUCED, verifierFindings[]
+├── handoffNotes[]? { issueId, ownerId, noteText }     what goes to the receiving team
+└── trace: stages[] { stage, status, latencyMs, model?, inputTokens?, outputTokens?, costUsd? }
+```
+
+Treatments are per issue; one email routinely yields `ANSWER / ANSWER / MANUAL_REVIEW` (slide 3). Without
+evidence, answerability is `INSUFFICIENT` and nothing is drafted for that issue.
+
+### 7.3 Override validation
+
+`POST /override` with `runId`, `issueId`, the requested treatment (and owner for a referral). Returns the
+updated issue and a re-verified reply, or `REJECTED` with a reason and the plan unchanged.
+
+## 8. The four requirement areas
+
+**Multi-question understanding — ready.** Each issue is handled independently; an unanswerable issue never
+blocks an answerable one.
+
+**Referencing and traceability — ready, pending KB access.** Every claim carries evidence IDs, source URL or
+locator and version (slide 7–8: "Open source" goes to the NTU programme page). Blocked only on §5.
+
+**Multimodal — ready, pending samples.** The POC sample is a bank transfer receipt: the engine reads it,
+records it as sender evidence, and routes "confirm my payment" to Manual handling because payment status
+needs an authorised source. Model choice depends on real samples:
+- mostly receipts, letters, certificates (text-dense) → OCR, then a text model; cheap;
+- app/portal screenshots, error dialogs, tables → vision model; a few times the text cost per attachment.
+
+**Self-Learning — phase 2.** LoadStone's loop (reviewer feedback → controlled evaluation → knowledge refresh)
+is what to build, not online RL. Log every staff edit and override against the run; review them in batches;
+fold approved corrections into the knowledge base and prompts, gated by the evaluation set from §6. Priced
+as its own phase-2 line item.
+
+## 9. Cost per email
+
+### 9.1 What we measured (Formal Round A, GPT-5.6 Luna)
+
+Seven frozen scenarios, run one at a time. Token counts are retained originals; dollar figures are the
+documented Round A results (the dated price snapshot was not kept).
+
+| Stage | Calls (7 emails) | Input tokens | Output tokens | Median latency |
+|---|---:|---:|---:|---:|
+| P0-A Understand | 7 | 6,186 | 2,594 | 5.5 s |
+| P0-B Programme (semantic) | 8 | 4,206 | 879 | 2.0 s |
+| P0-D Draft | 7 | 9,747 | 4,141 | 4.7 s |
+| P0-E Verify | 7 | 11,923 | 870 | 2.0 s |
+| P0-F Thread delta | 1 | 1,006 | 756 | 8.0 s |
+| **Total** | **30** | **33,068** | **9,240** | — |
+| **Per email** | **~4.3** | **~4,700** | **~1,300** | **13.0 s median end to end** |
+
+Reported model cost: **~$0.0025 per email**, ~$12.43 for a 5,000-email week. Terra was >$0.016 and Sol
+~$0.038 per email; Luna was also chosen on quality.
+
+### 9.2 Why production will cost more per email than Round A
+
+- **Retrieved context.** Round A grounded on a tiny fictional store. Real excerpts from NTU web pages and
+  historical answers make P0-D and P0-E inputs larger; plan for 2–3× input tokens on those stages.
+- **Attachments.** OCR is cheap; a vision call adds roughly one extra model call with image tokens per
+  attachment. The share of emails with screenshots is unknown.
+- **Embeddings and index hosting** for retrieval; small per email, plus a fixed monthly cost.
+- **Re-runs on staff overrides** (only the affected stages).
+- **Price changes** between the Round A snapshot and today.
+
+### 9.3 Cost model for the 1-pager
+
+```
+cost per email = Σ over stages ( calls × (input tokens × input price + output tokens × output price) )
+               + attachment share × reading cost
+               + retrieval cost per query
+               + (hosting + monitoring) ÷ emails per month
+fixed (not per email) = integration build, historical curation, evaluation, support
+```
+
+Planning range for model cost only, in multiples of the measured Round A figure:
+
+| Case | Assumption | Model cost / email | Per 5,000-email week |
+|---|---|---:|---:|
+| Measured | Round A mix, tiny store | ~$0.0025 | ~$12 |
+| Expected | 2–3× grounding context, 10–20% emails with OCR attachments | ~$0.005–0.008 | ~$25–40 |
+| High | as above + vision on 20% of emails + override re-runs | ~$0.01–0.02 | ~$50–100 |
+
+These ranges are estimates, not measurements. Before quoting, re-price at today's rates and measure on
+shadow traffic: run the engine beside the live inbox for 1–2 weeks with nothing sent, and report cost and
+latency per email by type (simple / multi-issue / follow-up / attachment). Keep cloud API cost and on-prem
+GPU amortisation (option B) as separate lines; they are not comparable units.
+
+## 10. Risks
+
+| Risk | Mitigation |
+|---|---|
+| Fluent but unsupported reply | Independent verification + rule-based validation, fail closed |
+| Receipt or screenshot read as institutional truth | `SENDER_PROVIDED` authority; payment confirmation is always Manual handling |
+| Stale or contradictory historical answers | Curation in §6; current sources win; `CONFLICTING` / `STALE` states |
+| Prompt injection in email text | Email is data, never instructions; facts only from retrieval |
+| Programme ambiguity (`Data Science`, `Cyber Security` variants) | Registry returns `AMBIGUOUS` + candidates → Ask for clarification |
+| XML contract churn | Freeze semantics now, version the schema |
+| Unit cost drifting from the estimate | Per-stage cost in every trace from day one; shadow run before commitment |
+| Residency blocks option A | Decide §5 before any price goes out |
+
+## 11. Division of work
+
+**RSTN / NTU provide:** XML contract and sample payloads; programme registry; knowledge base access; routing
+directory; authorised historical emails; sample screenshots; volume/latency profile; residency and model
+policy; fallback wording; escalation policy for blocked runs.
+
+**Synvo builds:** the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's
+store, historical-curation pipeline (§6), XML contract, per-stage cost/latency telemetry, evaluation set and
+accuracy report, shadow-run cost report, the internal architecture diagram.
+
+Open items and owners: `TODO.md`.
