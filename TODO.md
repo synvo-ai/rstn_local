@@ -1,7 +1,7 @@
 # NTU PaCE / RSTN — TODO
 
 Tracks open questions for RSTN/NTU and Synvo's own work. Context: `requirements-summary.md`,
-`draft-solution.md`, `architecture-and-unit-cost.html`.
+`draft-solution.md`, `unit-cost.html`.
 
 Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped
 Owners are suggestions; adjust after Lisa consolidates scope.
@@ -59,7 +59,7 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 
 ### Now (this week)
 - [~] **B1. Requirement summary and draft solution** — `requirements-summary.md`, `draft-solution.md` (Guowei). Revised after reviewing images.
-- [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost version `architecture-and-unit-cost.html`
+- [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost version `unit-cost.html`
       (Guowei → Lisa for the 1-pager).
 - [~] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md`
       (Part 1: our understanding to confirm; Part 2: questions with our proposals). Share the Workflow and Architecture

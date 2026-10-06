@@ -160,5 +160,5 @@ data before any model call and keeps no copy of the email after responding. It n
 
 ## 7. Commercial requirement
 
-The 1-pager for Steven needs a **cost per email processed** and a workflow/architecture diagram. Draft of
-both: `architecture-and-unit-cost.html`. Cost model detail: `draft-solution.md` §9.
+The 1-pager for Steven needs a **cost per email processed** and a workflow/architecture diagram. Diagram:
+`workflow-and-architecture.html` (customer-facing); cost: `unit-cost.html` (internal). Cost model detail: `draft-solution.md` §9.
