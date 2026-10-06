@@ -42,7 +42,7 @@ Two paths: an **online path** per email (the API RSTN calls), and an **offline k
 the knowledge base current. The diagram version is in `architecture-and-unit-cost.html`.
 
 ```
- ONLINE — per email (synchronous API)                         stage code   model call?
+ ONLINE — per email (async + callback proposed; TBC)          stage code   model call?
  ──────────────────────────────────────────────────────────────────────────────────────
  RSTN ──XML──► [1] Intake & validation                          —           no
                    schema, idempotency key, correlation IDs,

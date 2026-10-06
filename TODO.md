@@ -61,7 +61,11 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [~] **B1. Requirement summary and draft solution** — `requirements-summary.md`, `draft-solution.md` (Guowei). Revised after reviewing images.
 - [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost version `architecture-and-unit-cost.html`
       (Guowei → Lisa for the 1-pager).
-- [ ] **B3. Send question list (section A) to RSTN** (Lisa), together with the commercial 1-pager (Saim → Steven).
+- [~] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md`
+      (Part 1: our understanding to confirm; Part 2: questions with our proposals). Share the Workflow and Architecture
+      page with RSTN at the same time. Commercial 1-pager goes separately (Saim → Steven).
+- [ ] **B22. Prepare for the call**: draft request/response field list to walk through (`draft-solution.md` §7);
+      agree internally who answers what (Guowei: engine/API; Li-kai: models/data; Lisa: scope/commercial).
 - [ ] **B4. Re-price Round A token usage at current provider rates** (Li-kai). The Round A price snapshot was
       not retained; record the dated price source this time.
 - [ ] **B5. Self-Learning phase-2 one-pager** — feedback loop as in LoadStone diagram, scoped and priced
@@ -101,6 +105,7 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-06 | Propose async API with callback (TBC with RSTN, question A4) | Synvo |
 | 2026-10-05 | Push Synvo-hosted API as the delivery model; on-prem only as priced licence | Group |
 | 2026-10-05 | Client data safety measures on our side: masking, stateless, zero-retention provider, DPA | Group |
 | 2026-10-05 | No historical emails for pre-training; sample emails for reference → used as test set, gap list, reply style only | NTU (via group) |
