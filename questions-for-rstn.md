@@ -41,7 +41,7 @@ our questions. Each one comes with our current proposal, so "agree" is a complet
 | A3 | How are **attachments** passed: inline (base64) or by reference URL? Size and type limits? | Inline up to an agreed size; reference URL above it. |
 | A4 **[call]** | **Synchronous or asynchronous?** Should the engine reply on the same call, or call back / be polled? | Asynchronous with a callback, so peaks do not block intake; synchronous is possible for low volume. |
 | A5 | Should the **result be XML or JSON**? Which fields will your staff screen show? | Same format as the request. Full result returned; you choose what to display. |
-| A6 | When staff **change the recommended action** for an issue, should RSTN call the engine to re-check the change (as in our POC), or handle it on your side? | A small second call that re-checks only that issue and returns an updated draft, or a reason if the change is not valid. |
+| A6 | When staff **change the recommended action** for an issue, should RSTN call the engine to re-check the change (as in our POC), or handle it on your side? | A second call in which RSTN resends the email and the previous result with the change. The engine re-checks only that issue and keeps nothing between calls. |
 | A7 | How should a **failed or blocked run** be signalled, and who owns the fallback acknowledgement wording? | Explicit status in the result; RSTN owns the wording. |
 | A8 | **Authentication** between RSTN and the engine? | Mutual TLS or signed requests, with per-environment keys. |
 | A9 | **Environments**: will there be a test/UAT environment with sample data, and when? | We provide a sandbox API endpoint for your integration testing. |
@@ -81,6 +81,8 @@ our questions. Each one comes with our current proposal, so "agree" is a complet
 |---|---|---|
 | E1 **[call]** | Does NTU policy allow a **Synvo-hosted API** with masked email text sent to a **zero-retention cloud model in a Singapore region**? Any approved or excluded model providers? | Hosted API (U10); on-premise only if required. |
 | E2 | What does NTU require from a **data intermediary** under the PDPA: DPA template, security questionnaire, penetration test, audit rights? | We will provide a security pack: data flow, sub-processors, retention, access control and incident process. |
+| E4 **[call]** | Could RSTN run a small **masking component** inside your network, so that names, email addresses, phone numbers and NRIC are replaced with placeholders before anything reaches the engine, and restored in the reply on your side? | We provide the component; it holds no business logic. Without it, the engine masks on arrival and stores nothing. |
+| E5 | We do not need the **sender's email address, To or CC**. Can RSTN send an opaque sender reference instead? | Yes, opaque reference only. |
 | E3 | **Retention**: may the engine keep decision traces (IDs, labels, source references, timings, no email text), and for how long? Any audit export format needed for reporting? | Traces kept for an agreed period; no email text stored. |
 
 ### F. Acceptance and timeline
@@ -100,5 +102,5 @@ our questions. Each one comes with our current proposal, so "agree" is a complet
 2. Sample payloads or the schema (A1), and the sync/async decision (A4).
 3. How the engine reaches the approved knowledge (B1–B2), and whether a programme registry exists (B3).
 4. A date for the sample emails and screenshots (C1, C4).
-5. A position on hosting (E1), or who at NTU decides it.
+5. A position on hosting (E1) and the masking component (E4), or who at NTU decides them.
 6. Phase 1 acceptance measures and timeline (F1, F3), and named contacts (F4).

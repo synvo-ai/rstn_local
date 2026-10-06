@@ -73,6 +73,8 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 
 ### Engine (after A1–A3, A8 answers)
 - [ ] **B6. Extract headless engine** from the POC: drop UI, case lifecycle, persistence, execution adapters.
+      Do **not** carry over content tables (`Message.body`, `AiCapabilityRun.structuredOutput`, `ReliabilityRun.result`);
+      trace keeps stage/status/tokens/latency/versions/masked-input hash only (deployment-options.md G2).
 - [ ] **B7. XML request/response contract** + XSD + versioning; contract tests.
 - [ ] **B8. Override validation API** (slide 6 behaviour as a service).
 - [ ] **B9. Indexed retrieval** against RSTN's store (replace POC full-load retriever); evidence carries URL,
@@ -81,6 +83,10 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [ ] **B11. Attachment reader** (OCR first; vision where samples require). Tag output `SENDER_PROVIDED`.
 - [ ] **B12. Per-stage cost/latency telemetry** in every result trace (tokens, model, cost, ms).
 - [ ] **B13. Hosted API deployment** (Singapore region, per-client isolation); on-prem licence package only if A2 says no.
+- [ ] **B23. Model provider zero-data-retention approval in writing**; list provider + region as sub-processor (deployment-options.md G7).
+- [ ] **B24. Privacy connector** (on-prem, thin): local OCR, masking, image redaction, name restore. Only if RSTN agrees (questions E4).
+- [ ] **B25. Stateless override contract**: resend original request + signed previous result (G1); drop sender address/To/CC from request (G3).
+- [ ] **B26. No-payload logging**: scrub logger, disable APM body capture, test that fails if a body hits logs (G6).
 - [ ] **B19. Personal-data masking** before every model call, restore in final reply; re-run test set with masking on.
 - [ ] **B20. Stateless processing + trace without email text**; opt-in masked debug capture with auto-delete.
 - [ ] **B21. Security pack for RSTN/NTU**: data flow, sub-processors, retention, access control, incident process; DPA draft with Lisa.
@@ -105,6 +111,7 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-06 | Hosted API stays default; offer on-prem privacy connector; binary SDK only as priced licence (deployment-options.md) | Synvo (proposed) |
 | 2026-10-06 | Propose async API with callback (TBC with RSTN, question A4) | Synvo |
 | 2026-10-05 | Push Synvo-hosted API as the delivery model; on-prem only as priced licence | Group |
 | 2026-10-05 | Client data safety measures on our side: masking, stateless, zero-retention provider, DPA | Group |

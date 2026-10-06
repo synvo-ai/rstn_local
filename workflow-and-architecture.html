@@ -275,7 +275,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
 <!-- DIAGRAM:END -->
     </div>
     <ul class="notes">
-      <li>RSTN calls the engine once per email. When staff change how an issue is handled, a second, smaller call re-checks only that issue; an invalid change is rejected with a reason and the plan stays as it was.</li>
+      <li>RSTN calls the engine once per email. When staff change how an issue is handled, RSTN sends the email and the previous result again with the change, and the engine re-checks only that issue. Nothing is held between calls. An invalid change is rejected with a reason and the plan stays as it was.</li>
       <li>If the engine fails at any step, nothing it produced reaches the enquirer. RSTN sends its approved acknowledgement and queues the case for staff.</li>
       <li>Sample emails from PaCE are used as a test set and to find knowledge gaps. They are never used to train a model or cited as a source of facts.</li>
     </ul>
@@ -306,7 +306,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
         <h3>Request, one per email</h3>
 <pre>Request
 ├─ requestId, correlationId, idempotencyKey
-├─ Message    sender, subject, body, channel,
+├─ Message    senderRef, subject, body, channel,
 │             receivedAt, threadId, inReplyTo
 ├─ Thread[]   permitted earlier messages
 ├─ Attachments[]  type, reference or inline data
@@ -373,6 +373,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
         <tr><td>Nothing kept after the response</td><td>The engine processes each email and returns the result. It keeps no copy of the email, attachments or reply. The decision trace holds IDs, labels, source references and timings, not email text.</td></tr>
         <tr><td>Encrypted and isolated</td><td>TLS with authenticated requests from RSTN; encryption at rest for anything stored, such as test data; a separate deployment and keys for this client.</td></tr>
         <tr><td>Controlled access</td><td>Least-privilege staff access with multi-factor login; every access logged; no client data in development environments.</td></tr>
+        <tr><td>Only what is needed</td><td>The engine does not need the sender's email address, recipients or CC; RSTN passes an opaque sender reference instead. Optionally, a small masking component runs inside RSTN's network so that names and identifiers never leave NTU at all.</td></tr>
         <tr><td>Agreed in contract</td><td>A data processing agreement covering Synvo's role as data intermediary under the PDPA, purpose, retention, sub-processors and breach notification.</td></tr>
       </tbody>
     </table></div>

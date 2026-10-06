@@ -133,6 +133,7 @@ just contracted away.
 |---|---|
 | Personal data reaching the cloud model | **Mask before any model call:** names, email addresses, phone numbers, NRIC/FIN, bank and payment references replaced with placeholders (`[NAME_1]`); restored only in the final reply returned to RSTN. OCR attachments locally first; send an image to a vision model only when OCR is insufficient, after masking where possible |
 | Provider keeps or trains on our data | Enterprise endpoints only, with zero data retention and no training on inputs in the contract; Singapore region where available; provider choice fixed with NTU in writing |
+| Raw personal data reaching our servers at all | Optional **on-prem privacy connector** run by RSTN: OCR and masking before anything leaves NTU, names restored in the reply on their side (`deployment-options.md` §5) |
 | We become a store of NTU data | **Stateless by default:** process and return; no raw email, attachment or reply stored after the response. Decision traces store IDs, labels, evidence references, tokens and timings, not the email text. Any debug capture is opt-in, masked, and auto-deleted (e.g. 30 days) |
 | Data in transit / at rest | TLS 1.2+ with mutual auth or signed requests from RSTN; encryption at rest for anything kept (test set, logs); keys in a managed KMS |
 | Unauthorised access on our side | Per-client isolated deployment and keys; least-privilege staff access with MFA; every access logged; no NTU data on laptops or in dev environments |
@@ -174,8 +175,10 @@ cost. It also gives Self-Learning (phase 2) its gate: no correction is folded in
 ```
 Request
 ├── requestId, correlationId, idempotencyKey, schemaVersion
-├── Message: messageId, channel (EMAIL | WEB_FORM), receivedAt, sender, subject,
-│            body (plain text), formSignals?, externalThreadId, inReplyTo, references[]
+├── Message: messageId, channel (EMAIL | WEB_FORM), receivedAt, senderRef (opaque), subject,
+│            body (plain text, masked if the privacy connector is used), formSignals?,
+│            externalThreadId, inReplyTo, references[]
+│            (no sender address, To or CC: no step needs them; see deployment-options.md G3)
 ├── ThreadContext[]          permitted prior messages, ordered
 ├── Attachments[]            attachmentId, mediaType, storageRef | inlineBase64, sizeBytes
 ├── InstitutionalContext[]   optional, authorised source only (source, field, value, asOf)
@@ -215,8 +218,10 @@ evidence, answerability is `INSUFFICIENT` and nothing is drafted for that issue.
 
 ### 7.3 Override validation
 
-`POST /override` with `runId`, `issueId`, the requested treatment (and owner for a referral). Returns the
-updated issue and a re-verified reply, or `REJECTED` with a reason and the plan unchanged.
+`POST /override` with the **original request**, the **previous result** (signed by the engine so it cannot be
+altered), `issueId`, and the requested treatment (and owner for a referral). Returns the updated issue and a
+re-verified reply, or `REJECTED` with a reason and the plan unchanged. Resending keeps the engine stateless:
+we never hold the email between the first call and the staff change (deployment-options.md G1).
 
 ## 8. The four requirement areas
 
