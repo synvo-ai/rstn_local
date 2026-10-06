@@ -94,7 +94,7 @@ case for staff.
 | [11] Verify | `src/ai/response-verification.ts` | Direct. Blocked the one unsupported claim in Round A |
 | Model gateway | `src/ai/model-gateway.ts` | Direct. Per-stage model choice without touching rules |
 | Override validation | POC "Change handling" path | Extract as an API |
-| [2] Attachment reading | POC handled a receipt image | Productionise once samples arrive |
+| [2] Attachment reading | POC: PDF text is real (`pdf-parse`); **image reading is a fixture** (`IMAGE_FIXTURE`, hard-coded excerpt) | **Build** OCR/vision once samples arrive |
 | Sample-email test set and gap list | POC evaluation harness (`evaluation/`) | Extend with real samples |
 | UI, case lifecycle, persistence, execution | `src/app`, `src/domain`, `src/persistence`, `src/integrations` | Out of scope |
 
@@ -148,6 +148,12 @@ offer that agreement with confidence.
 Quality impact of masking: the engine reasons on programmes and questions, not on who is asking, so masking
 names and identifiers does not affect the treatment decision. The POC test set will be re-run with masking
 on to confirm (TODO B19).
+
+### 5.3 Data access, hosting and multi-customer
+
+Knowledge and registry are **synced**, not queried per email; institutional data is looked up by **RSTN** and
+passed in a second call, only when an issue needs it. No GPU is needed for the hosted API. Build PaCE as tenant
+#1 of a multi-tenant engine. Detail: `hosting-and-scaling.md`.
 
 ## 6. Sample emails (replaces the historical-correspondence plan)
 
@@ -231,8 +237,9 @@ blocks an answerable one.
 **Referencing and traceability — ready, pending KB access.** Every claim carries evidence IDs, source URL or
 locator and version (slide 7–8: "Open source" goes to the NTU programme page). Blocked only on §5.
 
-**Multimodal — ready, pending samples.** The POC sample is a bank transfer receipt: the engine reads it,
-records it as sender evidence, and routes "confirm my payment" to Manual handling because payment status
+**Multimodal — evidence handling ready; image reading still to build.** Internal note: in the POC the receipt
+image text is a fixture (hard-coded excerpt); only PDF text extraction is real. What is proven is the handling
+after extraction. The POC sample is a bank transfer receipt: the engine treats its content as sender evidence, and routes "confirm my payment" to Manual handling because payment status
 needs an authorised source. Model choice depends on real samples:
 - mostly receipts, letters, certificates (text-dense) → OCR, then a text model; cheap;
 - app/portal screenshots, error dialogs, tables → vision model; a few times the text cost per attachment.

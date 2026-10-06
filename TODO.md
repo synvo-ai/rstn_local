@@ -81,8 +81,13 @@ Owners are suggestions; adjust after Lisa consolidates scope.
       version, authority.
 - [ ] **B10. Registry adapter** for programme/owner resolution; handle `AMBIGUOUS` aliases.
 - [ ] **B11. Attachment reader** (OCR first; vision where samples require). Tag output `SENDER_PROVIDED`.
+      Note: POC image reading is a fixture (`IMAGE_FIXTURE`); this is new build, not productionising.
 - [ ] **B12. Per-stage cost/latency telemetry** in every result trace (tokens, model, cost, ms).
 - [ ] **B13. Hosted API deployment** (Singapore region, per-client isolation); on-prem licence package only if A2 says no.
+- [ ] **B27. Multi-tenant from day one**: `tenantId` on keys/config/knowledge/traces, per-tenant config and test set; PaCE as dedicated cell (hosting-and-scaling.md §3).
+- [ ] **B28. Infra template + sizing**: Terraform for one GCP `asia-southeast1` cell per hosting-and-scaling.md §2.2; price in GCP calculator (Li-kai).
+- [ ] **B29. Knowledge sync + withdrawal webhook** with RSTN; second-call pattern for institutional data (phase 2).
+- [ ] **B30. Provider region check**: Singapore + ZDR for the selected model; evaluate Vertex AI (`asia-southeast1`) on the test set as alternative.
 - [ ] **B23. Model provider zero-data-retention approval in writing**; list provider + region as sub-processor (deployment-options.md G7).
 - [ ] **B24. Privacy connector** (on-prem, thin): local OCR, masking, image redaction, name restore. Only if RSTN agrees (questions E4).
 - [ ] **B25. Stateless override contract**: resend original request + signed previous result (G1); drop sender address/To/CC from request (G3).
@@ -111,6 +116,7 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-06 | Knowledge synced (no per-email NTU query); institutional data looked up by RSTN, passed in a second call; build multi-tenant | Synvo (proposed) |
 | 2026-10-06 | Hosted API stays default; offer on-prem privacy connector; binary SDK only as priced licence (deployment-options.md) | Synvo (proposed) |
 | 2026-10-06 | Propose async API with callback (TBC with RSTN, question A4) | Synvo |
 | 2026-10-05 | Push Synvo-hosted API as the delivery model; on-prem only as priced licence | Group |

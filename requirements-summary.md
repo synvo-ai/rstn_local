@@ -134,7 +134,7 @@ What the POC screens (slides 3–10) commit us to returning:
 |---|---|---|
 | Multi-question understanding | Ready | — |
 | Referencing and traceability | Ready on our side | How to reference the knowledge base on RSTN's on-prem server |
-| Multimodal (screenshots) | Ready | Sample screenshots: OCR-led or vision-led decides the model and the cost |
+| Multimodal (screenshots) | Ready | Sample screenshots: OCR-led or vision-led decides the model and the cost. **Internal:** POC image reading is a fixture; real OCR/vision still to build (`hosting-and-scaling.md` §4) |
 | Self-Learning (was "RL") | Phase 2 | Scoping and commercial discussion (Faye) |
 | Delivery shape | API call | Input contract (XML expected) |
 

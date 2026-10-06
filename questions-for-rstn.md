@@ -56,7 +56,7 @@ our questions. Each one comes with our current proposal, so "agree" is a complet
 | B3 **[call]** | Does a **programme registry** exist today (programmes, aliases, status, owning team, contact inbox)? If not, who will build and maintain it? | We read it; NTU/RSTN maintain it. We can help with an initial draft from NTU web pages. |
 | B4 | How is the **owner** decided when it depends on the type of question (e.g. admission → school, fees → finance)? Is there a routing table by programme and intent? | Registry plus routing rules by intent. |
 | B5 | Which sources are **approved** for answering: programme pages, FAQs, policies, fee tables, intake calendars? Are NTU public programme pages approved (our POC cited them)? | Programme pages, FAQs and policies; nothing else unless approved. |
-| B6 | Is there any plan for an authorised interface to **payment, application or TMS status**? | Not in phase 1 (see U8). |
+| B6 | Is there any plan for an authorised interface to **payment, application or TMS status**? | Not in phase 1 (see U8). Later: the engine returns which data an issue needs, RSTN looks it up inside NTU and resends, so the engine never calls NTU systems directly. |
 
 ### C. Sample emails and attachments
 
