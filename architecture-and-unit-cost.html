@@ -1,8 +1,8 @@
-<title>PaCE Engine Architecture</title>
+<title>PaCE Unit Cost</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: one reading column; wide swimlane diagram scrolls inside its own frame. Palette follows slide 2 (teal on cool grey). */
+/* Layout: one reading column of figures and tables. Palette follows slide 2 (teal on cool grey). */
 :root {
   --bg: #f6f8f9; --surface: #ffffff; --lane: #eef2f4; --lane-ai: #e2eff0;
   --fg: #16232b; --muted: #5a6b74; --line: #c9d3d8; --edge: #5f717a;
@@ -30,15 +30,9 @@ h2 { font-size: 21px; margin: 0; text-wrap: balance; }
 h3 { font-size: 15px; margin: 0; }
 p { margin: 0; }
 .lede { color: var(--muted); }
+.lede a { color: var(--accent); }
 section { display: grid; gap: 14px; }
 section > p, .notes { max-width: 75ch; }
-.legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--muted); }
-.legend span { display: inline-flex; align-items: center; gap: 7px; }
-.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-.lines svg { display: block; }
-.pill-k { font-family: var(--mono); font-size: 11px; padding: 1px 7px; border-radius: 9px; }
-.frame { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
-.frame svg { display: block; min-width: 1100px; width: 100%; height: auto; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
 .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 2px; }
 .tile b { font-size: 24px; font-variant-numeric: tabular-nums; }
@@ -57,231 +51,19 @@ pre { font-family: var(--mono); font-size: 13px; background: var(--surface); bor
 .two > div { display: grid; gap: 10px; align-content: start; min-width: 0; }
 footer { font-size: 13px; color: var(--muted); }
 
-/* SVG */
-svg text { font-family: var(--display); fill: var(--fg); }
-.lane-a { fill: var(--lane); } .lane-ai { fill: var(--lane-ai); }
-.lane-t { font-size: 11px; font-weight: 700; letter-spacing: .12em; fill: var(--muted); }
-.lane-s { font-size: 10.5px; fill: var(--muted); }
-.box { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
-.box-ai { fill: var(--surface); stroke: var(--accent); stroke-width: 1.6; }
-.box-src { fill: var(--surface); stroke: var(--accent); stroke-width: 1.2; }
-.box-grey { fill: var(--surface); stroke: var(--rstn); stroke-width: 1.2; }
-.box-opt { fill: var(--surface); stroke: var(--rstn); stroke-width: 1.2; stroke-dasharray: 5 4; }
-.box-new { fill: var(--surface); stroke: var(--new); stroke-width: 1.6; }
-.box-p2 { fill: var(--surface); stroke: var(--new); stroke-width: 1.2; stroke-dasharray: 5 4; }
-.t1 { font-size: 12.5px; font-weight: 600; text-anchor: middle; }
-.t2 { font-size: 10.5px; fill: var(--muted); text-anchor: middle; }
-.pl { font-family: var(--mono); font-size: 9.5px; text-anchor: middle; }
-.pl-llm { fill: var(--accent); } .pl-llm-t { fill: var(--surface); }
-.pl-rule { fill: none; stroke: var(--edge); } .pl-rule-t { fill: var(--muted); }
-.pl-vis { fill: var(--part); } .pl-vis-t { fill: var(--surface); }
-.edge { stroke: var(--edge); stroke-width: 1.4; fill: none; }
-.edge-d { stroke: var(--edge); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
-.edge-a { stroke: var(--accent); stroke-width: 1.6; fill: none; }
-.edge-n { stroke: var(--new); stroke-width: 1.4; fill: none; }
-.el { font-size: 10.5px; fill: var(--muted); }
-.edge-dot { stroke: var(--edge); stroke-width: 1.5; fill: none; stroke-dasharray: 1.5 3; stroke-linecap: round; }
-.edge-nd { stroke: var(--new); stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; }
-.el-n { font-size: 10.5px; fill: var(--new); }
-.el-a { font-size: 10.5px; font-weight: 600; fill: var(--accent); }
-.trace { fill: var(--accent-soft); }
-.trace-t { font-size: 11px; fill: var(--fg); }
-.s-ok { fill: var(--ok); } .s-data { fill: var(--data); } .s-part { fill: var(--part); } .s-rstn { fill: var(--rstn); } .s-new { fill: var(--new); }
-.legend .s-ok { background: var(--ok); } .legend .s-data { background: var(--data); } .legend .s-part { background: var(--part); } .legend .s-rstn { background: var(--rstn); } .legend .s-new { background: var(--new); }
-.mk { fill: var(--edge); } .mk-a { fill: var(--accent); } .mk-n { fill: var(--new); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
 <div class="wrap">
   <header>
     <div class="eyebrow">NTU PaCE · General enquiries · Synvo engine for RSTN</div>
-    <h1>How the engine works, and what one email costs</h1>
-    <p class="lede"><b>Internal: do not share.</b> Cost basis for the commercial 1-pager. The customer-facing version, without cost figures, is <code>workflow-and-architecture.html</code>. Built on slide 2 of the pitch deck: the same five lanes, with the Synvo AI lane opened up into its stages and the offline path for knowledge and sample-email testing.</p>
+    <h1>What one email costs</h1>
+    <p class="lede"><b>Internal: do not share.</b> Cost basis for the commercial 1-pager. The workflow and architecture are on the customer-facing page, <a href="https://claude.ai/artifact/1dn6DNYrrWZ7YfihrtH2TE">Workflow and Architecture</a> (<code>workflow-and-architecture.html</code>); this page adds only the cost model behind it.</p>
   </header>
-
-  <section aria-labelledby="wf">
-    <h2 id="wf">Workflow and architecture</h2>
-    <div class="legend">
-      <span><i class="dot s-ok"></i>Solved, shown in POC</span>
-      <span><i class="dot s-data"></i>Solved, needs NTU data source</span>
-      <span><i class="dot s-part"></i>Partly solved</span>
-      <span><i class="dot s-new"></i>New build</span>
-      <span><i class="dot s-rstn"></i>RSTN scope</span>
-      <span><span class="pill-k" style="background:var(--accent);color:var(--surface)">LLM</span>model call, billed per token</span>
-      <span><span class="pill-k" style="border:1px solid var(--edge);color:var(--muted)">rules</span>deterministic, near-zero cost</span>
-    </div>
-    <div class="legend lines">
-      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge"/></svg>solid: happens for every enquiry</span>
-      <span><svg width="34" height="10" aria-hidden="true"><path d="M2,5 H32" class="edge-d"/></svg>dashed: only in some cases, or phase 2</span>
-    </div>
-    <div class="frame">
-<!-- DIAGRAM:START -->
-<svg viewBox="0 0 1230 712" role="img" aria-labelledby="dgt">
-  <title id="dgt">Swimlane diagram: enquirer, RSTN system, Synvo engine (online, per email), Synvo knowledge (offline), PaCE staff, schools and programmes</title>
-  <defs>
-    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker>
-    <marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-a"/></marker>
-    <marker id="arn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-n"/></marker>
-  </defs>
-
-  <!-- lanes -->
-  <rect x="0" y="0" width="1230" height="72" class="lane-a"/>
-  <rect x="0" y="74" width="1230" height="86" class="lane-a"/>
-  <rect x="0" y="162" width="1230" height="236" class="lane-ai"/>
-  <rect x="0" y="400" width="1230" height="120" class="lane-a"/>
-  <rect x="0" y="522" width="1230" height="96" class="lane-a"/>
-  <rect x="0" y="620" width="1230" height="92" class="lane-a"/>
-  <text x="14" y="26" class="lane-t">ENQUIRER</text>
-  <text x="14" y="98" class="lane-t">RSTN SYSTEM</text><text x="14" y="113" class="lane-s">intake · case records</text>
-  <text x="14" y="186" class="lane-t" style="fill:var(--accent)">SYNVO ENGINE</text><text x="14" y="201" class="lane-s">hosted API · per email</text><text x="14" y="215" class="lane-s">nothing stored</text>
-  <text x="14" y="424" class="lane-t" style="fill:var(--accent)">SYNVO KNOWLEDGE</text><text x="14" y="439" class="lane-s">offline · batch</text>
-  <text x="14" y="546" class="lane-t">PACE STAFF</text><text x="14" y="561" class="lane-s">approve and act</text>
-  <text x="14" y="644" class="lane-t">SCHOOLS &amp;</text><text x="14" y="658" class="lane-t">PROGRAMMES</text>
-
-  <!-- enquirer -->
-  <rect x="150" y="12" width="150" height="46" rx="6" class="box"/>
-  <text x="225" y="32" class="t1">Submits enquiry</text><text x="225" y="47" class="t2">email or enquiry form</text>
-  <rect x="840" y="12" width="150" height="46" rx="6" class="box"/>
-  <text x="915" y="32" class="t1">Gets answer</text><text x="915" y="47" class="t2">or a request for details</text>
-  <path d="M838,35 H304" class="edge-d" marker-end="url(#ar)"/>
-  <text x="571" y="29" class="el" text-anchor="middle">replies with details · follow-up in the same thread</text>
-
-  <!-- RSTN -->
-  <rect x="150" y="94" width="150" height="50" rx="6" class="box-grey"/>
-  <text x="225" y="115" class="t1">Intake &amp; open case</text><text x="225" y="131" class="t2">one record per enquiry</text>
-  <circle cx="294" cy="94" r="6" class="s-rstn"/>
-  <rect x="320" y="94" width="180" height="50" rx="6" class="box-opt"/>
-  <text x="410" y="115" class="t1">Static fallback reply</text><text x="410" y="131" class="t2">approved wording · queue for staff</text>
-  <circle cx="494" cy="94" r="6" class="s-rstn"/>
-  <rect x="1010" y="94" width="200" height="50" rx="6" class="box-grey"/>
-  <text x="1110" y="115" class="t1">Case status &amp; dashboard</text><text x="1110" y="131" class="t2">decision audit · service reporting</text>
-  <circle cx="1204" cy="94" r="6" class="s-rstn"/>
-
-  <!-- engine stages: x = 150 + i*154, w = 140 -->
-  <rect x="150" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="220" y="218" class="t1">Validate &amp; assemble</text><text x="220" y="234" class="t2">mask personal data</text><text x="220" y="246" class="t2">inputs kept separate</text>
-  <rect x="196" y="254" width="48" height="16" rx="8" class="pl-rule"/><text x="220" y="266" class="pl pl-rule-t">rules</text>
-  <circle cx="284" cy="196" r="6" class="s-ok"/>
-
-  <rect x="304" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="374" y="218" class="t1">Read attachments</text><text x="374" y="234" class="t2">receipts, screenshots</text><text x="374" y="246" class="t2">tagged sender-provided</text>
-  <rect x="308" y="254" width="132" height="16" rx="8" class="pl-vis"/><text x="374" y="266" class="pl pl-vis-t">OCR/vision · if any</text>
-  <circle cx="438" cy="196" r="6" class="s-part"/>
-
-  <rect x="458" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="528" y="218" class="t1">Understand</text><text x="528" y="234" class="t2">split into issues</text><text x="528" y="246" class="t2">+ follow-up changes</text>
-  <rect x="488" y="254" width="80" height="16" rx="8" class="pl-llm"/><text x="528" y="266" class="pl pl-llm-t">LLM</text>
-  <circle cx="592" cy="196" r="6" class="s-ok"/>
-
-  <rect x="612" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="682" y="218" class="t1">Identify programme</text><text x="682" y="234" class="t2">and its owner</text><text x="682" y="246" class="t2">ambiguous → clarify</text>
-  <rect x="628" y="254" width="108" height="16" rx="8" class="pl-llm"/><text x="682" y="266" class="pl pl-llm-t">LLM if unclear</text>
-  <circle cx="746" cy="196" r="6" class="s-data"/>
-
-  <rect x="766" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="836" y="218" class="t1">Check information</text><text x="836" y="234" class="t2">retrieve evidence; is it</text><text x="836" y="246" class="t2">sufficient per issue?</text>
-  <rect x="780" y="254" width="112" height="16" rx="8" class="pl-rule"/><text x="836" y="266" class="pl pl-rule-t">rules + search</text>
-  <circle cx="900" cy="196" r="6" class="s-data"/>
-
-  <rect x="920" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="990" y="218" class="t1">Recommend action</text><text x="990" y="234" class="t2">reply · refer · clarify</text><text x="990" y="246" class="t2">· manual, per issue</text>
-  <rect x="966" y="254" width="48" height="16" rx="8" class="pl-rule"/><text x="990" y="266" class="pl pl-rule-t">rules</text>
-  <circle cx="1054" cy="196" r="6" class="s-ok"/>
-
-  <rect x="1074" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="1144" y="218" class="t1">Draft &amp; verify</text><text x="1144" y="234" class="t2">one cited reply +</text><text x="1144" y="246" class="t2">independent checker</text>
-  <rect x="1098" y="254" width="92" height="16" rx="8" class="pl-llm"/><text x="1144" y="266" class="pl pl-llm-t">LLM ×2</text>
-  <circle cx="1208" cy="196" r="6" class="s-data"/>
-
-  <path d="M290,236 H302" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M444,236 H456" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M598,236 H610" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M752,236 H764" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M906,236 H918" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M1060,236 H1072" class="edge-a" marker-end="url(#ara)"/>
-
-  <!-- data sources, each under the step that reads it -->
-  <rect x="612" y="296" width="140" height="44" rx="6" class="box-src"/>
-  <text x="682" y="314" class="t1">Programme registry</text><text x="682" y="329" class="t2">owners · routing</text>
-  <rect x="766" y="296" width="140" height="44" rx="6" class="box-src"/>
-  <text x="836" y="314" class="t1">Knowledge base</text><text x="836" y="329" class="t2">RSTN on-prem · versioned</text>
-  <rect x="920" y="296" width="140" height="44" rx="6" class="box-opt"/>
-  <text x="990" y="314" class="t1">Payment · TMS</text><text x="990" y="329" class="t2">manual until authorised</text>
-  <path d="M682,296 V278" class="edge" marker-end="url(#ar)"/>
-  <path d="M836,296 V278" class="edge" marker-end="url(#ar)"/>
-  <path d="M960,296 L872,278" class="edge-d" marker-end="url(#ar)"/>
-
-  <!-- trace bar -->
-  <rect x="150" y="354" width="1064" height="26" rx="5" class="trace"/>
-  <text x="162" y="371" class="trace-t"><tspan font-weight="600">Decision trace, every run:</tspan> issues · evidence with source URL and version · rationale · model, tokens, cost and latency per step</text>
-
-  <!-- offline knowledge -->
-  <rect x="150" y="414" width="130" height="50" rx="6" class="box-grey"/>
-  <text x="215" y="434" class="t1">Sample emails</text><text x="215" y="450" class="t2">provided by PaCE</text>
-  <rect x="296" y="414" width="170" height="50" rx="6" class="box-new"/>
-  <text x="381" y="434" class="t1">Label &amp; de-identify</text><text x="381" y="450" class="t2">expected owner · action</text>
-  <circle cx="460" cy="414" r="6" class="s-new"/>
-  <rect x="482" y="414" width="130" height="50" rx="6" class="box-new"/>
-  <text x="547" y="434" class="t1">Test set</text><text x="547" y="450" class="t2">accuracy before go-live</text>
-  <circle cx="606" cy="414" r="6" class="s-new"/>
-  <rect x="766" y="414" width="140" height="92" rx="6" class="box-new"/>
-  <text x="836" y="436" class="t1">Publish knowledge</text><text x="836" y="452" class="t2">versioned · indexed</text><text x="836" y="465" class="t2">NTU-approved</text><text x="836" y="478" class="t2">sources only</text>
-  <circle cx="900" cy="414" r="6" class="s-new"/>
-  <rect x="930" y="414" width="130" height="50" rx="6" class="box-grey"/>
-  <text x="995" y="434" class="t1">FAQs · policies</text><text x="995" y="450" class="t2">+ NTU web pages</text>
-  <rect x="592" y="476" width="156" height="36" rx="6" class="box-p2"/>
-  <text x="670" y="491" class="t1" style="font-size:11.5px">Self-learning · phase 2</text><text x="670" y="505" class="t2">gated by the test set</text>
-  <path d="M280,439 H294" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M466,439 H480" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M547,414 V278" class="edge-nd" marker-end="url(#arn)"/>
-  <text x="541" y="300" class="el-n" text-anchor="end">accuracy tests</text>
-  <path d="M930,439 H908" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M748,494 H764" class="edge-nd" marker-end="url(#arn)"/>
-  <path d="M836,414 V342" class="edge-n" marker-end="url(#arn)"/>
-
-  <!-- staff + schools -->
-  <rect x="1074" y="540" width="140" height="56" rx="6" class="box"/>
-  <text x="1144" y="562" class="t1">Review &amp; approve</text><text x="1144" y="578" class="t2">edit draft · change handling</text>
-  <circle cx="1208" cy="540" r="6" class="s-part"/>
-  <rect x="840" y="540" width="150" height="56" rx="6" class="box"/>
-  <text x="915" y="562" class="t1">Send · ask · hand off</text><text x="915" y="578" class="t2">staff carry out action</text>
-  <circle cx="984" cy="540" r="6" class="s-rstn"/>
-  <rect x="840" y="640" width="150" height="50" rx="6" class="box"/>
-  <text x="915" y="661" class="t1">Receives handoff</text><text x="915" y="677" class="t2">with reason and evidence</text>
-  <circle cx="984" cy="640" r="6" class="s-part"/>
-
-  <!-- main flow -->
-  <path d="M225,58 V92" class="edge" marker-end="url(#ar)"/>
-  <path d="M225,144 V194" class="edge-a" marker-end="url(#ara)"/>
-  <text x="232" y="174" class="el-a">XML request</text>
-  <path d="M1144,276 V538" class="edge-a" marker-end="url(#ara)"/>
-  <text x="1150" y="298" class="el-a">XML result</text>
-  <path d="M1084,540 V278" class="edge-d" marker-end="url(#ar)"/>
-  <text x="1150" y="530" class="el">override check</text>
-  <path d="M1074,568 H992" class="edge" marker-end="url(#ar)"/>
-  <path d="M913,540 V60" class="edge" marker-end="url(#ar)"/>
-  <text x="919" y="84" class="el">reply · ask</text>
-  <path d="M913,119 H1008" class="edge" marker-end="url(#ar)"/>
-  <text x="921" y="112" class="el">status recorded</text>
-  <path d="M915,596 V638" class="edge" marker-end="url(#ar)"/>
-  <text x="921" y="630" class="el">hand off</text>
-  <path d="M374,196 V146" class="edge-d" marker-end="url(#ar)"/>
-  <text x="380" y="176" class="el">if any step fails</text>
-  <path d="M1150,596 V608 H670 V514" class="edge-nd" marker-end="url(#arn)"/>
-  <text x="680" y="603" class="el-n">staff edits &amp; overrides</text>
-</svg>
-<!-- DIAGRAM:END -->
-    </div>
-    <ul class="notes">
-      <li>RSTN calls the engine once per email and gets one result back. Staff changing a treatment triggers a second, smaller call that re-checks only that issue.</li>
-      <li>Only steps 3 and 7 always call a model; step 2 runs only with attachments, step 4 only when the programme is unclear, and steps 1, 5, 6 are pure rules. That is why the unit cost is low and predictable: about four model calls per email in the POC (understand ~1.5k tokens, programme ~0.7k when ambiguous, draft + verify ~3.8k).</li>
-      <li>If the engine fails, RSTN sends its static acknowledgement and queues the email for staff. A failed run never reaches the enquirer as an answer.</li>
-      <li>Sample emails from PaCE become a labelled test set and a knowledge-gap list. NTU will not share historical emails for training (confirmed 5 Oct), and samples are never cited as facts.</li>
-    </ul>
-  </section>
 
   <section aria-labelledby="cost">
     <h2 id="cost">Cost per email processed</h2>
+    <p>Only steps 3 (Understand) and 7 (Draft &amp; verify) always call a model. Step 2 calls one only for attachments and step 4 only when the programme is unclear; steps 1, 5 and 6 are rules. That is why the unit cost is low and predictable.</p>
     <p>Measured on the POC's formal evaluation (Round A, 28 Sep 2026): seven fixed test emails, GPT-5.6 Luna, run one at a time. Token counts are retained originals. The dollar figure is the documented Round A result; the price list used that day was not kept, so it must be re-priced before it goes to the customer.</p>
     <div class="tiles">
       <div class="tile"><b>~$0.0025</b><span>model cost per email, measured</span></div>
