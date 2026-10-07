@@ -36,6 +36,15 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 
 ## B. Synvo internal work
 
+**Owners:** engine build is owned by Guowei, with Li-kai. Unmarked engine items default to Guowei.
+
+**Dev/test environment (before cloud deployment):** our GPU server (`MICL-LoyCCWS3`, 2 × Quadro RTX 8000 48 GB, 12 CPU, 62 GB RAM). A llama.cpp router (`/etc/systemd/system/llama-router.service`) serves an OpenAI-compatible API on port 8080 (GPU 1, at most 2 models loaded, idle models unload after 5 min). Models are configured in `/home/gwwang/workspace/models/models.ini`:
+- OCR: `GLM-OCR` (Q8_0, greedy decoding).
+- Vision-language: `unsloth/Qwen3.8-27B` (Q8_0 and Q4_K_M, with `mmproj`), for screenshots that need more than OCR.
+- Text: `Qwen/Qwen3.6-35B-A3B` (Q8 and Q4), `unsloth/GLM-4.7-Flash`, `Jackrong/Qwopus3.6`.
+- Do not use the uncensored community fine-tune (`DavidAU/Qwen3.6-27B-Fable-Fus-711`) for this project.
+
+
 ### Now (this week)
 - [~] **B1. Requirement summary and draft solution** — `requirements-summary.md`, `draft-solution.md` (Guowei). Revised after reviewing images.
 - [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost `unit-cost.html` (Guowei → Lisa for the 1-pager).
@@ -43,6 +52,18 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 - [ ] **B22. Prepare for the call**: draft request/response field list to walk through (`draft-solution.md` §7); agree internally who answers what (Guowei: engine/API; Li-kai: models/data; Lisa: scope/commercial).
 - [ ] **B4. Re-price Round A token usage at current provider rates** (Li-kai). The Round A price snapshot was not retained; record the dated price source this time.
 - [ ] **B5. Self-Learning phase-2 one-pager** — feedback loop as in LoadStone diagram, scoped and priced separately (Faye / Saim).
+
+### Start now (no RSTN input needed)
+- [ ] **B31. Dev environment on the GPU server** (Guowei): point the engine's model gateway at the local router; one config per step (OCR, vision, text). Before any NTU sample data lands: bind the router to localhost or a firewall allow-list and add an API key (it currently listens on `0.0.0.0:8080` without auth).
+- [ ] **B32. Open-model baseline** (Guowei): re-run the Round A scenarios and the new test set on the local models; compare quality, latency and calls per email with the hosted model. This also sizes the on-prem licence option (hosting-and-scaling.md §2.4) and gives a fallback if a hosted provider is not approved.
+- [ ] **B33. Connector OCR on CPU** (Guowei / Li-kai): we told RSTN the connector needs about 2–4 vCPU, 8 GB and no GPU. Benchmark GLM-OCR (and Tesseract/PaddleOCR as a fallback) on CPU per page, and adjust the sizing we quote if needed. Use the GPU server only as the reference for accuracy.
+- [ ] **B34. Synthetic test set** (Guowei): extend the 7 POC scenarios to ~50 made-up emails (several questions, follow-ups, referrals, attachments, ambiguous programmes) until NTU samples arrive (A5). Include made-up receipts and screenshots for B11.
+- [ ] **B35. Mock RSTN client** (Li-kai): small caller that sends XML through the connector to the engine and receives the callback; used for the live demo and for RSTN's sandbox.
+- [ ] **B36. Live-demo hygiene** (RSTN question 16): hide model or provider names in POC screens (evaluation pages, settings, trace model field); pick 3–4 safe scenarios; no live screenshot tests while image reading is a fixture.
+- [ ] **B37. Accounts and budget** (Li-kai): cloud project in Singapore (GCP, and check AWS since RSTN mentioned Bedrock), provider API access with zero retention, budget for test and production environments.
+- [ ] **B38. Confirm the indicative 10-week plan** in `response-to-rstn.md` (Guowei with Li-kai) before RSTN treats it as a commitment.
+
+Also unblocked now, from the lists below: B6 headless engine, B7 contract draft (semantics), B8/B25 override, B9 retrieval over public NTU pages, B10 registry draft from NTU web pages, B11 attachment reader, B12 telemetry, B24/B19 connector masking and OCR, B26 no-payload logging, B27 tenant IDs, B28 infra template.
 
 ### Engine (after A1–A3, A8 answers)
 - [ ] **B6. Extract headless engine** from the POC: drop UI, case lifecycle, persistence, execution adapters. Do **not** carry over content tables (`Message.body`, `AiCapabilityRun.structuredOutput`, `ReliabilityRun.result`); trace keeps stage/status/tokens/latency/versions/masked-input hash only (deployment-options.md G2).
@@ -84,6 +105,7 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-07 | Engine build owned by Guowei, with Li-kai; our GPU server (local llama.cpp router, GLM-OCR, Qwen VL) is the dev/test environment before cloud deployment | Guowei |
 | 2026-10-07 | Promote option C first: hosted engine + privacy connector in RSTN's network; hosted-only and on-prem licence as fallbacks | Group |
 | 2026-10-07 | Do not disclose cloud model use or model names in the 2026-10-08 call | Group |
 | 2026-10-07 | Send `workflow-and-architecture.html` to RSTN as a saved PDF (A4 landscape print styles), not a hosted page; internal cost page stays HTML | Group |

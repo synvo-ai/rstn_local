@@ -426,6 +426,26 @@ RSTN 在收到我们早前的文档后发来 16 个问题（英文原文在他�
 | 出错了谁负责？ | 引擎只给建议，所有发送和转交都经过员工审核；引擎失败时 RSTN 走降级流程。 |
 | 能不能也帮我们做界面/看板？ | 不在本次范围（U1）；可以另行讨论。 |
 | 数据会不会被拿去训练？ | 不会。NTU 的邮件不用于任何训练；样例只用于测试。 |
+| 连接器为什么用容器（Docker），不直接给 pip 源码包？ | 见下方"连接器为什么是容器"。一句话：连接器带着 OCR 和脱敏模型以及系统依赖，容器是一个可签名、可扫描、自带依赖、与 RSTN 应用隔离的单一交付物；如果 NTU 想审查代码，可以另外提供源码供审阅。 |
+
+### 连接器为什么是容器，而不是 pip 源码包
+
+**先纠正一个前提：** 容器不是加密。镜像可以被拆开查看，pip 包也一样，这两种形式都谈不上保护代码。连接器里本来就**没有业务逻辑**（只有 OCR、脱敏、还原），我们也不需要靠交付形式来保护它。所以选容器的理由不是"少暴露东西"，而是下面这些：
+
+| 理由 | 容器 | pip 源码包 |
+|---|---|---|
+| 依赖 | OCR 模型、脱敏（NER）模型、系统库（图像、PDF 处理）、Python 版本都打包在内，装上即可运行 | 依赖要装进 RSTN 的环境，可能与他们已有的库版本冲突；模型权重（OCR 约 1 GB）也不适合放进 wheel |
+| RSTN 的技术栈 | 与语言无关，RSTN 只需调一个本地 HTTP 服务 | 要求 RSTN 的系统是 Python，或者另起一个 Python 服务（等于自己再包一次容器） |
+| 安全审批 | 一个签名的交付物，附 SBOM，RSTN 安全团队可以直接做漏洞扫描和审批 | 要审的是一堆包和它们的依赖，每次升级都要重新审 |
+| 隔离 | 独立进程，网络策略只允许出站到引擎；名字和占位符的对应表只在这个容器的内存里 | 嵌进 RSTN 的应用进程，对应表和他们的应用数据混在同一个进程里，边界不清 |
+| 更新与回滚 | 按版本号换镜像，与引擎做版本校验，出问题直接回滚到上一个标签 | 依赖 RSTN 的发布流程，版本漂移难以控制 |
+| 支持 | 我们测试的和 RSTN 运行的是同一个东西，问题可复现 | 环境各不相同，排查成本高 |
+
+**会上怎么说（英文要点）：** *The connector ships as a signed container because it bundles the OCR and masking models and their system dependencies. RSTN gets one artefact that its security team can scan and approve, which runs in isolation with outbound access to the engine only, and which updates or rolls back by version tag. A container is not encryption, and the connector contains no business logic. If NTU wants to review what the connector does, we can make its source available for review.*
+
+**可以松口的地方：** 如果 RSTN 的系统本身是 Python，并且坚持要库的形式，可以评估提供一个库版本，但要说明依赖和模型由他们负责安装，支持边界随之变化。不建议主动提出。
+
+**内部提醒：** 我们对 RSTN 说的是连接器约 2–4 vCPU、8 GB、**不需要 GPU**。如果连接器用 GLM-OCR，要先测 CPU 上每页的速度（TODO B33），测完再确认这个规格。
 
 ---
 
