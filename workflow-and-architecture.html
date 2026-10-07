@@ -98,7 +98,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <header>
     <div class="eyebrow">NTU PaCE · General enquiries · Synvo × RSTN</div>
     <h1>How the enquiry engine works</h1>
-    <p class="lede">Draft for discussion, 5 October 2026. RSTN runs the system: intake, case records, status tracking and the staff screen. Synvo provides the engine behind it as a hosted API: one call per email returns the issues found, a recommended action for each, a source-cited and independently checked reply, and a full decision trace. PaCE staff review and carry out every action.</p>
+    <p class="lede">Draft for discussion, 5 October 2026. RSTN runs the system: intake, case records, status tracking and the staff screen. Synvo provides the engine behind it as a hosted API, reached through a privacy connector inside RSTN's network: one call per email returns the issues found, a recommended action for each, a source-cited and independently checked reply, and a full decision trace. PaCE staff review and carry out every action.</p>
   </header>
 
   <section aria-labelledby="wf">
@@ -118,34 +118,34 @@ svg text { font-family: var(--display); fill: var(--fg); }
     </div>
     <div class="frame">
 <!-- DIAGRAM:START -->
-<svg viewBox="0 0 1230 712" role="img" aria-labelledby="dgt">
+<svg viewBox="0 0 1230 750" role="img" aria-labelledby="dgt">
   <title id="dgt">Swimlane diagram: enquirer, RSTN system, Synvo engine (online, per email), Synvo knowledge (offline), PaCE staff, schools and programmes</title>
   <defs>
-    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker>
-    <marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-a"/></marker>
-    <marker id="arn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-n"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10" class="mk"/></marker>
+    <marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10" class="mk-a"/></marker>
+    <marker id="arn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10" class="mk-n"/></marker>
   </defs>
 
   <!-- lanes -->
   <rect x="0" y="0" width="1230" height="72" class="lane-a"/>
-  <rect x="0" y="74" width="1230" height="86" class="lane-a"/>
-  <rect x="0" y="162" width="1230" height="236" class="lane-ai"/>
-  <rect x="0" y="400" width="1230" height="120" class="lane-a"/>
-  <rect x="0" y="522" width="1230" height="96" class="lane-a"/>
-  <rect x="0" y="620" width="1230" height="92" class="lane-a"/>
+  <rect x="0" y="74" width="1230" height="124" class="lane-a"/>
+  <rect x="0" y="200" width="1230" height="236" class="lane-ai"/>
+  <rect x="0" y="438" width="1230" height="120" class="lane-a"/>
+  <rect x="0" y="560" width="1230" height="96" class="lane-a"/>
+  <rect x="0" y="658" width="1230" height="92" class="lane-a"/>
   <text x="14" y="26" class="lane-t">ENQUIRER</text>
   <text x="14" y="98" class="lane-t">RSTN SYSTEM</text><text x="14" y="113" class="lane-s">intake · case records</text>
-  <text x="14" y="186" class="lane-t" style="fill:var(--accent)">SYNVO ENGINE</text><text x="14" y="201" class="lane-s">hosted API · per email</text><text x="14" y="215" class="lane-s">nothing stored</text>
-  <text x="14" y="424" class="lane-t" style="fill:var(--accent)">SYNVO KNOWLEDGE</text><text x="14" y="439" class="lane-s">offline · batch</text>
-  <text x="14" y="546" class="lane-t">PACE STAFF</text><text x="14" y="561" class="lane-s">approve and act</text>
-  <text x="14" y="644" class="lane-t">SCHOOLS &amp;</text><text x="14" y="658" class="lane-t">PROGRAMMES</text>
+  <text x="14" y="224" class="lane-t" style="fill:var(--accent)">SYNVO ENGINE</text><text x="14" y="239" class="lane-s">hosted API · per email</text><text x="14" y="253" class="lane-s">nothing stored</text>
+  <text x="14" y="462" class="lane-t" style="fill:var(--accent)">SYNVO KNOWLEDGE</text><text x="14" y="477" class="lane-s">offline · batch</text>
+  <text x="14" y="584" class="lane-t">PACE STAFF</text><text x="14" y="599" class="lane-s">approve and act</text>
+  <text x="14" y="682" class="lane-t">SCHOOLS &amp;</text><text x="14" y="696" class="lane-t">PROGRAMMES</text>
 
   <!-- enquirer -->
   <rect x="150" y="12" width="150" height="46" rx="6" class="box"/>
   <text x="225" y="32" class="t1">Submits enquiry</text><text x="225" y="47" class="t2">email or enquiry form</text>
   <rect x="840" y="12" width="150" height="46" rx="6" class="box"/>
   <text x="915" y="32" class="t1">Gets answer</text><text x="915" y="47" class="t2">or a request for details</text>
-  <path d="M838,35 H304" class="edge-d" marker-end="url(#ar)"/>
+  <path d="M838,35H304" class="edge-d" marker-end="url(#ar)"/>
   <text x="571" y="29" class="el" text-anchor="middle">replies with details · follow-up in the same thread</text>
 
   <!-- RSTN -->
@@ -159,123 +159,132 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <text x="1110" y="115" class="t1">Case status &amp; dashboard</text><text x="1110" y="131" class="t2">decision audit · service reporting</text>
   <circle cx="1204" cy="94" r="6" class="s-rstn"/>
 
+  <!-- privacy connector -->
+  <rect x="150" y="160" width="1064" height="26" rx="5" class="box-new"/>
+  <text x="162" y="177" class="trace-t"><tspan font-weight="600">Privacy connector, in RSTN's network:</tspan> masks names, contact details, NRIC and payment references before anything leaves NTU · puts them back in the result</text>
+  <circle cx="1208" cy="160" r="6" class="s-new"/>
+
   <!-- engine stages: x = 150 + i*154, w = 140 -->
-  <rect x="150" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="220" y="218" class="t1">Validate &amp; assemble</text><text x="220" y="234" class="t2">mask personal data</text><text x="220" y="246" class="t2">inputs kept separate</text>
-  <rect x="196" y="254" width="48" height="16" rx="8" class="pl-rule"/><text x="220" y="266" class="pl pl-rule-t">rules</text>
-  <circle cx="284" cy="196" r="6" class="s-ok"/>
+  <rect x="150" y="234" width="140" height="80" rx="6" class="box-ai"/>
+  <text x="220" y="256" class="t1">Validate &amp; assemble</text><text x="220" y="272" class="t2">check · IDs · schema</text><text x="220" y="284" class="t2">inputs kept separate</text>
+  <rect x="196" y="292" width="48" height="16" rx="8" class="pl-rule"/><text x="220" y="304" class="pl pl-rule-t">rules</text>
+  <circle cx="284" cy="234" r="6" class="s-ok"/>
 
-  <rect x="304" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="374" y="218" class="t1">Read attachments</text><text x="374" y="234" class="t2">receipts, screenshots</text><text x="374" y="246" class="t2">tagged sender-provided</text>
-  <rect x="308" y="254" width="132" height="16" rx="8" class="pl-vis"/><text x="374" y="266" class="pl pl-vis-t">OCR · image if needed</text>
-  <circle cx="438" cy="196" r="6" class="s-part"/>
+  <rect x="304" y="234" width="140" height="80" rx="6" class="box-ai"/>
+  <text x="374" y="256" class="t1">Read attachments</text><text x="374" y="272" class="t2">receipts, screenshots</text><text x="374" y="284" class="t2">tagged sender-provided</text>
+  <rect x="308" y="292" width="132" height="16" rx="8" class="pl-vis"/><text x="374" y="304" class="pl pl-vis-t">OCR · image if needed</text>
+  <circle cx="438" cy="234" r="6" class="s-part"/>
 
-  <rect x="458" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="528" y="218" class="t1">Understand</text><text x="528" y="234" class="t2">split into issues</text><text x="528" y="246" class="t2">+ follow-up changes</text>
-  <rect x="488" y="254" width="80" height="16" rx="8" class="pl-llm"/><text x="528" y="266" class="pl pl-llm-t">AI</text>
-  <circle cx="592" cy="196" r="6" class="s-ok"/>
+  <rect x="458" y="234" width="140" height="80" rx="6" class="box-ai"/>
+  <text x="528" y="256" class="t1">Understand</text><text x="528" y="272" class="t2">split into issues</text><text x="528" y="284" class="t2">+ follow-up changes</text>
+  <rect x="488" y="292" width="80" height="16" rx="8" class="pl-llm"/><text x="528" y="304" class="pl pl-llm-t">AI</text>
+  <circle cx="592" cy="234" r="6" class="s-ok"/>
 
-  <rect x="612" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="682" y="218" class="t1">Identify programme</text><text x="682" y="234" class="t2">and its owner</text><text x="682" y="246" class="t2">ambiguous → clarify</text>
-  <rect x="628" y="254" width="108" height="16" rx="8" class="pl-llm"/><text x="682" y="266" class="pl pl-llm-t">AI if unclear</text>
-  <circle cx="746" cy="196" r="6" class="s-data"/>
+  <rect x="612" y="234" width="140" height="80" rx="6" class="box-ai"/>
+  <text x="682" y="256" class="t1">Identify programme</text><text x="682" y="272" class="t2">and its owner</text><text x="682" y="284" class="t2">ambiguous → clarify</text>
+  <rect x="628" y="292" width="108" height="16" rx="8" class="pl-llm"/><text x="682" y="304" class="pl pl-llm-t">AI if unclear</text>
+  <circle cx="746" cy="234" r="6" class="s-data"/>
 
-  <rect x="766" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="836" y="218" class="t1">Check information</text><text x="836" y="234" class="t2">retrieve evidence; is it</text><text x="836" y="246" class="t2">sufficient per issue?</text>
-  <rect x="780" y="254" width="112" height="16" rx="8" class="pl-rule"/><text x="836" y="266" class="pl pl-rule-t">rules + search</text>
-  <circle cx="900" cy="196" r="6" class="s-data"/>
+  <rect x="766" y="234" width="140" height="80" rx="6" class="box-ai"/>
+  <text x="836" y="256" class="t1">Check information</text><text x="836" y="272" class="t2">retrieve evidence; is it</text><text x="836" y="284" class="t2">sufficient per issue?</text>
+  <rect x="780" y="292" width="112" height="16" rx="8" class="pl-rule"/><text x="836" y="304" class="pl pl-rule-t">rules + search</text>
+  <circle cx="900" cy="234" r="6" class="s-data"/>
 
-  <rect x="920" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="990" y="218" class="t1">Recommend action</text><text x="990" y="234" class="t2">reply · refer · clarify</text><text x="990" y="246" class="t2">· manual, per issue</text>
-  <rect x="966" y="254" width="48" height="16" rx="8" class="pl-rule"/><text x="990" y="266" class="pl pl-rule-t">rules</text>
-  <circle cx="1054" cy="196" r="6" class="s-ok"/>
+  <rect x="920" y="234" width="140" height="80" rx="6" class="box-ai"/>
+  <text x="990" y="256" class="t1">Recommend action</text><text x="990" y="272" class="t2">reply · refer · clarify</text><text x="990" y="284" class="t2">· manual, per issue</text>
+  <rect x="966" y="292" width="48" height="16" rx="8" class="pl-rule"/><text x="990" y="304" class="pl pl-rule-t">rules</text>
+  <circle cx="1054" cy="234" r="6" class="s-ok"/>
 
-  <rect x="1074" y="196" width="140" height="80" rx="6" class="box-ai"/>
-  <text x="1144" y="218" class="t1">Draft &amp; verify</text><text x="1144" y="234" class="t2">one cited reply +</text><text x="1144" y="246" class="t2">independent checker</text>
-  <rect x="1098" y="254" width="92" height="16" rx="8" class="pl-llm"/><text x="1144" y="266" class="pl pl-llm-t">AI ×2</text>
-  <circle cx="1208" cy="196" r="6" class="s-data"/>
+  <rect x="1074" y="234" width="140" height="80" rx="6" class="box-ai"/>
+  <text x="1144" y="256" class="t1">Draft &amp; verify</text><text x="1144" y="272" class="t2">one cited reply +</text><text x="1144" y="284" class="t2">independent checker</text>
+  <rect x="1098" y="292" width="92" height="16" rx="8" class="pl-llm"/><text x="1144" y="304" class="pl pl-llm-t">AI ×2</text>
+  <circle cx="1208" cy="234" r="6" class="s-data"/>
 
-  <path d="M290,236 H302" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M444,236 H456" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M598,236 H610" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M752,236 H764" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M906,236 H918" class="edge-a" marker-end="url(#ara)"/>
-  <path d="M1060,236 H1072" class="edge-a" marker-end="url(#ara)"/>
+  <path d="M290,274H302" class="edge-a" marker-end="url(#ara)"/>
+  <path d="M444,274H456" class="edge-a" marker-end="url(#ara)"/>
+  <path d="M598,274H610" class="edge-a" marker-end="url(#ara)"/>
+  <path d="M752,274H764" class="edge-a" marker-end="url(#ara)"/>
+  <path d="M906,274H918" class="edge-a" marker-end="url(#ara)"/>
+  <path d="M1060,274H1072" class="edge-a" marker-end="url(#ara)"/>
 
   <!-- data sources, each under the step that reads it -->
-  <rect x="612" y="296" width="140" height="44" rx="6" class="box-src"/>
-  <text x="682" y="314" class="t1">Programme registry</text><text x="682" y="329" class="t2">owners · routing</text>
-  <rect x="766" y="296" width="140" height="44" rx="6" class="box-src"/>
-  <text x="836" y="314" class="t1">Knowledge base</text><text x="836" y="329" class="t2">RSTN on-prem · versioned</text>
-  <rect x="920" y="296" width="140" height="44" rx="6" class="box-opt"/>
-  <text x="990" y="314" class="t1">Payment · TMS</text><text x="990" y="329" class="t2">manual until authorised</text>
-  <path d="M682,296 V278" class="edge" marker-end="url(#ar)"/>
-  <path d="M836,296 V278" class="edge" marker-end="url(#ar)"/>
-  <path d="M960,296 L872,278" class="edge-d" marker-end="url(#ar)"/>
+  <rect x="612" y="334" width="140" height="44" rx="6" class="box-src"/>
+  <text x="682" y="352" class="t1">Programme registry</text><text x="682" y="367" class="t2">owners · routing</text>
+  <rect x="766" y="334" width="140" height="44" rx="6" class="box-src"/>
+  <text x="836" y="352" class="t1">Knowledge base</text><text x="836" y="367" class="t2">RSTN on-prem · versioned</text>
+  <rect x="920" y="334" width="140" height="44" rx="6" class="box-opt"/>
+  <text x="990" y="352" class="t1">Payment · TMS</text><text x="990" y="367" class="t2">manual until authorised</text>
+  <path d="M682,334V316" class="edge" marker-end="url(#ar)"/>
+  <path d="M836,334V316" class="edge" marker-end="url(#ar)"/>
+  <path d="M960,334L872,316" class="edge-d" marker-end="url(#ar)"/>
 
   <!-- trace bar -->
-  <rect x="150" y="354" width="1064" height="26" rx="5" class="trace"/>
-  <text x="162" y="371" class="trace-t"><tspan font-weight="600">Decision trace, every run:</tspan> issues · evidence with source URL and version · rationale · status and processing time per step</text>
+  <rect x="150" y="392" width="1064" height="26" rx="5" class="trace"/>
+  <text x="162" y="409" class="trace-t"><tspan font-weight="600">Decision trace, every run:</tspan> issues · evidence with source URL and version · rationale · status and processing time per step</text>
 
   <!-- offline knowledge -->
-  <rect x="150" y="414" width="130" height="50" rx="6" class="box-grey"/>
-  <text x="215" y="434" class="t1">Sample emails</text><text x="215" y="450" class="t2">provided by PaCE</text>
-  <rect x="296" y="414" width="170" height="50" rx="6" class="box-new"/>
-  <text x="381" y="434" class="t1">Label &amp; de-identify</text><text x="381" y="450" class="t2">expected owner · action</text>
-  <circle cx="460" cy="414" r="6" class="s-new"/>
-  <rect x="482" y="414" width="130" height="50" rx="6" class="box-new"/>
-  <text x="547" y="434" class="t1">Test set</text><text x="547" y="450" class="t2">accuracy before go-live</text>
-  <circle cx="606" cy="414" r="6" class="s-new"/>
-  <rect x="766" y="414" width="140" height="92" rx="6" class="box-new"/>
-  <text x="836" y="436" class="t1">Publish knowledge</text><text x="836" y="452" class="t2">versioned · indexed</text><text x="836" y="465" class="t2">NTU-approved</text><text x="836" y="478" class="t2">sources only</text>
-  <circle cx="900" cy="414" r="6" class="s-new"/>
-  <rect x="930" y="414" width="130" height="50" rx="6" class="box-grey"/>
-  <text x="995" y="434" class="t1">FAQs · policies</text><text x="995" y="450" class="t2">+ NTU web pages</text>
-  <rect x="592" y="476" width="156" height="36" rx="6" class="box-p2"/>
-  <text x="670" y="491" class="t1" style="font-size:11.5px">Self-learning · phase 2</text><text x="670" y="505" class="t2">gated by the test set</text>
-  <path d="M280,439 H294" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M466,439 H480" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M547,414 V278" class="edge-nd" marker-end="url(#arn)"/>
-  <text x="541" y="300" class="el-n" text-anchor="end">accuracy tests</text>
-  <path d="M930,439 H908" class="edge-n" marker-end="url(#arn)"/>
-  <path d="M748,494 H764" class="edge-nd" marker-end="url(#arn)"/>
-  <path d="M836,414 V342" class="edge-n" marker-end="url(#arn)"/>
+  <rect x="150" y="452" width="130" height="50" rx="6" class="box-grey"/>
+  <text x="215" y="472" class="t1">Sample emails</text><text x="215" y="488" class="t2">provided by PaCE</text>
+  <rect x="296" y="452" width="170" height="50" rx="6" class="box-new"/>
+  <text x="381" y="472" class="t1">Label &amp; de-identify</text><text x="381" y="488" class="t2">expected owner · action</text>
+  <circle cx="460" cy="452" r="6" class="s-new"/>
+  <rect x="482" y="452" width="130" height="50" rx="6" class="box-new"/>
+  <text x="547" y="472" class="t1">Test set</text><text x="547" y="488" class="t2">accuracy before go-live</text>
+  <circle cx="606" cy="452" r="6" class="s-new"/>
+  <rect x="766" y="452" width="140" height="92" rx="6" class="box-new"/>
+  <text x="836" y="474" class="t1">Publish knowledge</text><text x="836" y="490" class="t2">versioned · indexed</text><text x="836" y="503" class="t2">NTU-approved</text><text x="836" y="516" class="t2">sources only</text>
+  <circle cx="900" cy="452" r="6" class="s-new"/>
+  <rect x="930" y="452" width="130" height="50" rx="6" class="box-grey"/>
+  <text x="995" y="472" class="t1">FAQs · policies</text><text x="995" y="488" class="t2">+ NTU web pages</text>
+  <rect x="592" y="514" width="156" height="36" rx="6" class="box-p2"/>
+  <text x="670" y="529" class="t1" style="font-size:11.5px">Self-learning · phase 2</text><text x="670" y="543" class="t2">gated by the test set</text>
+  <path d="M280,477H294" class="edge-n" marker-end="url(#arn)"/>
+  <path d="M466,477H480" class="edge-n" marker-end="url(#arn)"/>
+  <path d="M547,452V316" class="edge-nd" marker-end="url(#arn)"/>
+  <text x="541" y="338" class="el-n" text-anchor="end">accuracy tests</text>
+  <path d="M930,477H908" class="edge-n" marker-end="url(#arn)"/>
+  <path d="M748,532H764" class="edge-nd" marker-end="url(#arn)"/>
+  <path d="M836,452V380" class="edge-n" marker-end="url(#arn)"/>
 
   <!-- staff + schools -->
-  <rect x="1074" y="540" width="140" height="56" rx="6" class="box"/>
-  <text x="1144" y="562" class="t1">Review &amp; approve</text><text x="1144" y="578" class="t2">edit draft · change handling</text>
-  <circle cx="1208" cy="540" r="6" class="s-part"/>
-  <rect x="840" y="540" width="150" height="56" rx="6" class="box"/>
-  <text x="915" y="562" class="t1">Send · ask · hand off</text><text x="915" y="578" class="t2">staff carry out action</text>
-  <circle cx="984" cy="540" r="6" class="s-rstn"/>
-  <rect x="840" y="640" width="150" height="50" rx="6" class="box"/>
-  <text x="915" y="661" class="t1">Receives handoff</text><text x="915" y="677" class="t2">with reason and evidence</text>
-  <circle cx="984" cy="640" r="6" class="s-part"/>
+  <rect x="1074" y="578" width="140" height="56" rx="6" class="box"/>
+  <text x="1144" y="600" class="t1">Review &amp; approve</text><text x="1144" y="616" class="t2">edit draft · change handling</text>
+  <circle cx="1208" cy="578" r="6" class="s-part"/>
+  <rect x="840" y="578" width="150" height="56" rx="6" class="box"/>
+  <text x="915" y="600" class="t1">Send · ask · hand off</text><text x="915" y="616" class="t2">staff carry out action</text>
+  <circle cx="984" cy="578" r="6" class="s-rstn"/>
+  <rect x="840" y="678" width="150" height="50" rx="6" class="box"/>
+  <text x="915" y="699" class="t1">Receives handoff</text><text x="915" y="715" class="t2">with reason and evidence</text>
+  <circle cx="984" cy="678" r="6" class="s-part"/>
 
   <!-- main flow -->
-  <path d="M225,58 V92" class="edge" marker-end="url(#ar)"/>
-  <path d="M225,144 V194" class="edge-a" marker-end="url(#ara)"/>
-  <text x="232" y="174" class="el-a">XML request</text>
-  <path d="M1144,276 V538" class="edge-a" marker-end="url(#ara)"/>
-  <text x="1150" y="298" class="el-a">XML result</text>
-  <path d="M1084,540 V278" class="edge-d" marker-end="url(#ar)"/>
-  <text x="1150" y="530" class="el">override check</text>
-  <path d="M1074,568 H992" class="edge" marker-end="url(#ar)"/>
-  <path d="M913,540 V60" class="edge" marker-end="url(#ar)"/>
+  <path d="M225,58V92" class="edge" marker-end="url(#ar)"/>
+  <path d="M225,144V158" class="edge-a" marker-end="url(#ara)"/>
+  <path d="M225,186V232" class="edge-a" marker-end="url(#ara)"/>
+  <text x="232" y="214" class="el-a">masked request</text>
+  <path d="M1144,232V188" class="edge-a" marker-end="url(#ara)"/>
+  <text x="1150" y="214" class="el-a">masked result</text>
+  <path d="M1214,173H1224V606H1216" class="edge-a" marker-end="url(#ara)"/>
+  <text x="1220" y="396" class="el-a" text-anchor="end">result to staff</text>
+  <path d="M1084,578V316" class="edge-d" marker-end="url(#ar)"/>
+  <text x="1150" y="568" class="el">override check</text>
+  <path d="M1074,606H992" class="edge" marker-end="url(#ar)"/>
+  <path d="M913,578V60" class="edge" marker-end="url(#ar)"/>
   <text x="919" y="84" class="el">reply · ask</text>
-  <path d="M913,119 H1008" class="edge" marker-end="url(#ar)"/>
+  <path d="M913,119H1008" class="edge" marker-end="url(#ar)"/>
   <text x="921" y="112" class="el">status recorded</text>
-  <path d="M915,596 V638" class="edge" marker-end="url(#ar)"/>
-  <text x="921" y="630" class="el">hand off</text>
-  <path d="M374,196 V146" class="edge-d" marker-end="url(#ar)"/>
-  <text x="380" y="176" class="el">if any step fails</text>
-  <path d="M1150,596 V608 H670 V514" class="edge-nd" marker-end="url(#arn)"/>
-  <text x="680" y="603" class="el-n">staff edits &amp; overrides</text>
+  <path d="M915,634V676" class="edge" marker-end="url(#ar)"/>
+  <text x="921" y="668" class="el">hand off</text>
+  <path d="M410,158V146" class="edge-d" marker-end="url(#ar)"/>
+  <text x="506" y="154" class="el">if the run fails</text>
+  <path d="M1150,634V646H670V552" class="edge-nd" marker-end="url(#arn)"/>
+  <text x="680" y="641" class="el-n">staff edits &amp; overrides</text>
 </svg>
 <!-- DIAGRAM:END -->
     </div>
     <ul class="notes">
       <li>RSTN calls the engine once per email. When staff change how an issue is handled, RSTN sends the email and the previous result again with the change, and the engine re-checks only that issue. Nothing is held between calls. An invalid change is rejected with a reason and the plan stays as it was.</li>
+      <li>Requests and results pass through the privacy connector inside RSTN's network, so the engine only ever sees placeholders such as [NAME_1].</li>
       <li>If the engine fails at any step, nothing it produced reaches the enquirer. RSTN sends its approved acknowledgement and queues the case for staff.</li>
       <li>Sample emails from PaCE are used as a test set and to find knowledge gaps. They are never used to train a model or cited as a source of facts.</li>
     </ul>
@@ -354,12 +363,13 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <section aria-labelledby="dep">
     <h2 id="dep">How it is delivered</h2>
-    <p>Synvo runs the engine as a hosted API in Singapore. RSTN calls it over HTTPS; there is nothing for RSTN or NTU to install, host or patch.</p>
+    <p>Synvo hosts the engine in Singapore. A small privacy connector, which Synvo supplies, runs inside RSTN's network. Every request passes through the connector, which replaces personal data with placeholders before the email leaves NTU and puts it back in the result before staff see it. The engine itself never sees who the enquirer is.</p>
     <div class="opt">
-      <div class="rec"><span class="tag">Proposed</span><h3>Hosted API</h3><p class="small">A versioned copy of the approved knowledge (programme pages, FAQs, policies) is synced from RSTN to the engine's index. Engine and quality improvements arrive without a redeploy. Priced per email processed.</p></div>
-      <div><span class="tag">If knowledge may not be copied</span><h3>Hosted API, live lookup</h3><p class="small">RSTN exposes a query interface on its server; the engine fetches only the excerpts it needs for each email.</p></div>
-      <div><span class="tag">Only if policy requires</span><h3>On-premise licence</h3><p class="small">The engine runs inside NTU's network on local hardware. Higher fixed cost and slower updates; quoted separately.</p></div>
+      <div class="rec"><span class="tag">Proposed</span><h3>Hosted engine + privacy connector</h3><p class="small">Names, contact details, NRIC and payment references stay inside NTU. RSTN runs one small container, with no GPU and no business logic. Engine and quality improvements arrive without a redeploy. Priced per email processed.</p></div>
+      <div><span class="tag">If the connector cannot be hosted</span><h3>Hosted engine only</h3><p class="small">RSTN calls the engine directly; personal data is masked on arrival and nothing is kept after the response.</p></div>
+      <div><span class="tag">Only if policy requires</span><h3>On-premise licence</h3><p class="small">The whole engine runs inside NTU's network on local hardware. Higher fixed cost and slower updates; quoted separately.</p></div>
     </div>
+    <p class="small">Approved knowledge (programme pages, FAQs, policies) is synced to the engine as a versioned copy, with an immediate update when content is withdrawn. If a copy is not allowed, RSTN can expose a query interface instead.</p>
   </section>
 
   <section aria-labelledby="sec">
@@ -368,12 +378,12 @@ svg text { font-family: var(--display); fill: var(--fg); }
     <div class="tablewrap"><table>
       <thead><tr><th>Control</th><th>What it means</th></tr></thead>
       <tbody>
-        <tr><td>Masked before analysis</td><td>Names, email addresses, phone numbers, NRIC/FIN and payment references are replaced with placeholders before the text is analysed, and restored only in the reply returned to RSTN. Attachments are read with OCR first; images are analysed further only when OCR is not enough.</td></tr>
+        <tr><td>Masked inside NTU</td><td>The privacy connector in RSTN's network reads attachments with OCR and replaces names, email addresses, phone numbers, NRIC/FIN and payment references with placeholders before the request leaves NTU. It restores them in the result on RSTN's side. The mapping never leaves NTU.</td></tr>
         <tr><td>No retention, no training</td><td>Enquiry content is never used for training and is not retained by Synvo or by any service involved in processing. Processing runs in Singapore.</td></tr>
         <tr><td>Nothing kept after the response</td><td>The engine processes each email and returns the result. It keeps no copy of the email, attachments or reply. The decision trace holds IDs, labels, source references and timings, not email text.</td></tr>
         <tr><td>Encrypted and isolated</td><td>TLS with authenticated requests from RSTN; encryption at rest for anything stored, such as test data; a separate deployment and keys for this client.</td></tr>
         <tr><td>Controlled access</td><td>Least-privilege staff access with multi-factor login; every access logged; no client data in development environments.</td></tr>
-        <tr><td>Only what is needed</td><td>The engine does not need the sender's email address, recipients or CC; RSTN passes an opaque sender reference instead. Optionally, a small masking component runs inside RSTN's network so that names and identifiers never leave NTU at all.</td></tr>
+        <tr><td>Only what is needed</td><td>The engine does not need the sender's email address, recipients or CC; RSTN passes an opaque sender reference instead.</td></tr>
         <tr><td>Agreed in contract</td><td>A data processing agreement covering Synvo's role as data intermediary under the PDPA, purpose, retention and breach notification.</td></tr>
       </tbody>
     </table></div>
@@ -397,7 +407,8 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <thead><tr><th>Item</th><th>Why</th></tr></thead>
       <tbody>
         <tr><td>Agreement to sync a versioned copy of approved knowledge to the hosted index, or a query interface; how versions and withdrawals are exposed</td><td>Every cited fact must point to a current, approved source</td></tr>
-        <tr><td>Data policy: acceptance of the hosted API (masked text processed in Singapore, nothing retained); residency or data-classification rules</td><td>Confirms the delivery model</td></tr>
+        <tr><td>Data policy: acceptance of the hosted engine with the privacy connector (only masked text leaves NTU, processed in Singapore, nothing retained); residency or data-classification rules</td><td>Confirms the delivery model</td></tr>
+        <tr><td>A host for the privacy connector in RSTN's network (one small container, no GPU)</td><td>Masking before data leaves NTU</td></tr>
         <tr><td>PDPA requirements for a data intermediary, DPA template, any security assessment needed</td><td>Data processing agreement</td></tr>
         <tr><td>Programme registry and routing directory: programmes, aliases, owning teams, inboxes; who maintains them</td><td>Programme and owner identification, referrals</td></tr>
         <tr><td>De-identified sample emails, with how PaCE handled each one</td><td>Accuracy test set and knowledge gap list</td></tr>

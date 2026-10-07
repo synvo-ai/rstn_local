@@ -104,7 +104,7 @@ UAT on top. **Verify in the GCP pricing calculator.**
 
 ### 2.3 What this means for unit economics
 
-Model cost for PaCE is *est.* $25–40 per week, i.e. ~$100–170 per month (`unit-cost.html`). A dedicated
+Model cost for PaCE is *est.* $25–40 per week, i.e. ~$100–170 per month (`unit-cost.md`). A dedicated
 environment's fixed infrastructure is of the same order or larger. **At one customer, infrastructure, not
 the model, can dominate cost per email.** Sharing infrastructure across customers (§3) brings cost per email
 back towards model cost.

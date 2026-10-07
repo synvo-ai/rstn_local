@@ -2,7 +2,7 @@
 
 Audience: Synvo internal + RSTN architecture discussion.
 Companion documents: `requirements-summary.md` (what), `TODO.md` (open items),
-`workflow-and-architecture.html` (diagram, customer-facing), `unit-cost.html` (cost per email, internal).
+`workflow-and-architecture.html` (diagram, customer-facing), `unit-cost.md` (cost per email, internal).
 Status: **draft.** Anything waiting on RSTN/NTU is marked **ASSUMPTION** and has a matching line in `TODO.md`.
 
 ---
@@ -103,37 +103,57 @@ indexed retrieval, the sample-email test set, hosted deployment, data protection
 
 ## 5. Delivery model and data protection
 
-### 5.1 Delivery: Synvo-hosted API (our position)
+### 5.1 Delivery: hosted engine + on-prem privacy connector (our position)
 
-**Decision (internal, 2026-10-05): we push the hosted API.** It is the most valuable model for us: recurring
-per-email revenue, the engine and prompts stay on our side (IP protection), one codebase we can update and
-monitor centrally, and it is reusable for the other customers asking for the same capability. On-prem
-deployment is offered only if NTU policy forbids the hosted model, and priced as a separate licence.
+**Decision (internal, 2026-10-07): we promote this setup to RSTN first** (it was "Option C" in
+`deployment-options.md`). The engine runs as a Synvo-hosted API in Singapore. A small **privacy connector**,
+which we supply, runs inside RSTN's network. It masks personal data before anything leaves NTU and restores it
+in the result before staff see it.
 
-| Option | Engine | Knowledge for retrieval | Position |
+```
+NTU / RSTN network                               Synvo (Singapore)
+RSTN system ─► privacy connector ── masked request ─► engine (7 steps, prompts, rules,
+            ◄─ restores names   ◄── masked result ───  knowledge index, content-free trace)
+```
+
+Why it is the best fit:
+- **For NTU:** real names, email addresses, phone numbers, NRIC and payment references never leave NTU. There
+  is nothing to host except one small CPU-only container, and no GPU. Improvements arrive without a redeploy.
+- **For us:** the engine, prompts, rules and evaluation stay on our side, and metering, monitoring, hotfixes and
+  phase-2 learning stay central. Revenue is recurring per email. We never hold identifiable enquirer data, which
+  shrinks our PDPA exposure. The connector holds no business logic, so handing it over costs us no IP.
+
+| Option | Engine | What leaves NTU | Position |
 |---|---|---|---|
-| **A. Hosted API** | Synvo cloud, Singapore region | Versioned copy synced from RSTN (approved pages, FAQs, policies: mostly public content) | **Proposed** |
-| **B. Hosted API, live lookup** | Synvo cloud | RSTN exposes a query API; we fetch excerpts per email | Fallback if knowledge may not be copied |
-| **C. On-prem licence** | Inside NTU's network, on-prem GPU or approved model endpoint | Local | Only if required; separate licence, higher fixed cost, slower updates |
+| **Hosted engine + privacy connector** | Synvo, Singapore | Masked text only | **Proposed** |
+| Hosted engine only | Synvo, Singapore | Email text; masked on arrival, nothing stored | Fallback if RSTN cannot run the connector |
+| On-prem licence | Inside NTU's network | Nothing | Only if policy requires; separate licence, higher fixed cost, slower updates |
 
-Customer-facing benefits to lead with (not our commercial reasons): nothing for RSTN to host or patch; model
-and quality improvements arrive without a redeploy; per-email pricing that scales with volume; one versioned
-API contract.
+Knowledge: a versioned copy of the approved knowledge (mostly public NTU content) is synced to our index, with
+an immediate update on withdrawal. A live query interface is the fallback if copying is not allowed. This is an
+**ASSUMPTION** until RSTN confirms (TODO A1, A2).
 
-The approved knowledge is mostly public NTU content, so syncing a copy to our hosted index is low risk and
-removes a live dependency on RSTN's server. **ASSUMPTION** until RSTN confirms (TODO A1, A2).
+Connector scope (TODO B24):
+- local OCR of attachments;
+- named-entity masking (names, emails, phones, NRIC/FIN, bank and payment references);
+- local image redaction before an image is sent for analysis;
+- placeholder mapping kept in memory only;
+- restoring names in the reply, issue summaries and handoff notes.
+
+It ships as a signed container image with a version check against the engine. No prompts, rules or engine
+logic are inside it.
 
 ### 5.2 Data protection: keep the risk off our side
 
-The hosted API means we receive enquiry emails (personal data) and pass parts of them to a cloud model. Under
+With the privacy connector we receive masked text only. Without it (fallback) we receive enquiry emails and mask them on arrival. Either way, parts of the text go to a cloud model. Under
 Singapore's PDPA we would be NTU's data intermediary, so our own exposure has to be engineered down, not
 just contracted away.
 
 | Risk | Measure |
 |---|---|
-| Personal data reaching the cloud model | **Mask before any model call:** names, email addresses, phone numbers, NRIC/FIN, bank and payment references replaced with placeholders (`[NAME_1]`); restored only in the final reply returned to RSTN. OCR attachments locally first; send an image to a vision model only when OCR is insufficient, after masking where possible |
+| Personal data reaching the cloud model | **Masked by the connector** (or on arrival in the fallback): names, email addresses, phone numbers, NRIC/FIN, bank and payment references replaced with placeholders (`[NAME_1]`); restored only in the final reply returned to RSTN. OCR attachments locally first; send an image to a vision model only when OCR is insufficient, after masking where possible |
 | Provider keeps or trains on our data | Enterprise endpoints only, with zero data retention and no training on inputs in the contract; Singapore region where available; provider choice fixed with NTU in writing |
-| Raw personal data reaching our servers at all | Optional **on-prem privacy connector** run by RSTN: OCR and masking before anything leaves NTU, names restored in the reply on their side (`deployment-options.md` §5) |
+| Raw personal data reaching our servers at all | **Privacy connector in RSTN's network (proposed setup):** OCR and masking before anything leaves NTU, names restored on their side (§5.1) |
 | We become a store of NTU data | **Stateless by default:** process and return; no raw email, attachment or reply stored after the response. Decision traces store IDs, labels, evidence references, tokens and timings, not the email text. Any debug capture is opt-in, masked, and auto-deleted (e.g. 30 days) |
 | Data in transit / at rest | TLS 1.2+ with mutual auth or signed requests from RSTN; encryption at rest for anything kept (test set, logs); keys in a managed KMS |
 | Unauthorised access on our side | Per-client isolated deployment and keys; least-privilege staff access with MFA; every access logged; no NTU data on laptops or in dev environments |
@@ -313,16 +333,17 @@ GPU amortisation (on-prem licence, option C in §5.1) as separate lines; they ar
 | Programme ambiguity (`Data Science`, `Cyber Security` variants) | Registry returns `AMBIGUOUS` + candidates → Ask for clarification |
 | XML contract churn | Freeze semantics now, version the schema |
 | Unit cost drifting from the estimate | Per-stage cost in every trace from day one; shadow run before commitment |
-| Residency blocks the hosted API | Lead with masking + statelessness + zero-retention provider (§5.2); on-prem licence as priced fallback |
-| Personal data leak on our side | Masking before model calls, stateless processing, isolated per-client deployment, DPA (§5.2) |
+| Residency blocks the hosted API | Lead with the privacy connector (identifiers never leave NTU) + statelessness + zero-retention provider; on-prem licence as priced fallback |
+| RSTN cannot or will not run the connector | Fall back to hosted engine only: mask on arrival, store nothing, disclose the residual risk |
+| Personal data leak on our side | Privacy connector (we never hold identifiers), stateless processing, isolated per-client deployment, DPA (§5.2) |
 
 ## 11. Division of work
 
-**RSTN / NTU provide:** XML contract and sample payloads; programme registry; knowledge base access; routing
+**RSTN / NTU provide:** a host for the privacy connector inside their network; XML contract and sample payloads; programme registry; knowledge base access; routing
 directory; de-identified sample emails with how PaCE handled them; sample screenshots; volume/latency profile; residency and model
 policy; fallback wording; escalation policy for blocked runs.
 
-**Synvo builds:** the hosted API (§5.1), masking and stateless processing (§5.2), the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's
+**Synvo builds:** the hosted API and the privacy connector (§5.1), stateless processing (§5.2), the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's
 store, sample-email test set and gap list (§6), XML contract, per-stage cost/latency telemetry, evaluation set and
 accuracy report, shadow-run cost report, the internal architecture diagram.
 

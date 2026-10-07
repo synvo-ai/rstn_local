@@ -140,7 +140,8 @@ What the POC screens (slides 3–10) commit us to returning:
 
 ## 5a. Internal positions added 2026-10-05
 
-- **Delivery as a Synvo-hosted API** is our preferred model (more value to us: recurring revenue, IP stays
+- **Delivery (updated 2026-10-07): hosted engine + a privacy connector in RSTN's network** that masks personal
+  data before it leaves NTU. Within that, the **Synvo-hosted API** is our preferred model (more value to us: recurring revenue, IP stays
   with us, central updates, reusable across customers). On-prem only as a separately priced licence if NTU
   policy requires it. See `draft-solution.md` §5.1.
 - **Client data safety is our risk too.** Because we may store client data and use cloud models, we must take
@@ -161,4 +162,4 @@ data before any model call and keeps no copy of the email after responding. It n
 ## 7. Commercial requirement
 
 The 1-pager for Steven needs a **cost per email processed** and a workflow/architecture diagram. Diagram:
-`workflow-and-architecture.html` (customer-facing); cost: `unit-cost.html` (internal). Cost model detail: `draft-solution.md` §9.
+`workflow-and-architecture.html` (customer-facing); cost: `unit-cost.md` (internal). Cost model detail: `draft-solution.md` §9.

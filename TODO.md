@@ -1,7 +1,7 @@
 # NTU PaCE / RSTN — TODO
 
 Tracks open questions for RSTN/NTU and Synvo's own work. Context: `requirements-summary.md`,
-`draft-solution.md`, `unit-cost.html`.
+`draft-solution.md`, `unit-cost.md`.
 
 Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped
 Owners are suggestions; adjust after Lisa consolidates scope.
@@ -14,8 +14,9 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [ ] **A1. Knowledge base access.** Where does approved knowledge live on RSTN's on-prem server, and what
       interface do we get: query API, versioned snapshot export, or a vector index? Who approves and revokes
       content, and how are versions exposed? *(We propose syncing a versioned copy to our hosted index; live query API as fallback.)*
-- [ ] **A2. Hosted API acceptance.** Does NTU policy allow a Synvo-hosted API with masked email content sent to
-      a zero-retention cloud model (Singapore region)? Approved providers and residency rules. On-prem only if not.
+- [ ] **A2. Acceptance of the proposed setup** (hosted engine + privacy connector in RSTN's network). Does NTU policy
+      allow masked text to leave NTU for processing in Singapore, nothing retained? Can RSTN host the connector?
+      Internal: approved model providers and region still to settle; do not raise model/provider on the 2026-10-08 call.
 - [ ] **A3. Programme registry.** Does an authoritative list of programmes, aliases, status and owning teams
       exist, or must it be built? Customer said no master directory exists today. Who maintains it?
 - [ ] **A4. Routing/ownership directory.** Owner per programme × intent (admission, fees, credit transfer…),
@@ -59,7 +60,7 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 
 ### Now (this week)
 - [~] **B1. Requirement summary and draft solution** — `requirements-summary.md`, `draft-solution.md` (Guowei). Revised after reviewing images.
-- [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost version `unit-cost.html`
+- [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost `unit-cost.md`
       (Guowei → Lisa for the 1-pager).
 - [~] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md`
       (Part 1: our understanding to confirm; Part 2: questions with our proposals). Share the Workflow and Architecture
@@ -83,16 +84,18 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [ ] **B11. Attachment reader** (OCR first; vision where samples require). Tag output `SENDER_PROVIDED`.
       Note: POC image reading is a fixture (`IMAGE_FIXTURE`); this is new build, not productionising.
 - [ ] **B12. Per-stage cost/latency telemetry** in every result trace (tokens, model, cost, ms).
-- [ ] **B13. Hosted API deployment** (Singapore region, per-client isolation); on-prem licence package only if A2 says no.
+- [ ] **B13. Hosted engine deployment** (Singapore region, per-client isolation); hosted-only fallback if RSTN cannot run the connector; on-prem licence package only if A2 says no.
 - [ ] **B27. Multi-tenant from day one**: `tenantId` on keys/config/knowledge/traces, per-tenant config and test set; PaCE as dedicated cell (hosting-and-scaling.md §3).
 - [ ] **B28. Infra template + sizing**: Terraform for one GCP `asia-southeast1` cell per hosting-and-scaling.md §2.2; price in GCP calculator (Li-kai).
 - [ ] **B29. Knowledge sync + withdrawal webhook** with RSTN; second-call pattern for institutional data (phase 2).
 - [ ] **B30. Provider region check**: Singapore + ZDR for the selected model; evaluate Vertex AI (`asia-southeast1`) on the test set as alternative.
 - [ ] **B23. Model provider zero-data-retention approval in writing**; list provider + region as sub-processor (deployment-options.md G7).
-- [ ] **B24. Privacy connector** (on-prem, thin): local OCR, masking, image redaction, name restore. Only if RSTN agrees (questions E4).
+- [ ] **B24. Privacy connector — core of the proposed setup** (runs in RSTN's network): local OCR, masking, image
+      redaction, in-memory placeholder map, name restore in reply/summaries/handoff notes. Signed container image,
+      CPU only, version check against the engine, no business logic. Measure masking miss rate on the sample set.
 - [ ] **B25. Stateless override contract**: resend original request + signed previous result (G1); drop sender address/To/CC from request (G3).
 - [ ] **B26. No-payload logging**: scrub logger, disable APM body capture, test that fails if a body hits logs (G6).
-- [ ] **B19. Personal-data masking** before every model call, restore in final reply; re-run test set with masking on.
+- [ ] **B19. Masking quality**: shared masking library for the connector and the hosted-only fallback; re-run test set with masking on.
 - [ ] **B20. Stateless processing + trace without email text**; opt-in masked debug capture with auto-delete.
 - [ ] **B21. Security pack for RSTN/NTU**: data flow, sub-processors, retention, access control, incident process; DPA draft with Lisa.
 
@@ -116,6 +119,8 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-07 | Promote option C first: hosted engine + privacy connector in RSTN's network; hosted-only and on-prem licence as fallbacks | Group |
+| 2026-10-07 | Do not disclose cloud model use or model names in the 2026-10-08 call | Group |
 | 2026-10-06 | Knowledge synced (no per-email NTU query); institutional data looked up by RSTN, passed in a second call; build multi-tenant | Synvo (proposed) |
 | 2026-10-06 | Hosted API stays default; offer on-prem privacy connector; binary SDK only as priced licence (deployment-options.md) | Synvo (proposed) |
 | 2026-10-06 | Propose async API with callback (TBC with RSTN, question A4) | Synvo |

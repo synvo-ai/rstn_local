@@ -12,6 +12,10 @@ us? Two concerns raised:
 
 ## 1. Bottom line
 
+**Decision 2026-10-07: promote option C (hosted engine + on-prem privacy connector) to RSTN first.** Option A
+(hosted only) is the fallback if RSTN cannot run the connector; option B (SDK) is a priced on-prem licence only.
+
+
 - **Lead with the hosted API.** As designed, it does not need to store any enquirer personal data. It is
   compatible with Synvo acting as NTU's data intermediary under the PDPA, provided we close the gaps in §4.3.
   Three of those are real defects in the current design.
