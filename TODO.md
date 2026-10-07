@@ -63,9 +63,9 @@ Owners are suggestions; adjust after Lisa consolidates scope.
 - [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost `unit-cost.html`
       (Guowei → Lisa for the 1-pager).
 - [~] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md`
-      plus `response-to-rstn.md` (answers to RSTN's 16 questions, with questions back R1–R14).
       (Part 1: our understanding to confirm; Part 2: questions with our proposals). Share the Workflow and Architecture
       page with RSTN at the same time. Commercial 1-pager goes separately (Saim → Steven).
+      Also send `response-to-rstn.md`: answers to RSTN's 16 questions, with questions back R1–R14.
 - [ ] **B22. Prepare for the call**: draft request/response field list to walk through (`draft-solution.md` §7);
       agree internally who answers what (Guowei: engine/API; Li-kai: models/data; Lisa: scope/commercial).
 - [ ] **B4. Re-price Round A token usage at current provider rates** (Li-kai). The Round A price snapshot was
