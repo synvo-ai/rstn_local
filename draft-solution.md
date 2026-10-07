@@ -2,7 +2,7 @@
 
 Audience: Synvo internal + RSTN architecture discussion.
 Companion documents: `requirements-summary.md` (what), `TODO.md` (open items),
-`workflow-and-architecture.html` (diagram, customer-facing), `unit-cost.md` (cost per email, internal).
+`workflow-and-architecture.html` (diagram, customer-facing), `unit-cost.html` (cost per email, internal).
 Status: **draft.** Anything waiting on RSTN/NTU is marked **ASSUMPTION** and has a matching line in `TODO.md`.
 
 ---

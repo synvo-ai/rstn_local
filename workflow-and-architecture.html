@@ -92,13 +92,37 @@ svg text { font-family: var(--display); fill: var(--fg); }
 .s-ok { fill: var(--ok); } .s-data { fill: var(--data); } .s-part { fill: var(--part); } .s-rstn { fill: var(--rstn); } .s-new { fill: var(--new); }
 .mk { fill: var(--edge); } .mk-a { fill: var(--accent); } .mk-n { fill: var(--new); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* Print / Save as PDF: A4 landscape so the diagram stays legible; always the light palette. */
+@page { size: A4 landscape; margin: 12mm; }
+@media print {
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    --bg: #ffffff; --surface: #ffffff; --lane: #eef2f4; --lane-ai: #e2eff0;
+    --fg: #16232b; --muted: #5a6b74; --line: #c9d3d8; --edge: #5f717a;
+    --accent: #0f6e78; --accent-soft: #d6ecee;
+    --ok: #23774a; --data: #0f6e78; --part: #8a6418; --rstn: #7d8a91; --new: #9a3b5c; color-scheme: light;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-size: 12px; }
+  /* Chrome fragments grid containers badly; use block flow with margins when printing. */
+  .wrap, section, header { display: block; }
+  .wrap { max-width: none; padding: 0; }
+  .wrap > * + * { margin-top: 22px; }
+  section > * + *, header > * + * { margin-top: 10px; }
+  .frame, .tablewrap, pre { overflow: visible; }
+  .frame svg { min-width: 0; }
+  .frame, pre, tr, .opt div, .two > div, ol.steps { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  section[aria-labelledby="hist"], section[aria-labelledby="dep"], section[aria-labelledby="cost"] { break-inside: avoid; }
+  section[aria-labelledby="need"] h2 { break-before: page; }
+}
 </style>
 
 <div class="wrap">
   <header>
     <div class="eyebrow">NTU PaCE · General enquiries · Synvo × RSTN</div>
     <h1>How the enquiry engine works</h1>
-    <p class="lede">Draft for discussion, 5 October 2026. RSTN runs the system: intake, case records, status tracking and the staff screen. Synvo provides the engine behind it as a hosted API, reached through a privacy connector inside RSTN's network: one call per email returns the issues found, a recommended action for each, a source-cited and independently checked reply, and a full decision trace. PaCE staff review and carry out every action.</p>
+    <p class="lede">Draft for discussion, 7 October 2026. RSTN runs the system: intake, case records, status tracking and the staff screen. Synvo provides the engine behind it as a hosted API, reached through a privacy connector inside RSTN's network: one call per email returns the issues found, a recommended action for each, a source-cited and independently checked reply, and a full decision trace. PaCE staff review and carry out every action.</p>
   </header>
 
   <section aria-labelledby="wf">
@@ -422,5 +446,5 @@ svg text { font-family: var(--display); fill: var(--fg); }
     </table></div>
   </section>
 
-  <footer>Synvo · draft for discussion with RSTN, 5 October 2026. Builds on the future-workflow view presented on 2 October.</footer>
+  <footer>Synvo · draft for discussion with RSTN, 7 October 2026. Builds on the future-workflow view presented on 2 October.</footer>
 </div>

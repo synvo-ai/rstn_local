@@ -1,0 +1,130 @@
+<title>PaCE Unit Cost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column of figures and tables. Palette follows slide 2 (teal on cool grey). */
+:root {
+  --bg: #f6f8f9; --surface: #ffffff; --lane: #eef2f4; --lane-ai: #e2eff0;
+  --fg: #16232b; --muted: #5a6b74; --line: #c9d3d8; --edge: #5f717a;
+  --accent: #0f6e78; --accent-soft: #d6ecee;
+  --ok: #23774a; --data: #0f6e78; --part: #8a6418; --rstn: #7d8a91; --new: #9a3b5c;
+  --display: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f171b; --surface: #16222a; --lane: #142028; --lane-ai: #123037;
+  --fg: #e3ecef; --muted: #9aacb4; --line: #2f414a; --edge: #8fa3ac;
+  --accent: #4fb8c2; --accent-soft: #173d43;
+  --ok: #5cc28a; --data: #4fb8c2; --part: #d4a24a; --rstn: #8f9ca3; --new: #e07c9e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f171b; --surface: #16222a; --lane: #142028; --lane-ai: #123037;
+  --fg: #e3ecef; --muted: #9aacb4; --line: #2f414a; --edge: #8fa3ac;
+  --accent: #4fb8c2; --accent-soft: #173d43;
+  --ok: #5cc28a; --data: #4fb8c2; --part: #d4a24a; --rstn: #8f9ca3; --new: #e07c9e; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--display); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 64px; display: grid; gap: 40px; }
+header { display: grid; gap: 8px; max-width: 70ch; }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.15; margin: 0; text-wrap: balance; }
+h2 { font-size: 21px; margin: 0; text-wrap: balance; }
+h3 { font-size: 15px; margin: 0; }
+p { margin: 0; }
+code { font-family: var(--mono); font-size: .88em; }
+.lede { color: var(--muted); }
+.lede a { color: var(--accent); }
+section { display: grid; gap: 14px; }
+section > p, .notes { max-width: 75ch; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 2px; }
+.tile b { font-size: 24px; font-variant-numeric: tabular-nums; }
+.tile span { font-size: 13px; color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--surface); }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.total td { font-weight: 600; }
+pre { font-family: var(--mono); font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 0; line-height: 1.6; }
+.notes { display: grid; gap: 6px; padding-left: 18px; margin: 0; color: var(--fg); }
+.notes li::marker { color: var(--accent); }
+.caveat { border-left: 3px solid var(--part); padding: 8px 14px; background: var(--surface); color: var(--fg); font-size: 14px; max-width: 80ch; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.two > div { display: grid; gap: 10px; align-content: start; min-width: 0; }
+footer { font-size: 13px; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NTU PaCE · General enquiries · Synvo engine for RSTN</div>
+    <h1>What one email costs</h1>
+    <p class="lede"><b>Internal: do not share.</b> Cost basis for the commercial 1-pager. The workflow and architecture are on the customer-facing page <code>workflow-and-architecture.html</code>; this page adds only the cost model behind it. More detail in <code>draft-solution.md</code> §9 and <code>hosting-and-scaling.md</code> §2; open items in <code>TODO.md</code>.</p>
+    <p class="lede">Proposed setup (7 Oct 2026): hosted engine plus a privacy connector in RSTN's network (<code>draft-solution.md</code> §5.1).</p>
+  </header>
+
+  <section aria-labelledby="cost">
+    <h2 id="cost">Cost per email processed</h2>
+    <p>Only steps 3 (Understand) and 7 (Draft &amp; verify) always call a model. Step 2 calls one only for attachments and step 4 only when the programme is unclear; steps 1, 5 and 6 are rules. That is why the unit cost is low and predictable.</p>
+    <p>Measured on the POC's formal evaluation (Round A, 28 Sep 2026): seven fixed test emails, GPT-5.6 Luna, run one at a time. Token counts are retained originals. The dollar figure is the documented Round A result; the price list used that day was not kept, so it must be re-priced before it goes to the customer.</p>
+    <div class="tiles">
+      <div class="tile"><b>~$0.0025</b><span>model cost per email, measured</span></div>
+      <div class="tile"><b>~4.3</b><span>model calls per email</span></div>
+      <div class="tile"><b>~6,000</b><span>tokens per email (4.7k in, 1.3k out)</span></div>
+      <div class="tile"><b>13 s</b><span>median end to end, sequential</span></div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>Where the tokens go (7 emails, Luna)</h3>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Stage</th><th class="n">Calls</th><th class="n">Input</th><th class="n">Output</th><th class="n">Share</th></tr></thead>
+          <tbody>
+            <tr><td>Understand</td><td class="n">7</td><td class="n">6,186</td><td class="n">2,594</td><td class="n">21%</td></tr>
+            <tr><td>Follow-up delta</td><td class="n">1</td><td class="n">1,006</td><td class="n">756</td><td class="n">4%</td></tr>
+            <tr><td>Identify programme</td><td class="n">8</td><td class="n">4,206</td><td class="n">879</td><td class="n">12%</td></tr>
+            <tr><td>Draft reply</td><td class="n">7</td><td class="n">9,747</td><td class="n">4,141</td><td class="n">33%</td></tr>
+            <tr><td>Verify reply</td><td class="n">7</td><td class="n">11,923</td><td class="n">870</td><td class="n">30%</td></tr>
+            <tr class="total"><td>Total</td><td class="n">30</td><td class="n">33,068</td><td class="n">9,240</td><td class="n">100%</td></tr>
+          </tbody>
+        </table></div>
+        <p class="lede" style="font-size:13px">Share is of total tokens. Draft and verify are two thirds of the bill, and both grow with the size of the retrieved evidence.</p>
+      </div>
+      <div>
+        <h3>Planning range, model cost only</h3>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Case</th><th class="n">Per email</th><th class="n">Per 5,000/week</th></tr></thead>
+          <tbody>
+            <tr><td>Measured<br><span class="lede" style="font-size:12.5px">POC mix, tiny fictional knowledge store</span></td><td class="n">~$0.0025</td><td class="n">~$12</td></tr>
+            <tr><td>Expected<br><span class="lede" style="font-size:12.5px">2–3× evidence in draft and verify; 10–20% emails with OCR attachments</span></td><td class="n">$0.005–0.008</td><td class="n">$25–40</td></tr>
+            <tr><td>High<br><span class="lede" style="font-size:12.5px">as above, plus vision on 20% of emails and staff override re-runs</span></td><td class="n">$0.01–0.02</td><td class="n">$50–100</td></tr>
+          </tbody>
+        </table></div>
+        <p class="lede" style="font-size:13px">Expected and High are estimates scaled from the measured run, not measurements.</p>
+      </div>
+    </div>
+
+    <h3>Unit cost formula for the 1-pager</h3>
+<pre>cost per email = Σ stages ( calls × (input tokens × input price + output tokens × output price) )
+               + attachment share × reading cost (vision only; OCR runs in the connector)
+               + retrieval cost per query (embeddings, search)
+               + (hosting + monitoring per month) ÷ emails per month
+
+fixed, priced separately = integration build · privacy connector · sample-email test set
+                           · evaluation · support · phase 2</pre>
+
+    <div class="caveat">Before quoting a price: re-price the token counts at today's provider rates, including any zero-retention endpoint premium, then run the engine beside the live inbox for 1–2 weeks with nothing sent, and report cost and latency per email by type (simple, multi-question, follow-up, with attachment). Quote cloud model cost and on-prem GPU amortisation as separate lines; they are not comparable units.</div>
+
+    <h3>What moves the number</h3>
+    <ul class="notes">
+      <li><b>Delivery model.</b> In the proposed setup, model cost scales per email and is our cost. The privacy connector runs on RSTN's infrastructure (one small CPU container), so it adds nothing per email on our side; its build and support are a fixed cost. An on-prem licence turns model cost into GPU amortisation, quoted separately.</li>
+      <li><b>Fixed infrastructure at one customer.</b> One dedicated hosting environment is <i>est.</i> a few hundred USD per month, the same order as PaCE's model bill (~$100–170 per month). Multi-tenancy matters for margin (<code>hosting-and-scaling.md</code> §2.3).</li>
+      <li><b>Data protection overhead.</b> Masking and OCR run in the connector. Zero-retention enterprise endpoints may be priced differently from standard APIs; check when re-pricing (TODO B4).</li>
+      <li><b>Size of retrieved evidence.</b> Real NTU pages, FAQs and policies are larger than the POC store. Capping evidence per issue keeps draft and verify in check.</li>
+      <li><b>Screenshots.</b> OCR adds little. Vision adds roughly one extra model call per attachment. We need sample screenshots to choose.</li>
+      <li><b>Model choice per stage.</b> Through the model gateway, simple stages can use a cheaper model without touching business rules. In Round A, Luna was the cheapest and also scored highest in blind review (18.5 of 21).</li>
+    </ul>
+  </section>
+
+  <footer>Sources: slide 2 of synvo_sample_slides_2026.10.02.pdf; POC Round A call metrics (evaluation/reports/PHASE_6_ROUND_A_2026-09-28T09-36-11-001Z); PHASE_6_MODEL_SELECTION_DECISION_RECORD.md. </footer>
+</div>

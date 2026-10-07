@@ -2,7 +2,7 @@
 
 **Call:** Thursday 8 October 2026, 10:00 SGT
 **From:** Synvo (Guowei Wang, AI tech lead; Li-kai Jiang)
-**Reference:** the *Workflow and Architecture* page, shared with this note. It shows the diagram, the seven
+**Reference:** the *Workflow and Architecture* PDF, attached to this note. It shows the diagram, the seven
 processing steps and the proposed API.
 
 This note has three parts:
