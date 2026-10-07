@@ -4,9 +4,9 @@
 
 **From:** Synvo (Guowei Wang, AI tech lead; Li-kai Jiang)
 
-**Attached:** *Workflow and Architecture* (PDF) and *Pre-read for the technical call* (our question list)
+**Attached:** *Pre-read for the technical call* (our question list)
 
-Thank you for the questions. Our answers are below, in your numbering. They set out our approach; we are happy to go into technical detail on the call. Where an answer depends on something only RSTN or NTU can tell us, we have added a short question back. These are collected in section 2.
+Thank you for the questions. Our answers are below, in your numbering. They set out our approach. Where an answer depends on something only RSTN or NTU can tell us, we have added a short question back. These are collected in section 2.
 
 ---
 
@@ -42,15 +42,15 @@ Yes. Every result carries your request ID, our run ID and the versions of the en
 
 ### 4. Agent design
 
-**a. Loop or fixed graph?** A **fixed workflow**, not an open-ended loop. What each step may do is defined in advance, so runs are predictable and auditable. The attached PDF shows the steps.
+**a. Loop or fixed graph?** A **fixed workflow**, not an open-ended loop. What each step may do is defined in advance, so runs are predictable and auditable.
 
 **b. Limits, and what happens when a step fails?** Each run is bounded in steps, AI calls and time. If something fails, the result says so explicitly, and the engine never returns a reply that has not passed its independent check. RSTN then sends its approved acknowledgement and queues the case for staff. Exact limits will be agreed in the integration contract.
 
-**c. Model calls and tokens per email?** Most of the workflow is rules; AI is used only where it adds value. We will measure usage on NTU's sample emails and report it by email type. We can walk through current figures on the call.
+**c. Model calls and tokens per email?** Most of the workflow is rules; AI is used only where it adds value. We will measure usage on NTU's sample emails and report it by email type.
 
 ### 5. Integration contract and sandbox
 
-Yes. We have a draft of the request and result fields, which we can go through on the call. Once we have your XML schema or sample payloads, we will send the formal specification, covering call patterns (synchronous or asynchronous with a callback), error handling and versioning.
+Yes. We have a draft of the request and result fields. Once we have your XML schema or sample payloads, we will send the formal specification, covering call patterns (synchronous or asynchronous with a callback), error handling and versioning.
 
 We will provide a **sandbox** with the engine and the connector, so you can start integration early.
 
@@ -73,7 +73,7 @@ You do **not** need to run a search system or a special database. What needs mai
 - **Programme registry:** programmes, aliases and owning teams.
 - **Routing rules:** which team owns which kind of question.
 
-We keep a versioned copy on our side and handle search ourselves. Withdrawn content is removed at once, and every answer cites the version it used. We can go through the details on the call.
+We keep a versioned copy on our side and handle search ourselves. Withdrawn content is removed at once, and every answer cites the version it used.
 
 **a. Attachments** are **not stored** by the engine. In the proposed setup they are read by the connector inside NTU, so they can be fetched from your side (e.g. Graph) when needed and never leave your network.
 
@@ -105,7 +105,7 @@ The engine splits the email into **separate issues**, and each gets its own prog
 - **Issues owned by other teams:** each gets a **handoff note** for the receiving team, with the reason.
 - **Independence:** an issue the engine cannot answer never blocks one it can.
 
-The example in the attached PDF has three issues: two are answered, and the payment question goes to Manual handling.
+For example, an email asking about intake, a training allowance and a payment has three issues: the first two can be answered, and the payment question goes to Manual handling.
 
 ### 13. When only some questions can be answered
 

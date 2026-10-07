@@ -4,8 +4,6 @@
 
 **From:** Synvo (Guowei Wang, AI tech lead; Li-kai Jiang)
 
-**Reference:** the *Workflow and Architecture* PDF, attached to this note. It shows the diagram, the seven processing steps and the proposed API.
-
 This note has three parts:
 1. **Proposed setup:** a short description of how we propose to deliver the engine.
 2. **Our understanding:** please confirm or correct each point.

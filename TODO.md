@@ -48,7 +48,7 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 ### Now (this week)
 - [~] **B1. Requirement summary and draft solution** — `requirements-summary.md`, `draft-solution.md` (Guowei). Revised after reviewing images.
 - [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost `unit-cost.html` (Guowei → Lisa for the 1-pager).
-- [~] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md` (Part 1: our understanding to confirm; Part 2: questions with our proposals). Share the Workflow and Architecture page with RSTN at the same time. Commercial 1-pager goes separately (Saim → Steven). Also send `response-to-rstn.md`: answers to RSTN's 16 questions, with questions back R1–R14.
+- [~] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md` (Part 1: our understanding to confirm; Part 2: questions with our proposals). Whether to share the Workflow and Architecture PDF is a separate business decision (not yet). Commercial 1-pager goes separately (Saim → Steven). Also send `response-to-rstn.md`: answers to RSTN's 16 questions, with questions back R1–R14.
 - [ ] **B22. Prepare for the call**: draft request/response field list to walk through (`draft-solution.md` §7); agree internally who answers what (Guowei: engine/API; Li-kai: models/data; Lisa: scope/commercial).
 - [ ] **B4. Re-price Round A token usage at current provider rates** (Li-kai). The Round A price snapshot was not retained; record the dated price source this time.
 - [ ] **B5. Self-Learning phase-2 one-pager** — feedback loop as in LoadStone diagram, scoped and priced separately (Faye / Saim).
@@ -110,6 +110,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10-07 | Promote option C first: hosted engine + privacy connector in RSTN's network; hosted-only and on-prem licence as fallbacks | Group |
 | 2026-10-07 | Do not disclose cloud model use or model names in the 2026-10-08 call | Group |
 | 2026-10-07 | Send `workflow-and-architecture.html` to RSTN as a saved PDF (A4 landscape print styles), not a hosted page; internal cost page stays HTML | Group |
+| 2026-10-07 | Workflow and Architecture PDF not shared with RSTN for now (business decision); `response-to-rstn.md` and `questions-for-rstn.md` no longer reference it | Group |
 | 2026-10-06 | Knowledge synced (no per-email NTU query); institutional data looked up by RSTN, passed in a second call; build multi-tenant | Synvo (proposed) |
 | 2026-10-06 | Hosted API stays default; offer on-prem privacy connector; binary SDK only as priced licence (deployment-options.md) | Synvo (proposed) |
 | 2026-10-06 | Propose async API with callback (TBC with RSTN, question A4) | Synvo |
