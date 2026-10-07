@@ -24,7 +24,7 @@ our questions. Each one comes with our current proposal, so "agree" is a complet
 | U7 | NTU will **not** provide historical emails for training. **Sample emails** will be provided for reference; we use them as a labelled test set, to list knowledge gaps, and as reply-style examples, never as a source of facts. | |
 | U8 | Payment, application and TMS status are **not** available to the engine in phase 1. Issues that need them (e.g. "has my payment been received?") are always Manual handling. A receipt or screenshot from the sender is treated as the sender's evidence, not as confirmation. | |
 | U9 | If the engine fails or cannot produce a safe result, RSTN sends its own approved acknowledgement and queues the case for staff. | |
-| U10 | Proposed delivery: a **Synvo-hosted API** in a Singapore region, with personal data masked before any model call, zero-retention model endpoints, and no copy of the email kept after the response. On-premise deployment only if NTU policy requires it. | |
+| U10 | Proposed delivery: a **Synvo-hosted API** in a Singapore region, with personal data masked before analysis, and no copy of the email kept after the response. On-premise deployment only if NTU policy requires it. | |
 | U11 | Learning from staff feedback ("Self-Learning") is **phase 2**, scoped separately. | |
 | U12 | The programme registry (programmes, aliases, owning teams) is the source of truth for routing. The engine reads it but does not maintain it. | |
 
@@ -65,7 +65,7 @@ our questions. Each one comes with our current proposal, so "agree" is a complet
 | C1 **[call]** | How many **sample emails** can be shared, and when? | A few hundred, de-identified, covering the main programmes, multi-question emails, follow-ups and emails with attachments. |
 | C2 | Can each sample include **how PaCE handled it**: answered directly, forwarded to which team, or asked for details? | This is what lets us measure routing and action accuracy. |
 | C3 | Who **de-identifies** the samples, and who in PaCE can **confirm our labels**? | PaCE or RSTN de-identifies before sharing; one PaCE contact reviews labels. |
-| C4 **[call]** | Can you share **10–30 example screenshots/attachments** (redacted), and roughly what share of emails carry one? | This decides whether text extraction (OCR) is enough or a vision model is needed. |
+| C4 **[call]** | Can you share **10–30 example screenshots/attachments** (redacted), and roughly what share of emails carry one? | This decides whether text extraction (OCR) is enough or image understanding is needed. |
 
 ### D. Volume and performance
 
@@ -79,8 +79,8 @@ our questions. Each one comes with our current proposal, so "agree" is a complet
 
 | # | Question | Our proposal / assumption |
 |---|---|---|
-| E1 **[call]** | Does NTU policy allow a **Synvo-hosted API** with masked email text sent to a **zero-retention cloud model in a Singapore region**? Any approved or excluded model providers? | Hosted API (U10); on-premise only if required. |
-| E2 | What does NTU require from a **data intermediary** under the PDPA: DPA template, security questionnaire, penetration test, audit rights? | We will provide a security pack: data flow, sub-processors, retention, access control and incident process. |
+| E1 **[call]** | Does NTU policy allow a **Synvo-hosted API in Singapore**, with masked email text processed there and nothing retained? Any residency or data-classification rules we must meet? | Hosted API (U10); on-premise only if required. |
+| E2 | What does NTU require from a **data intermediary** under the PDPA: DPA template, security questionnaire, penetration test, audit rights? | We will provide a security pack: data flow, retention, access control and incident process. |
 | E4 **[call]** | Could RSTN run a small **masking component** inside your network, so that names, email addresses, phone numbers and NRIC are replaced with placeholders before anything reaches the engine, and restored in the reply on your side? | We provide the component; it holds no business logic. Without it, the engine masks on arrival and stores nothing. |
 | E5 | We do not need the **sender's email address, To or CC**. Can RSTN send an opaque sender reference instead? | Yes, opaque reference only. |
 | E3 | **Retention**: may the engine keep decision traces (IDs, labels, source references, timings, no email text), and for how long? Any audit export format needed for reporting? | Traces kept for an agreed period; no email text stored. |

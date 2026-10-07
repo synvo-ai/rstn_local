@@ -109,7 +109,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <span><i class="dot s-part"></i>Partly solved</span>
       <span><i class="dot s-new"></i>New build</span>
       <span><i class="dot s-rstn"></i>RSTN / NTU scope</span>
-      <span><span class="pill-k" style="background:var(--accent);color:var(--surface)">LLM</span>language-model step</span>
+      <span><span class="pill-k" style="background:var(--accent);color:var(--surface)">AI</span>AI reasoning step</span>
       <span><span class="pill-k" style="border:1px solid var(--edge);color:var(--muted)">rules</span>fixed, testable rules</span>
     </div>
     <div class="legend lines">
@@ -167,17 +167,17 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <rect x="304" y="196" width="140" height="80" rx="6" class="box-ai"/>
   <text x="374" y="218" class="t1">Read attachments</text><text x="374" y="234" class="t2">receipts, screenshots</text><text x="374" y="246" class="t2">tagged sender-provided</text>
-  <rect x="308" y="254" width="132" height="16" rx="8" class="pl-vis"/><text x="374" y="266" class="pl pl-vis-t">OCR/vision · if any</text>
+  <rect x="308" y="254" width="132" height="16" rx="8" class="pl-vis"/><text x="374" y="266" class="pl pl-vis-t">OCR · image if needed</text>
   <circle cx="438" cy="196" r="6" class="s-part"/>
 
   <rect x="458" y="196" width="140" height="80" rx="6" class="box-ai"/>
   <text x="528" y="218" class="t1">Understand</text><text x="528" y="234" class="t2">split into issues</text><text x="528" y="246" class="t2">+ follow-up changes</text>
-  <rect x="488" y="254" width="80" height="16" rx="8" class="pl-llm"/><text x="528" y="266" class="pl pl-llm-t">LLM</text>
+  <rect x="488" y="254" width="80" height="16" rx="8" class="pl-llm"/><text x="528" y="266" class="pl pl-llm-t">AI</text>
   <circle cx="592" cy="196" r="6" class="s-ok"/>
 
   <rect x="612" y="196" width="140" height="80" rx="6" class="box-ai"/>
   <text x="682" y="218" class="t1">Identify programme</text><text x="682" y="234" class="t2">and its owner</text><text x="682" y="246" class="t2">ambiguous → clarify</text>
-  <rect x="628" y="254" width="108" height="16" rx="8" class="pl-llm"/><text x="682" y="266" class="pl pl-llm-t">LLM if unclear</text>
+  <rect x="628" y="254" width="108" height="16" rx="8" class="pl-llm"/><text x="682" y="266" class="pl pl-llm-t">AI if unclear</text>
   <circle cx="746" cy="196" r="6" class="s-data"/>
 
   <rect x="766" y="196" width="140" height="80" rx="6" class="box-ai"/>
@@ -192,7 +192,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <rect x="1074" y="196" width="140" height="80" rx="6" class="box-ai"/>
   <text x="1144" y="218" class="t1">Draft &amp; verify</text><text x="1144" y="234" class="t2">one cited reply +</text><text x="1144" y="246" class="t2">independent checker</text>
-  <rect x="1098" y="254" width="92" height="16" rx="8" class="pl-llm"/><text x="1144" y="266" class="pl pl-llm-t">LLM ×2</text>
+  <rect x="1098" y="254" width="92" height="16" rx="8" class="pl-llm"/><text x="1144" y="266" class="pl pl-llm-t">AI ×2</text>
   <circle cx="1208" cy="196" r="6" class="s-data"/>
 
   <path d="M290,236 H302" class="edge-a" marker-end="url(#ara)"/>
@@ -215,7 +215,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <!-- trace bar -->
   <rect x="150" y="354" width="1064" height="26" rx="5" class="trace"/>
-  <text x="162" y="371" class="trace-t"><tspan font-weight="600">Decision trace, every run:</tspan> issues · evidence with source URL and version · rationale · model, tokens, cost and latency per step</text>
+  <text x="162" y="371" class="trace-t"><tspan font-weight="600">Decision trace, every run:</tspan> issues · evidence with source URL and version · rationale · status and processing time per step</text>
 
   <!-- offline knowledge -->
   <rect x="150" y="414" width="130" height="50" rx="6" class="box-grey"/>
@@ -322,7 +322,7 @@ svg text { font-family: var(--display); fill: var(--fg); }
 ├─ reply       text, issues covered, claims → sources,
 │              SAFE_TO_REVIEW | BLOCKED | NOT_PRODUCED
 ├─ handoffNotes[]  for the receiving team
-└─ trace       per step: status, model, time</pre>
+└─ trace       per step: status, time</pre>
       </div>
     </div>
     <div class="tablewrap"><table>
@@ -354,27 +354,27 @@ svg text { font-family: var(--display); fill: var(--fg); }
 
   <section aria-labelledby="dep">
     <h2 id="dep">How it is delivered</h2>
-    <p>Synvo runs the engine as a hosted API in a Singapore cloud region. RSTN calls it over HTTPS; there is nothing for RSTN or NTU to install, host or patch.</p>
+    <p>Synvo runs the engine as a hosted API in Singapore. RSTN calls it over HTTPS; there is nothing for RSTN or NTU to install, host or patch.</p>
     <div class="opt">
-      <div class="rec"><span class="tag">Proposed</span><h3>Hosted API</h3><p class="small">A versioned copy of the approved knowledge (programme pages, FAQs, policies) is synced from RSTN to the engine's index. Model and quality improvements arrive without a redeploy. Priced per email processed.</p></div>
+      <div class="rec"><span class="tag">Proposed</span><h3>Hosted API</h3><p class="small">A versioned copy of the approved knowledge (programme pages, FAQs, policies) is synced from RSTN to the engine's index. Engine and quality improvements arrive without a redeploy. Priced per email processed.</p></div>
       <div><span class="tag">If knowledge may not be copied</span><h3>Hosted API, live lookup</h3><p class="small">RSTN exposes a query interface on its server; the engine fetches only the excerpts it needs for each email.</p></div>
-      <div><span class="tag">Only if policy requires</span><h3>On-premise licence</h3><p class="small">The engine runs inside NTU's network on local hardware. Higher fixed cost, narrower model choice and slower updates; quoted separately.</p></div>
+      <div><span class="tag">Only if policy requires</span><h3>On-premise licence</h3><p class="small">The engine runs inside NTU's network on local hardware. Higher fixed cost and slower updates; quoted separately.</p></div>
     </div>
   </section>
 
   <section aria-labelledby="sec">
     <h2 id="sec">Protecting enquirer data</h2>
-    <p>Enquiry emails contain personal data. The engine is designed so that as little of it as possible leaves RSTN, reaches a model, or is kept anywhere.</p>
+    <p>Enquiry emails contain personal data. The engine is designed so that as little of it as possible leaves RSTN, is exposed during processing, or is kept anywhere.</p>
     <div class="tablewrap"><table>
       <thead><tr><th>Control</th><th>What it means</th></tr></thead>
       <tbody>
-        <tr><td>Masked before any model call</td><td>Names, email addresses, phone numbers, NRIC/FIN and payment references are replaced with placeholders before text reaches a language model, and restored only in the reply returned to RSTN. Attachments are read with local OCR first; images go to a vision model only when needed.</td></tr>
-        <tr><td>No retention, no training</td><td>Models are used through enterprise endpoints with zero data retention and no training on inputs, in a Singapore region where available. The provider is agreed with NTU in writing.</td></tr>
+        <tr><td>Masked before analysis</td><td>Names, email addresses, phone numbers, NRIC/FIN and payment references are replaced with placeholders before the text is analysed, and restored only in the reply returned to RSTN. Attachments are read with OCR first; images are analysed further only when OCR is not enough.</td></tr>
+        <tr><td>No retention, no training</td><td>Enquiry content is never used for training and is not retained by Synvo or by any service involved in processing. Processing runs in Singapore.</td></tr>
         <tr><td>Nothing kept after the response</td><td>The engine processes each email and returns the result. It keeps no copy of the email, attachments or reply. The decision trace holds IDs, labels, source references and timings, not email text.</td></tr>
         <tr><td>Encrypted and isolated</td><td>TLS with authenticated requests from RSTN; encryption at rest for anything stored, such as test data; a separate deployment and keys for this client.</td></tr>
         <tr><td>Controlled access</td><td>Least-privilege staff access with multi-factor login; every access logged; no client data in development environments.</td></tr>
         <tr><td>Only what is needed</td><td>The engine does not need the sender's email address, recipients or CC; RSTN passes an opaque sender reference instead. Optionally, a small masking component runs inside RSTN's network so that names and identifiers never leave NTU at all.</td></tr>
-        <tr><td>Agreed in contract</td><td>A data processing agreement covering Synvo's role as data intermediary under the PDPA, purpose, retention, sub-processors and breach notification.</td></tr>
+        <tr><td>Agreed in contract</td><td>A data processing agreement covering Synvo's role as data intermediary under the PDPA, purpose, retention and breach notification.</td></tr>
       </tbody>
     </table></div>
     <p class="small">Masking does not reduce accuracy in principle: the engine decides from the programme and the question, not from who is asking. This will be confirmed on the sample-email test set before go-live.</p>
@@ -383,11 +383,11 @@ svg text { font-family: var(--display); fill: var(--fg); }
   <section aria-labelledby="cost">
     <h2 id="cost">What drives cost per email</h2>
     <ul class="notes">
-      <li><b>Few model calls.</b> Only two of the seven steps always use a language model; two more use one only when needed (attachments, unclear programme), and three are fixed rules. In the POC an email averaged about four language-model calls, most of them in drafting and checking the reply.</li>
+      <li><b>Little AI work per email.</b> Only two of the seven steps always use AI reasoning; two more use it only when needed (attachments, unclear programme), and three are fixed rules. Most of the AI work is in drafting and checking the reply.</li>
       <li><b>Delivery model.</b> The hosted API is priced per email processed; an on-premise licence is mostly fixed cost and quoted separately.</li>
       <li><b>How much evidence is retrieved.</b> Drafting and checking grow with the size of the source excerpts, so evidence per issue is capped.</li>
-      <li><b>Attachments.</b> Text-heavy receipts can be read cheaply with OCR; app screenshots may need a vision model. Sample screenshots will settle this.</li>
-      <li><b>Measured, not assumed.</b> Every result carries model, tokens, cost and time per step. Before go-live, a shadow run on live traffic, with nothing sent, gives cost and latency per email by type (simple, multi-question, follow-up, with attachment).</li>
+      <li><b>Attachments.</b> Text-heavy receipts can be read cheaply with OCR; app screenshots may need image understanding, which costs more. Sample screenshots will settle this.</li>
+      <li><b>Measured, not assumed.</b> Every result records processing cost and time per step. Before go-live, a shadow run on live traffic, with nothing sent, gives cost and latency per email by type (simple, multi-question, follow-up, with attachment).</li>
     </ul>
   </section>
 
@@ -397,12 +397,12 @@ svg text { font-family: var(--display); fill: var(--fg); }
       <thead><tr><th>Item</th><th>Why</th></tr></thead>
       <tbody>
         <tr><td>Agreement to sync a versioned copy of approved knowledge to the hosted index, or a query interface; how versions and withdrawals are exposed</td><td>Every cited fact must point to a current, approved source</td></tr>
-        <tr><td>Data policy: acceptance of the hosted API with masked text sent to a zero-retention cloud model; approved providers and residency rules</td><td>Confirms the delivery model</td></tr>
+        <tr><td>Data policy: acceptance of the hosted API (masked text processed in Singapore, nothing retained); residency or data-classification rules</td><td>Confirms the delivery model</td></tr>
         <tr><td>PDPA requirements for a data intermediary, DPA template, any security assessment needed</td><td>Data processing agreement</td></tr>
         <tr><td>Programme registry and routing directory: programmes, aliases, owning teams, inboxes; who maintains them</td><td>Programme and owner identification, referrals</td></tr>
         <tr><td>De-identified sample emails, with how PaCE handled each one</td><td>Accuracy test set and knowledge gap list</td></tr>
         <tr><td>XML schema or sample payloads, thread identifiers, attachment handling</td><td>Freeze the API contract</td></tr>
-        <tr><td>10–30 redacted sample screenshots and attachments</td><td>Choose OCR or vision</td></tr>
+        <tr><td>10–30 redacted sample screenshots and attachments</td><td>Choose how attachments are read</td></tr>
         <tr><td>Peak volume, acceptable time per email, synchronous or callback</td><td>Sizing and deployment</td></tr>
         <tr><td>Handling of failed or blocked runs; fallback acknowledgement wording</td><td>Failure path</td></tr>
         <tr><td>Any authorised interface for payment, application or TMS status</td><td>Until then those issues stay manual handling</td></tr>
