@@ -1,9 +1,10 @@
 # NTU PaCE Enquiry Engine — Pre-read for the RSTN × Synvo Technical Call
 
 **Call:** Thursday 8 October 2026, 10:00 SGT
+
 **From:** Synvo (Guowei Wang, AI tech lead; Li-kai Jiang)
-**Reference:** the *Workflow and Architecture* PDF, attached to this note. It shows the diagram, the seven
-processing steps and the proposed API.
+
+**Reference:** the *Workflow and Architecture* PDF, attached to this note. It shows the diagram, the seven processing steps and the proposed API.
 
 This note has three parts:
 1. **Proposed setup:** a short description of how we propose to deliver the engine.
@@ -35,8 +36,7 @@ NTU / RSTN network                                      Synvo (Singapore)
 
 - **Personal data stays inside NTU.** The engine sees placeholders such as `[NAME_1]`, never who the enquirer is.
 - **Nothing is kept.** The engine keeps no copy of the email, attachments or reply after it responds.
-- **Little to run on RSTN's side.** RSTN runs one small container, the connector. It holds no business logic and
-  needs no GPU. The engine is hosted and updated by Synvo.
+- **Little to run on RSTN's side.** RSTN runs one small container, the connector. It holds no business logic and needs no GPU. The engine is hosted and updated by Synvo.
 - **Alternatives** if needed:
   - *hosted engine only*, where RSTN calls the engine directly and data is masked on arrival;
   - *on-premise licence*, where the whole engine runs in NTU's network, quoted separately.

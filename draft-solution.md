@@ -1,23 +1,16 @@
 # NTU PaCE General Enquiries — Draft Solution (Synvo Correspondence Intelligence Engine)
 
-Audience: Synvo internal + RSTN architecture discussion.
-Companion documents: `requirements-summary.md` (what), `TODO.md` (open items),
-`workflow-and-architecture.html` (diagram, customer-facing), `unit-cost.html` (cost per email, internal).
+Audience: Synvo internal + RSTN architecture discussion. Companion documents: `requirements-summary.md` (what), `TODO.md` (open items), `workflow-and-architecture.html` (diagram, customer-facing), `unit-cost.html` (cost per email, internal).
+
 Status: **draft.** Anything waiting on RSTN/NTU is marked **ASSUMPTION** and has a matching line in `TODO.md`.
 
 ---
 
 ## 1. Solution in one paragraph
 
-A **headless Correspondence Intelligence engine** behind an API. RSTN posts an enquiry (XML): current email,
-permitted thread context, attachments. The engine returns: the issues in the email, the programme and owner
-of each, whether approved knowledge answers it, one treatment per issue (Reply directly / Refer to receiving
-team / Ask for clarification / Manual handling), one verified reply covering the answerable issues, and a
-full decision trace with cost and latency. **The engine never sends, routes or invents facts.** RSTN
-executes; PaCE staff decide. This is slide 2's "Synvo AI" lane, without the UI.
+A **headless Correspondence Intelligence engine** behind an API. RSTN posts an enquiry (XML): current email, permitted thread context, attachments. The engine returns: the issues in the email, the programme and owner of each, whether approved knowledge answers it, one treatment per issue (Reply directly / Refer to receiving team / Ask for clarification / Manual handling), one verified reply covering the answerable issues, and a full decision trace with cost and latency. **The engine never sends, routes or invents facts.** RSTN executes; PaCE staff decide. This is slide 2's "Synvo AI" lane, without the UI.
 
-We keep the POC's intelligence core and drop its workflow shell (UI, case lifecycle, database, execution
-adapters), which RSTN already owns.
+We keep the POC's intelligence core and drop its workflow shell (UI, case lifecycle, database, execution adapters), which RSTN already owns.
 
 ## 2. Boundary with RSTN
 
@@ -32,14 +25,11 @@ adapters), which RSTN already owns.
 | **Understanding, programme/owner resolution, sufficiency, treatment, grounded reply, verification, override validation, decision trace** | **Synvo** |
 | **Labelling sample emails into a test set; knowledge-gap list (offline)** | **Synvo builds, PaCE confirms labels** |
 
-Non-execution semantics stay explicit: **`HANDOFF` ≠ forwarded, `SAFE_TO_REVIEW` ≠ approved,
-`MANUAL_REVIEW` ≠ reviewed, candidate reply ≠ sent email.** Run health is separate from business treatment:
-`MANUAL_REVIEW + SAFE_TO_REVIEW + SUCCEEDED` is a valid, successful result.
+Non-execution semantics stay explicit: **`HANDOFF` ≠ forwarded, `SAFE_TO_REVIEW` ≠ approved, `MANUAL_REVIEW` ≠ reviewed, candidate reply ≠ sent email.** Run health is separate from business treatment: `MANUAL_REVIEW + SAFE_TO_REVIEW + SUCCEEDED` is a valid, successful result.
 
 ## 3. Architecture
 
-Two paths: an **online path** per email (the API RSTN calls), and an **offline knowledge path** that keeps
-the knowledge base current. The diagram version is in `workflow-and-architecture.html`.
+Two paths: an **online path** per email (the API RSTN calls), and an **offline knowledge path** that keeps the knowledge base current. The diagram version is in `workflow-and-architecture.html`.
 
 ```
  ONLINE — per email (async + callback proposed; TBC)          stage code   model call?
@@ -75,10 +65,7 @@ the knowledge base current. The diagram version is in `workflow-and-architecture
  (phase 2) staff edits & overrides ─► evaluation on test set ─► approved corrections ─► knowledge
 ```
 
-Failure contract: a failed stage is never returned as a business answer. No semantic retry for a preferred
-answer, no silent provider fallback, no model recall in place of evidence. When the engine fails or is
-unavailable, RSTN sends its static approved acknowledgement (LoadStone's "failure fallback") and queues the
-case for staff.
+Failure contract: a failed stage is never returned as a business answer. No semantic retry for a preferred answer, no silent provider fallback, no model recall in place of evidence. When the engine fails or is unavailable, RSTN sends its static approved acknowledgement (LoadStone's "failure fallback") and queues the case for staff.
 
 ## 4. Mapping to the POC
 
@@ -98,17 +85,13 @@ case for staff.
 | Sample-email test set and gap list | POC evaluation harness (`evaluation/`) | Extend with real samples |
 | UI, case lifecycle, persistence, execution | `src/app`, `src/domain`, `src/persistence`, `src/integrations` | Out of scope |
 
-The core is built and evidenced. The work is integration, the XML contract, re-pointing at RSTN data,
-indexed retrieval, the sample-email test set, hosted deployment, data protection and cost engineering.
+The core is built and evidenced. The work is integration, the XML contract, re-pointing at RSTN data, indexed retrieval, the sample-email test set, hosted deployment, data protection and cost engineering.
 
 ## 5. Delivery model and data protection
 
 ### 5.1 Delivery: hosted engine + on-prem privacy connector (our position)
 
-**Decision (internal, 2026-10-07): we promote this setup to RSTN first** (it was "Option C" in
-`deployment-options.md`). The engine runs as a Synvo-hosted API in Singapore. A small **privacy connector**,
-which we supply, runs inside RSTN's network. It masks personal data before anything leaves NTU and restores it
-in the result before staff see it.
+**Decision (internal, 2026-10-07): we promote this setup to RSTN first** (it was "Option C" in `deployment-options.md`). The engine runs as a Synvo-hosted API in Singapore. A small **privacy connector**, which we supply, runs inside RSTN's network. It masks personal data before anything leaves NTU and restores it in the result before staff see it.
 
 ```
 NTU / RSTN network                               Synvo (Singapore)
@@ -117,11 +100,8 @@ RSTN system ─► privacy connector ── masked request ─► engine (7 step
 ```
 
 Why it is the best fit:
-- **For NTU:** real names, email addresses, phone numbers, NRIC and payment references never leave NTU. There
-  is nothing to host except one small CPU-only container, and no GPU. Improvements arrive without a redeploy.
-- **For us:** the engine, prompts, rules and evaluation stay on our side, and metering, monitoring, hotfixes and
-  phase-2 learning stay central. Revenue is recurring per email. We never hold identifiable enquirer data, which
-  shrinks our PDPA exposure. The connector holds no business logic, so handing it over costs us no IP.
+- **For NTU:** real names, email addresses, phone numbers, NRIC and payment references never leave NTU. There is nothing to host except one small CPU-only container, and no GPU. Improvements arrive without a redeploy.
+- **For us:** the engine, prompts, rules and evaluation stay on our side, and metering, monitoring, hotfixes and phase-2 learning stay central. Revenue is recurring per email. We never hold identifiable enquirer data, which shrinks our PDPA exposure. The connector holds no business logic, so handing it over costs us no IP.
 
 | Option | Engine | What leaves NTU | Position |
 |---|---|---|---|
@@ -129,9 +109,7 @@ Why it is the best fit:
 | Hosted engine only | Synvo, Singapore | Email text; masked on arrival, nothing stored | Fallback if RSTN cannot run the connector |
 | On-prem licence | Inside NTU's network | Nothing | Only if policy requires; separate licence, higher fixed cost, slower updates |
 
-Knowledge: a versioned copy of the approved knowledge (mostly public NTU content) is synced to our index, with
-an immediate update on withdrawal. A live query interface is the fallback if copying is not allowed. This is an
-**ASSUMPTION** until RSTN confirms (TODO A1, A2).
+Knowledge: a versioned copy of the approved knowledge (mostly public NTU content) is synced to our index, with an immediate update on withdrawal. A live query interface is the fallback if copying is not allowed. This is an **ASSUMPTION** until RSTN confirms (TODO A1, A2).
 
 Connector scope (TODO B24):
 - local OCR of attachments;
@@ -140,14 +118,11 @@ Connector scope (TODO B24):
 - placeholder mapping kept in memory only;
 - restoring names in the reply, issue summaries and handoff notes.
 
-It ships as a signed container image with a version check against the engine. No prompts, rules or engine
-logic are inside it.
+It ships as a signed container image with a version check against the engine. No prompts, rules or engine logic are inside it.
 
 ### 5.2 Data protection: keep the risk off our side
 
-With the privacy connector we receive masked text only. Without it (fallback) we receive enquiry emails and mask them on arrival. Either way, parts of the text go to a cloud model. Under
-Singapore's PDPA we would be NTU's data intermediary, so our own exposure has to be engineered down, not
-just contracted away.
+With the privacy connector we receive masked text only. Without it (fallback) we receive enquiry emails and mask them on arrival. Either way, parts of the text go to a cloud model. Under Singapore's PDPA we would be NTU's data intermediary, so our own exposure has to be engineered down, not just contracted away.
 
 | Risk | Measure |
 |---|---|
@@ -161,25 +136,18 @@ just contracted away.
 | Prompt injection in emails | Email is data, never instructions; facts only from retrieval; verifier blocks unsupported output |
 | Incident | Breach notification process aligned with PDPA timelines; documented in the data processing agreement |
 
-Commercial/legal: a data processing agreement with NTU/RSTN stating our intermediary role, purpose limits,
-retention, sub-processors (the model provider), and liability caps. Masking and statelessness are what let us
-offer that agreement with confidence.
+Commercial/legal: a data processing agreement with NTU/RSTN stating our intermediary role, purpose limits, retention, sub-processors (the model provider), and liability caps. Masking and statelessness are what let us offer that agreement with confidence.
 
-Quality impact of masking: the engine reasons on programmes and questions, not on who is asking, so masking
-names and identifiers does not affect the treatment decision. The POC test set will be re-run with masking
-on to confirm (TODO B19).
+Quality impact of masking: the engine reasons on programmes and questions, not on who is asking, so masking names and identifiers does not affect the treatment decision. The POC test set will be re-run with masking on to confirm (TODO B19).
 
 ### 5.3 Data access, hosting and multi-customer
 
-Knowledge and registry are **synced**, not queried per email; institutional data is looked up by **RSTN** and
-passed in a second call, only when an issue needs it. No GPU is needed for the hosted API. Build PaCE as tenant
+Knowledge and registry are **synced**, not queried per email; institutional data is looked up by **RSTN** and passed in a second call, only when an issue needs it. No GPU is needed for the hosted API. Build PaCE as tenant
 #1 of a multi-tenant engine. Detail: `hosting-and-scaling.md`.
 
 ## 6. Sample emails (replaces the historical-correspondence plan)
 
-**Update 2026-10-05:** NTU will not share historical emails for pre-training; sample emails are available for
-reference. Nothing is trained on NTU emails, and sample emails are never cited as a source of facts. The
-engine answers only from NTU web pages, FAQs and policies.
+**Update 2026-10-05:** NTU will not share historical emails for pre-training; sample emails are available for reference. Nothing is trained on NTU emails, and sample emails are never cited as a source of facts. The engine answers only from NTU web pages, FAQs and policies.
 
 Sample emails are used three ways:
 
@@ -189,10 +157,7 @@ Sample emails are used three ways:
 | **Gap list** | Questions in the samples that no approved source answers. NTU adds FAQs or pages before go-live, so fewer emails fall to Manual handling. |
 | **Reply style** | A handful of approved replies as tone/structure examples in the drafting prompt. Wording only, never facts. |
 
-What to ask for: a few hundred de-identified emails covering the main programmes, multi-question emails,
-follow-ups and attachments, each with how PaCE actually handled it (answered, forwarded and to whom, or asked
-for details). This extends the POC's evaluation harness; it is a one-off build priced outside the per-email
-cost. It also gives Self-Learning (phase 2) its gate: no correction is folded in unless the test set holds.
+What to ask for: a few hundred de-identified emails covering the main programmes, multi-question emails, follow-ups and attachments, each with how PaCE actually handled it (answered, forwarded and to whom, or asked for details). This extends the POC's evaluation harness; it is a one-off build priced outside the per-email cost. It also gives Self-Learning (phase 2) its gate: no correction is folded in unless the test set holds.
 
 ## 7. API contract (semantics now, XSD with RSTN)
 
@@ -211,8 +176,7 @@ Request
 └── Options                  locale, requireCandidateReply, includeDiagnostics
 ```
 
-Sender, thread and institutional inputs stay structurally separate so sender evidence is never promoted to
-institutional fact.
+Sender, thread and institutional inputs stay structurally separate so sender evidence is never promoted to institutional fact.
 
 ### 7.2 Response
 
@@ -239,42 +203,29 @@ Result
 └── trace: stages[] { stage, status, latencyMs, model?, inputTokens?, outputTokens?, costUsd? }
 ```
 
-Treatments are per issue; one email routinely yields `ANSWER / ANSWER / MANUAL_REVIEW` (slide 3). Without
-evidence, answerability is `INSUFFICIENT` and nothing is drafted for that issue.
+Treatments are per issue; one email routinely yields `ANSWER / ANSWER / MANUAL_REVIEW` (slide 3). Without evidence, answerability is `INSUFFICIENT` and nothing is drafted for that issue.
 
 ### 7.3 Override validation
 
-`POST /override` with the **original request**, the **previous result** (signed by the engine so it cannot be
-altered), `issueId`, and the requested treatment (and owner for a referral). Returns the updated issue and a
-re-verified reply, or `REJECTED` with a reason and the plan unchanged. Resending keeps the engine stateless:
-we never hold the email between the first call and the staff change (deployment-options.md G1).
+`POST /override` with the **original request**, the **previous result** (signed by the engine so it cannot be altered), `issueId`, and the requested treatment (and owner for a referral). Returns the updated issue and a re-verified reply, or `REJECTED` with a reason and the plan unchanged. Resending keeps the engine stateless: we never hold the email between the first call and the staff change (deployment-options.md G1).
 
 ## 8. The four requirement areas
 
-**Multi-question understanding — ready.** Each issue is handled independently; an unanswerable issue never
-blocks an answerable one.
+**Multi-question understanding — ready.** Each issue is handled independently; an unanswerable issue never blocks an answerable one.
 
-**Referencing and traceability — ready, pending KB access.** Every claim carries evidence IDs, source URL or
-locator and version (slide 7–8: "Open source" goes to the NTU programme page). Blocked only on §5.
+**Referencing and traceability — ready, pending KB access.** Every claim carries evidence IDs, source URL or locator and version (slide 7–8: "Open source" goes to the NTU programme page). Blocked only on §5.
 
-**Multimodal — evidence handling ready; image reading still to build.** Internal note: in the POC the receipt
-image text is a fixture (hard-coded excerpt); only PDF text extraction is real. What is proven is the handling
-after extraction. The POC sample is a bank transfer receipt: the engine treats its content as sender evidence, and routes "confirm my payment" to Manual handling because payment status
-needs an authorised source. Model choice depends on real samples:
+**Multimodal — evidence handling ready; image reading still to build.** Internal note: in the POC the receipt image text is a fixture (hard-coded excerpt); only PDF text extraction is real. What is proven is the handling after extraction. The POC sample is a bank transfer receipt: the engine treats its content as sender evidence, and routes "confirm my payment" to Manual handling because payment status needs an authorised source. Model choice depends on real samples:
 - mostly receipts, letters, certificates (text-dense) → OCR, then a text model; cheap;
 - app/portal screenshots, error dialogs, tables → vision model; a few times the text cost per attachment.
 
-**Self-Learning — phase 2.** LoadStone's loop (reviewer feedback → controlled evaluation → knowledge refresh)
-is what to build, not online RL. Log every staff edit and override against the run; review them in batches;
-fold approved corrections into the knowledge base and prompts, gated by the evaluation set from §6. Priced
-as its own phase-2 line item.
+**Self-Learning — phase 2.** LoadStone's loop (reviewer feedback → controlled evaluation → knowledge refresh) is what to build, not online RL. Log every staff edit and override against the run; review them in batches; fold approved corrections into the knowledge base and prompts, gated by the evaluation set from §6. Priced as its own phase-2 line item.
 
 ## 9. Cost per email
 
 ### 9.1 What we measured (Formal Round A, GPT-5.6 Luna)
 
-Seven frozen scenarios, run one at a time. Token counts are retained originals; dollar figures are the
-documented Round A results (the dated price snapshot was not kept).
+Seven frozen scenarios, run one at a time. Token counts are retained originals; dollar figures are the documented Round A results (the dated price snapshot was not kept).
 
 | Stage | Calls (7 emails) | Input tokens | Output tokens | Median latency |
 |---|---:|---:|---:|---:|
@@ -286,15 +237,12 @@ documented Round A results (the dated price snapshot was not kept).
 | **Total** | **30** | **33,068** | **9,240** | — |
 | **Per email** | **~4.3** | **~4,700** | **~1,300** | **13.0 s median end to end** |
 
-Reported model cost: **~$0.0025 per email**, ~$12.43 for a 5,000-email week. Terra was >$0.016 and Sol
-~$0.038 per email; Luna was also chosen on quality.
+Reported model cost: **~$0.0025 per email**, ~$12.43 for a 5,000-email week. Terra was >$0.016 and Sol ~$0.038 per email; Luna was also chosen on quality.
 
 ### 9.2 Why production will cost more per email than Round A
 
-- **Retrieved context.** Round A grounded on a tiny fictional store. Real excerpts from NTU web pages and
-  FAQ/policy excerpts make P0-D and P0-E inputs larger; plan for 2–3× input tokens on those stages.
-- **Attachments.** OCR is cheap; a vision call adds roughly one extra model call with image tokens per
-  attachment. The share of emails with screenshots is unknown.
+- **Retrieved context.** Round A grounded on a tiny fictional store. Real excerpts from NTU web pages and FAQ/policy excerpts make P0-D and P0-E inputs larger; plan for 2–3× input tokens on those stages.
+- **Attachments.** OCR is cheap; a vision call adds roughly one extra model call with image tokens per attachment. The share of emails with screenshots is unknown.
 - **Embeddings and index hosting** for retrieval; small per email, plus a fixed monthly cost.
 - **Re-runs on staff overrides** (only the affected stages).
 - **Price changes** between the Round A snapshot and today.
@@ -317,10 +265,7 @@ Planning range for model cost only, in multiples of the measured Round A figure:
 | Expected | 2–3× grounding context, 10–20% emails with OCR attachments | ~$0.005–0.008 | ~$25–40 |
 | High | as above + vision on 20% of emails + override re-runs | ~$0.01–0.02 | ~$50–100 |
 
-These ranges are estimates, not measurements. Before quoting, re-price at today's rates and measure on
-shadow traffic: run the engine beside the live inbox for 1–2 weeks with nothing sent, and report cost and
-latency per email by type (simple / multi-issue / follow-up / attachment). Keep cloud API cost and on-prem
-GPU amortisation (on-prem licence, option C in §5.1) as separate lines; they are not comparable units.
+These ranges are estimates, not measurements. Before quoting, re-price at today's rates and measure on shadow traffic: run the engine beside the live inbox for 1–2 weeks with nothing sent, and report cost and latency per email by type (simple / multi-issue / follow-up / attachment). Keep cloud API cost and on-prem GPU amortisation (on-prem licence, option C in §5.1) as separate lines; they are not comparable units.
 
 ## 10. Risks
 
@@ -339,12 +284,8 @@ GPU amortisation (on-prem licence, option C in §5.1) as separate lines; they ar
 
 ## 11. Division of work
 
-**RSTN / NTU provide:** a host for the privacy connector inside their network; XML contract and sample payloads; programme registry; knowledge base access; routing
-directory; de-identified sample emails with how PaCE handled them; sample screenshots; volume/latency profile; residency and model
-policy; fallback wording; escalation policy for blocked runs.
+**RSTN / NTU provide:** a host for the privacy connector inside their network; XML contract and sample payloads; programme registry; knowledge base access; routing directory; de-identified sample emails with how PaCE handled them; sample screenshots; volume/latency profile; residency and model policy; fallback wording; escalation policy for blocked runs.
 
-**Synvo builds:** the hosted API and the privacy connector (§5.1), stateless processing (§5.2), the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's
-store, sample-email test set and gap list (§6), XML contract, per-stage cost/latency telemetry, evaluation set and
-accuracy report, shadow-run cost report, the internal architecture diagram.
+**Synvo builds:** the hosted API and the privacy connector (§5.1), stateless processing (§5.2), the online engine (§3), override API, attachment reading, indexed retrieval against RSTN's store, sample-email test set and gap list (§6), XML contract, per-stage cost/latency telemetry, evaluation set and accuracy report, shadow-run cost report, the internal architecture diagram.
 
 Open items and owners: `TODO.md`.

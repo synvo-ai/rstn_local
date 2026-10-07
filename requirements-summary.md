@@ -1,24 +1,21 @@
 # NTU PaCE General Enquiries — Requirement Summary (AI Scope)
 
 Audience: Synvo internal (Guowei as AI tech lead, Li-kai, Lisa, Saim, Faye).
-Status: consolidated from customer discovery, RSTN's AI-layer framing (LoadStone diagram), our pitch slides
-and the POC. Open questions are tracked in `TODO.md`, not here.
+
+Status: consolidated from customer discovery, RSTN's AI-layer framing (LoadStone diagram), our pitch slides and the POC. Open questions are tracked in `TODO.md`, not here.
 
 Source material:
 - `Arinah-Ahmad-PaCE-General-Enquiries.pdf` — customer AI-facilitated discovery with the PaCE/FlexiMasters team.
-- `02. Email enquiry to Synvo from RSTN.md` + `loadstone_AI_proposed_solution.jpg` — RSTN's framing of the
-  AI layer, including Prof Boh's "use our historical data" requirement.
+- `02. Email enquiry to Synvo from RSTN.md` + `loadstone_AI_proposed_solution.jpg` — RSTN's framing of the AI layer, including Prof Boh's "use our historical data" requirement.
 - `RSTN.md` — target architecture, integration contract and POC evidence written for RSTN.
-- `synvo_sample_slides_2026.10.02.pdf` — pitch already shown to the customer (current/future workflow on
-  slides 1–2, POC screens on slides 3–10).
+- `synvo_sample_slides_2026.10.02.pdf` — pitch already shown to the customer (current/future workflow on slides 1–2, POC screens on slides 3–10).
 - `ntu-pace-correspondence-intelligence` — our POC; source of the reusable AI capability.
 
 ---
 
 ## 1. The customer problem
 
-NTU PaCE handles general public enquiries across FlexiMasters, SCTP, short courses, IPGC and Master's
-programmes. Enquiries arrive at `pace@ntu.edu.sg` and via the NTU enquiry form, which lands in the same inbox.
+NTU PaCE handles general public enquiries across FlexiMasters, SCTP, short courses, IPGC and Master's programmes. Enquiries arrive at `pace@ntu.edu.sg` and via the NTU enquiry form, which lands in the same inbox.
 
 | Dimension | As-is (discovery, and slide 1) |
 |---|---|
@@ -32,10 +29,7 @@ programmes. Enquiries arrive at `pace@ntu.edu.sg` and via the NTU enquiry form, 
 | Effort | Up to half a day per person on triage and routing |
 | Visibility | Lost once forwarded unless the receiving team CCs PaCE; enquirers chase |
 
-The eight pain points on slide 1: volume never stops; every email read by hand; clarification loops; hard to
-find the owner (similar names across units, e.g. `Data Science` school master's vs continuing-education,
-`Business Analytics` vs `Analytics and Visualisation`, `Cyber Security` degree vs short courses); manual
-categorising; copy-paste replies; misrouting and rework; no visibility after forwarding.
+The eight pain points on slide 1: volume never stops; every email read by hand; clarification loops; hard to find the owner (similar names across units, e.g. `Data Science` school master's vs continuing-education, `Business Analytics` vs `Analytics and Visualisation`, `Cyber Security` degree vs short courses); manual categorising; copy-paste replies; misrouting and rework; no visibility after forwarding.
 
 **Single biggest improvement the customer named:** accurate classification and routing at the point of entry.
 
@@ -43,12 +37,9 @@ categorising; copy-paste replies; misrouting and rework; no visibility after for
 
 Two inputs shape the AI requirement beyond the discovery notes.
 
-**a) Triage + draft + route (original ask).** AI triages each email so that it can draft a direct
-response, forward to a school, or route to a human for exceptions.
+**a) Triage + draft + route (original ask).** AI triages each email so that it can draft a direct response, forward to a school, or route to a human for exceptions.
 
-**b) Use historical correspondence (Prof Boh, Director).** RSTN's reading is that the AI partner should
-"extract a reasoning model of sorts" from PaCE's past emails. The competing LoadStone proposal
-(`loadstone_AI_proposed_solution.jpg`) shows the shape RSTN now has in mind:
+**b) Use historical correspondence (Prof Boh, Director).** RSTN's reading is that the AI partner should "extract a reasoning model of sorts" from PaCE's past emails. The competing LoadStone proposal (`loadstone_AI_proposed_solution.jpg`) shows the shape RSTN now has in mind:
 
 | LoadStone diagram element | What it implies for us |
 |---|---|
@@ -59,12 +50,9 @@ response, forward to a school, or route to a human for exceptions.
 | Approved historical email correspondence + approved FAQs/policies/programme info → governed response knowledge base | **Superseded (2026-10-05):** NTU will not share historical emails for training or as a knowledge source. We will get **sample emails for reference**. The knowledge base is NTU web pages, FAQs and policies only |
 | Reviewer feedback and approved corrections → controlled evaluation and knowledge refresh → knowledge base | A governed feedback loop; this is what our group now calls **Self-Learning** (phase 2) |
 
-Our POC already covers the decision branches (as four treatments, see §4), the audit trail and the
-fail-closed behaviour.
+Our POC already covers the decision branches (as four treatments, see §4), the audit trail and the fail-closed behaviour.
 
-**Update 2026-10-05:** NTU will not share historical emails for pre-training, but sample emails are
-available for reference. We use them as a labelled test set, to list knowledge gaps for NTU, and as
-reply-style examples, never as a source of facts (`draft-solution.md` §6).
+**Update 2026-10-05:** NTU will not share historical emails for pre-training, but sample emails are available for reference. We use them as a labelled test set, to list knowledge gaps for NTU, and as reply-style examples, never as a source of facts (`draft-solution.md` §6).
 
 ## 3. Desired future state (customer)
 
@@ -73,17 +61,13 @@ reply-style examples, never as a source of facts (`draft-solution.md` §6).
 - FlexiMasters handles exceptions and complex cases only.
 - Ownership transfers inside a shared system with status and resolution tracking (RSTN's system).
 - Automated follow-ups and a self-service FAQ/portal (not our scope).
-- Enablers the customer named: a central data foundation mapping programmes to responsible teams, and clear
-  decision rules for programme/intent/urgency, multi-part handling, and automate vs review vs escalate.
+- Enablers the customer named: a central data foundation mapping programmes to responsible teams, and clear decision rules for programme/intent/urgency, multi-part handling, and automate vs review vs escalate.
 
-Success measures: response time, triage/routing time, first-contact resolution, answer consistency, inbox
-volume per staff, manual handling time, satisfaction, repeat enquiries, delay complaints, follow-up chasing.
+Success measures: response time, triage/routing time, first-contact resolution, answer consistency, inbox volume per staff, manual handling time, satisfaction, repeat enquiries, delay complaints, follow-up chasing.
 
 ## 4. Scope — what Synvo delivers
 
-Per the inner-group alignment: **UI/UX and the demo are reference only. We provide an engine.** RSTN sends
-the email content (most probably XML over an API); we return structured output. RSTN owns intake, case
-records, status tracking and execution; NTU owns institutional truth; PaCE staff approve and act.
+Per the inner-group alignment: **UI/UX and the demo are reference only. We provide an engine.** RSTN sends the email content (most probably XML over an API); we return structured output. RSTN owns intake, case records, status tracking and execution; NTU owns institutional truth; PaCE staff approve and act.
 
 Slide 2 already drew this boundary for the customer. Its per-step status is our committed position:
 
@@ -109,13 +93,10 @@ The four treatments, with the labels the customer saw in the POC (slides 5–6):
 
 What the POC screens (slides 3–10) commit us to returning:
 - one entry per identified issue, with counts by treatment ("3 issues: 2 can answer now, 1 manual handling");
-- per issue: programme, owner, treatment, a "Why" rationale, and evidence that opens the source
-  (in the POC, the live NTU programme webpage);
+- per issue: programme, owner, treatment, a "Why" rationale, and evidence that opens the source (in the POC, the live NTU programme webpage);
 - **one consolidated reply per enquiry** covering all answerable issues, plus the list of issues it covers;
-- sender attachments shown as sender-provided evidence (slide 3–4: a bank transfer receipt), never as proof
-  of payment;
-- staff can change the handling per issue; the change is checked against controlled routing and approved
-  knowledge, and an invalid change leaves the plan unchanged (slide 6).
+- sender attachments shown as sender-provided evidence (slide 3–4: a bank transfer receipt), never as proof of payment;
+- staff can change the handling per issue; the change is checked against controlled routing and approved knowledge, and an invalid change leaves the plan unchanged (slide 6).
 
 | In Synvo scope | Out of scope (RSTN / NTU / PaCE) |
 |---|---|
@@ -140,26 +121,13 @@ What the POC screens (slides 3–10) commit us to returning:
 
 ## 5a. Internal positions added 2026-10-05
 
-- **Delivery (updated 2026-10-07): hosted engine + a privacy connector in RSTN's network** that masks personal
-  data before it leaves NTU. Within that, the **Synvo-hosted API** is our preferred model (more value to us: recurring revenue, IP stays
-  with us, central updates, reusable across customers). On-prem only as a separately priced licence if NTU
-  policy requires it. See `draft-solution.md` §5.1.
-- **Client data safety is our risk too.** Because we may store client data and use cloud models, we must take
-  measures on our side: mask personal data before any model call, process statelessly, use zero-retention
-  enterprise model endpoints, isolate per client, and sign a data processing agreement. See §5.2.
+- **Delivery (updated 2026-10-07): hosted engine + a privacy connector in RSTN's network** that masks personal data before it leaves NTU. Within that, the **Synvo-hosted API** is our preferred model (more value to us: recurring revenue, IP stays with us, central updates, reusable across customers). On-prem only as a separately priced licence if NTU policy requires it. See `draft-solution.md` §5.1.
+- **Client data safety is our risk too.** Because we may store client data and use cloud models, we must take measures on our side: mask personal data before any model call, process statelessly, use zero-retention enterprise model endpoints, isolate per client, and sign a data processing agreement. See §5.2.
 
 ## 6. Requirement statement
 
-Give RSTN an API-callable correspondence-intelligence engine that accepts an enquiry (email content,
-permitted thread context and attachments) in XML; splits it into material issues; resolves each to a
-programme and owner from the governed registry; decides per issue whether approved knowledge (NTU web
-content, FAQs and policies) is sufficient; recommends one of
-Reply directly / Refer / Clarify / Manual handling per issue; produces one verified, source-cited reply
-where allowed; validates staff handling changes; and returns everything as structured output with a full
-decision trace and an explicit cost per run. It is delivered as a Synvo-hosted API that masks personal
-data before any model call and keeps no copy of the email after responding. It never sends, routes or invents institutional facts.
+Give RSTN an API-callable correspondence-intelligence engine that accepts an enquiry (email content, permitted thread context and attachments) in XML; splits it into material issues; resolves each to a programme and owner from the governed registry; decides per issue whether approved knowledge (NTU web content, FAQs and policies) is sufficient; recommends one of Reply directly / Refer / Clarify / Manual handling per issue; produces one verified, source-cited reply where allowed; validates staff handling changes; and returns everything as structured output with a full decision trace and an explicit cost per run. It is delivered as a Synvo-hosted API that masks personal data before any model call and keeps no copy of the email after responding. It never sends, routes or invents institutional facts.
 
 ## 7. Commercial requirement
 
-The 1-pager for Steven needs a **cost per email processed** and a workflow/architecture diagram. Diagram:
-`workflow-and-architecture.html` (customer-facing); cost: `unit-cost.html` (internal). Cost model detail: `draft-solution.md` §9.
+The 1-pager for Steven needs a **cost per email processed** and a workflow/architecture diagram. Diagram: `workflow-and-architecture.html` (customer-facing); cost: `unit-cost.html` (internal). Cost model detail: `draft-solution.md` §9.
