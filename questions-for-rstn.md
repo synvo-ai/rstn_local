@@ -112,7 +112,7 @@ NTU / RSTN network                                      Synvo (Singapore)
 | # | Question | Our proposal / assumption |
 |---|---|---|
 | E1 ★ | Does NTU policy allow the **proposed setup** in section 1, where only masked text leaves NTU, is processed in Singapore and is not retained? Are there residency or data-classification rules we must meet? | Proposed setup. Hosted engine only, or an on-premise licence, if policy requires. |
-| E2 ★ | Can RSTN **host the privacy connector** in your network? Where would it run (VM, container platform), and who deploys updates? | One container, about 2–4 vCPU and 8 GB memory, no GPU, outbound HTTPS to the engine only. Synvo supplies signed updates; RSTN deploys them. |
+| E2 ★ | Can RSTN **host the privacy connector** in your network? Where would it run (VM, container platform), and who deploys updates? | One small container, CPU only, outbound HTTPS to the engine only. Synvo supplies signed updates; RSTN deploys them. |
 | E3 | We do not need the **sender's email address, To or CC**. Can RSTN send an opaque sender reference instead? | Opaque reference only. |
 | E4 | **Retention:** may the engine keep decision traces (IDs, labels, source references, timings, no email text), and for how long? Is an audit export format needed for reporting? | Traces kept for an agreed period. No email text stored. |
 | E5 | What does NTU require from a **data intermediary** under the PDPA: DPA template, security questionnaire, penetration test, audit rights? | We provide a security pack covering data flow, retention, access control and incident process. |

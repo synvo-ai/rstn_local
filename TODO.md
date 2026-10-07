@@ -61,7 +61,7 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 - [ ] **B35. Mock RSTN client** (Li-kai): small caller that sends XML through the connector to the engine and receives the callback; used for the live demo and for RSTN's sandbox.
 - [ ] **B36. Live-demo hygiene** (RSTN question 16): hide model or provider names in POC screens (evaluation pages, settings, trace model field); pick 3–4 safe scenarios; no live screenshot tests while image reading is a fixture.
 - [ ] **B37. Accounts and budget** (Li-kai): cloud project in Singapore (GCP, and check AWS since RSTN mentioned Bedrock), provider API access with zero retention, budget for test and production environments.
-- [ ] **B38. Confirm the indicative 10-week plan** in `response-to-rstn.md` (Guowei with Li-kai) before RSTN treats it as a commitment.
+- [ ] **B38. POC plan for RSTN** (Guowei with Li-kai): `response-to-rstn.md` promises a plan after the call. Draft it from the internal 10-week outline (weeks 1–2 contract, samples, knowledge sync; 3–6 integration, connector, labelling; 7–10 UAT, accuracy, shadow run).
 
 Also unblocked now, from the lists below: B6 headless engine, B7 contract draft (semantics), B8/B25 override, B9 retrieval over public NTU pages, B10 registry draft from NTU web pages, B11 attachment reader, B12 telemetry, B24/B19 connector masking and OCR, B26 no-payload logging, B27 tenant IDs, B28 infra template.
 
@@ -105,6 +105,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-07 | `response-to-rstn.md` kept high level (no step list, call counts, field names or sizing); technical detail only on the call if asked | Group |
 | 2026-10-07 | Engine build owned by Guowei, with Li-kai; our GPU server (local llama.cpp router, GLM-OCR, Qwen VL) is the dev/test environment before cloud deployment | Guowei |
 | 2026-10-07 | Promote option C first: hosted engine + privacy connector in RSTN's network; hosted-only and on-prem licence as fallbacks | Group |
 | 2026-10-07 | Do not disclose cloud model use or model names in the 2026-10-08 call | Group |
