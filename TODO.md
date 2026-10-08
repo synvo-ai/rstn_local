@@ -10,34 +10,51 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 
 **Where we are:** the technical call is done. Most questions ended without an answer. RSTN has no sample emails, reply templates, knowledge base or timeline from NTU yet. So we build the whole POC on our side with **mock data**, and give RSTN a **sandbox and a testing protocol** so they can try it. Self-learning is not part of the POC.
 
-**Goal:** finish the POC on our side in **3 weeks: Thu 8 Oct – Wed 28 Oct 2026**, ending with a working sandbox handed to RSTN.
+**Goal:** finish the POC on our side in **3 weeks: Thu 8 Oct – Wed 28 Oct 2026**, with RSTN able to call a sandbox from 21 Oct and a full sandbox handed over on 28 Oct. The protocol itself is a few days of writing; the 3 weeks are for building what it tests.
+
+### Dates committed to RSTN
+
+| When | RSTN gets |
+|---|---|
+| Wed 14 Oct | Sandbox testing protocol (draft) and API specification (draft), sent together |
+| Wed 21 Oct | Sandbox v1: engine only, mock emails and knowledge, API key per tester |
+| Wed 28 Oct | Sandbox v2: adds the privacy connector and attachment reading; protocol final; demo; short results report |
+| 28 Oct – ~4 Nov | RSTN testing window (1 week; RSTN may extend) with a check-in mid-week |
+| ~Thu 5 Nov | Joint review and pilot plan |
+
+Results on mock data show the engine works end to end; they are not an accuracy figure for NTU.
 
 ### Phase 1 — POC on our side (3 weeks)
 
 | Week | Dates | Focus | Done when |
 |---|---|---|---|
-| 1 | 8–14 Oct | Foundations and mock data | Engine runs headless behind API v0 on our GPU server; mock knowledge, registry, templates and 50 mock emails exist; sandbox protocol drafted |
-| 2 | 15–21 Oct | Connector and integration | Connector v0 masks, reads attachments and restores names; staff-change re-check works; mock RSTN client runs end to end; sandbox reachable by RSTN; first evaluation on the mock set |
-| 3 | 22–28 Oct | Evaluation, hardening, handover | Mock set at ~150 emails with an accuracy, cost and latency report; data-handling note; sandbox protocol final; demo run; handover to RSTN on 28 Oct |
+| 1 | 8–14 Oct | Foundations, mock data, documents for RSTN | Engine runs headless behind API v0 on our GPU server; mock knowledge, registry, templates and 50 mock emails exist; S2 decided; protocol and API spec drafts sent on 14 Oct |
+| 2 | 15–21 Oct | Sandbox v1, connector | Sandbox v1 reachable by RSTN on 21 Oct with keys and access control; connector v0 masks, reads attachments and restores names; staff-change re-check works; first evaluation on the mock set |
+| 3 | 22–28 Oct | Sandbox v2, evaluation, handover | Connector in the sandbox; mock set at ~150 emails with an accuracy, cost and latency report; data-handling note; protocol final; demo and handover on 28 Oct |
 
 **Week 1 (8–14 Oct)**
-- [ ] B6 headless engine extracted from the POC; B7 API v0 (our own JSON schema plus an XML adapter, since RSTN has no schema yet); B31 local model gateway.
-- [ ] M1–M5 mock data (below).
-- [ ] S1 sandbox testing protocol, first draft.
-- [ ] Decide where the sandbox runs (S2).
+- [ ] **Mon 12 Oct:** decide where the sandbox runs (S2). It must be reachable from outside with access control; the GPU router today is internal with no auth.
+- [ ] B6 headless engine extracted from the POC; B7 API v0 (our own JSON schema plus an XML adapter, since RSTN has no schema yet) firm enough to publish; B31 local model gateway.
+- [ ] M1–M4 mock data (50 emails); M5 started.
+- [ ] **Wed 14 Oct:** send S1 protocol draft (`sandbox-testing-protocol.md`) and the API spec draft to RSTN.
 
 **Week 2 (15–21 Oct)**
+- [ ] S2 sandbox v1 deployed (engine only, mock data, keys, rate limits, reset); S3 access sent to RSTN on **Wed 21 Oct**.
 - [ ] B24 / B19 connector v0: masking, attachment tiers (B11: text extraction, classic OCR, optional GLM-OCR), restore.
 - [ ] B8 / B25 staff-change re-check; B12 / B26 trace and no-payload logging; B27 tenant IDs.
 - [ ] B35 mock RSTN client (XML in, callback out).
-- [ ] S2 sandbox deployed with mock data only; S3 sandbox access for RSTN.
 - [ ] B15 evaluation harness pointed at the mock set; first run.
 
 **Week 3 (22–28 Oct)**
+- [ ] Sandbox v2: connector and attachment reading added; M5 attachments in the test pack.
 - [ ] M4 mock set grown to ~150 emails; B15 accuracy report; B32 / B33 cost and latency per email type, including attachments.
-- [ ] B36 demo; S1 protocol final; S4 feedback channel for RSTN's test results.
+- [ ] B36 demo; S1 protocol final; S4 feedback channel live.
 - [ ] Data-handling note for RSTN (cut-down B21: data flow, retention, masking).
-- [ ] Handover to RSTN on 28 Oct.
+- [ ] Handover to RSTN on **Wed 28 Oct**.
+
+### Phase 1b — RSTN testing (28 Oct – ~4 Nov)
+- [ ] RSTN runs the protocol scenarios through their own system; we fix and redeploy the sandbox during the week.
+- [ ] Mid-week check-in; joint review ~Thu 5 Nov with a pilot plan and the list of NTU inputs it needs.
 
 **Out of scope for the 3-week POC:** self-learning (B5), real NTU data and knowledge, cloud production deployment (B13, B28), DPA and security assessment (B21 full, B23), shadow run (B16), institutional data (A7, B29), final pricing (B17).
 
@@ -61,10 +78,10 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 - [ ] **M5. Mock attachments**: text PDFs, scanned PDFs, receipts, certificates, portal screenshots, logos; made-up personal details so masking can be tested.
 
 ### S. Sandbox for RSTN
-- [ ] **S1. Sandbox testing protocol** (next deliverable): what RSTN can test, how to call the API, test scenarios and expected results, how to report issues, what the sandbox does not do.
+- [ ] **S1. Sandbox testing protocol** (`sandbox-testing-protocol.md`): draft to RSTN 14 Oct, final 28 Oct. What RSTN can test, how to call the API, scenarios and expected results, how to report issues, what the sandbox does not do.
 - [ ] **S2. Sandbox environment**: decide where it runs (our GPU server behind a gateway, or a small cloud test environment calling the local or a hosted model); mock data only; API keys per tester; rate limits; reset button.
 - [ ] **S3. Access for RSTN**: endpoint, keys, mock RSTN client, sample requests.
-- [ ] **S4. Feedback loop**: issue template and a weekly check-in during testing.
+- [ ] **S4. Feedback loop**: issue template (in the protocol) and a mid-week check-in during the testing window.
 
 ---
 
@@ -170,6 +187,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
 | 2026-10-08 | After the call: build the POC on our side in 3 weeks (8–28 Oct) with mock data; hand RSTN a sandbox and testing protocol; self-learning not required in the POC | Group |
+| 2026-10-08 | Dates for RSTN: protocol and API spec drafts 14 Oct, sandbox v1 21 Oct, sandbox v2 and handover 28 Oct, 1-week testing window, review ~5 Nov | Guowei |
 | 2026-10-07 | `response-to-rstn.md` kept high level (no step list, call counts, field names or sizing); technical detail only on the call if asked | Group |
 | 2026-10-07 | Engine build owned by Guowei, with Li-kai; our GPU server (local llama.cpp router, GLM-OCR, Qwen VL) is the dev/test environment before cloud deployment | Guowei |
 | 2026-10-07 | Promote option C first: hosted engine + privacy connector in RSTN's network; hosted-only and on-prem licence as fallbacks | Group |
