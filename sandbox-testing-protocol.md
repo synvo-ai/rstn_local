@@ -25,7 +25,7 @@ The sandbox is **not** a measure of accuracy for NTU. All content in it is mock 
 |---|---|
 | Wed 14 Oct | This protocol and the API specification (drafts) |
 | Wed 21 Oct | **Sandbox v1:** the engine, mock knowledge and mock emails; scenarios marked v1 below |
-| Wed 28 Oct | **Sandbox v2:** adds the privacy connector and attachment reading; all scenarios; final protocol; walkthrough session |
+| Wed 28 Oct | **Sandbox v2:** adds the privacy connector (Python package, section 6) and attachment reading; all scenarios; final protocol; walkthrough session |
 | 28 Oct – ~4 Nov | RSTN testing window (one week, can be extended), with a mid-week check-in |
 | ~Thu 5 Nov | Joint review and plan for the pilot with NTU data |
 
@@ -38,7 +38,7 @@ The sandbox is **not** a measure of accuracy for NTU. All content in it is mock 
 | Reply style | Mock greeting, sign-off, acknowledgement and handoff-note templates. |
 | Test emails | About 50 mock emails at v1, about 150 at v2, each with its **expected result** (issues, programme, owning team, action, points the reply should cover). All senders and personal details are made up. |
 | Test attachments | Text PDFs, scanned PDFs, receipts, certificates, portal screenshots and logos, with made-up personal details (v2). |
-| Tools | Sample requests in JSON and XML, a small sample client, and a callback receiver for testing without RSTN's own system. |
+| Tools | The mock emails as `.eml` files, sample requests, a small sample client, and a callback receiver for testing without RSTN's own system. |
 
 ## 4. Access
 
@@ -62,9 +62,21 @@ The API specification has the full fields. In short:
 | `POST /v0/enquiries/{runId}/recheck` | Re-check a **staff change** to one issue's action or owning team. Send the original request, the previous result (as returned, signed) and the change. |
 | `GET /v0/health` | Check that the sandbox is up. |
 
-**Formats:** JSON, or XML using our draft schema. When RSTN's own XML schema is available, we adapt to it and the draft is retired.
+**What you send:** the **raw email as it was received**, in the standard internet message format (RFC 5322 / MIME, the `.eml` format), together with a small JSON envelope:
+- your request ID and an idempotency key;
+- the channel (email or web form);
+- an **opaque sender reference**, so we never need the sender's address;
+- a callback URL if you use callbacks;
+- earlier messages in the thread, also as raw email, if your system holds them.
 
-**What you send:** your request ID, the channel (email or web form), received time, an **opaque sender reference** (not the email address), subject, body, earlier messages in the thread if any, and attachments (inline up to 10 MB each in the sandbox).
+The raw email already carries the subject, body, thread links (`Message-ID`, `In-Reply-To`, `References`) and attachments, so nothing else needs to be extracted on your side. Sender, To and CC addresses in it are dropped before processing. Attachments up to 10 MB each in the sandbox.
+
+Other accepted inputs, for convenience:
+- **Plain text:** subject and body as text, with attachments as files, if the raw email is not at hand.
+- **Outlook `.msg` files** (Outlook's own "Save As" format): converted to the standard format on arrival.
+- **Web-form enquiries:** the form fields as JSON; we will align with your form once we see a sample.
+
+Results are returned as JSON. XML can be added if your system needs it.
 
 **What you get back:**
 - **Run health:** completed, completed with limitations, or failed.
@@ -75,7 +87,18 @@ The API specification has the full fields. In short:
 
 The engine only recommends. Nothing is sent, forwarded or updated by the engine in the sandbox or later.
 
-## 6. Test scenarios
+## 6. The privacy connector (from sandbox v2)
+
+The privacy connector runs on the NTU side and makes sure personal details never leave NTU. It is delivered as a **Python package**, so it installs and updates like any other Python dependency:
+- **Install:** `pip install` from a signed package we provide, with pinned dependencies; an offline bundle is available if the host has no internet access.
+- **Requirements:** Python 3.10–3.12, Linux, CPU only (no GPU), outbound HTTPS to the engine only.
+- **Two ways to use it:** import it in your Python code and call it with the raw email, or run it as a small local service that your system calls over HTTP on the same machine. It then forwards the masked request to the engine and puts names back in the result.
+- **Updates:** a new package version, with the engine checking that the connector version is supported.
+- **Container:** if you later prefer a Docker image, we can provide one built from the same package.
+
+During testing you can call the sandbox directly (v1 and v2), or install the connector and call through it (v2). Scenarios marked D require the connector.
+
+## 7. Test scenarios
 
 Each mock email in the test pack is tagged with one of the scenario IDs below and carries its expected result. A scenario **passes** when the result matches the expected result on the points listed. Reply wording may differ from the example; it passes if it covers the expected points, cites a source for each factual statement and adds nothing unsupported.
 
@@ -130,6 +153,8 @@ Each mock email in the test pack is tagged with one of the scenario IDs below an
 | E4 | Callback URL unavailable | Result delivered on retry, or available by polling | v1 |
 | E5 | Engine cannot complete (we can trigger this on request) | Run health failed or limited, no reply draft; RSTN's fallback acknowledgement path is exercised | v1 |
 | E6 | Request over the rate limit | Rejected with a retry-after time | v1 |
+| E7 | The same email sent as `.eml`, as `.msg` and as plain text | Same issues and actions for all three | v1 |
+| E8 | Raw email with an HTML-only body, inline images or a long quoted thread | Body read correctly; quoted earlier messages not treated as new questions | v1 |
 
 ### F. Timing
 
@@ -139,11 +164,11 @@ Each mock email in the test pack is tagged with one of the scenario IDs below an
 
 The sandbox runs on test hardware, so timings are indicative only. Production timing will be measured in the pilot.
 
-## 7. Recording results
+## 8. Recording results
 
-Please record, per scenario run: scenario ID, mock email ID, your request ID, our run ID, pass or fail, and a note for any fail. A results sheet is included in the test pack. You are welcome to add your own test emails, as long as they contain **no real personal data** (section 9).
+Please record, per scenario run: scenario ID, mock email ID, your request ID, our run ID, pass or fail, and a note for any fail. A results sheet is included in the test pack. You are welcome to add your own test emails, as long as they contain **no real personal data** (section 10).
 
-## 8. Reporting issues
+## 9. Reporting issues
 
 Send issues to the shared channel agreed at handover (e.g. a shared sheet or ticket board), using:
 
@@ -158,26 +183,26 @@ Send issues to the shared channel agreed at handover (e.g. a shared sheet or tic
 
 We aim to acknowledge issues within one working day and to fix blockers within two. Fixes are redeployed to the sandbox and announced with a short change note.
 
-## 9. Rules for the sandbox
+## 10. Rules for the sandbox
 
 - **Mock data only.** Do not send real emails, real names or any real personal data. Unlike production, the sandbox keeps requests and results for the testing window so we can investigate issues; it is deleted at the end.
 - **Keys are personal** to each tester and are not to be shared.
 - **No load testing** beyond the limits in section 4 without agreeing it first.
 
-## 10. What the sandbox does not cover
+## 11. What the sandbox does not cover
 
 - Accuracy on real PaCE email, real NTU knowledge or the real programme registry (pilot).
-- RSTN's final XML schema (we adapt once it is available).
+- RSTN's final message envelope and web-form format (we adapt once we see samples).
 - Production hosting, authentication, security assessment and data processing agreement.
 - Learning from staff feedback (later phase).
 - Payment, application or status lookups.
 
-## 11. Inputs from RSTN that would help
+## 12. Inputs from RSTN that would help
 
 | Item | Needed by |
 |---|---|
 | Names and email addresses of testers | 19 Oct |
 | IP addresses you will test from, and a callback URL if you will use callbacks | 19 Oct |
 | Comments on this draft and the API specification | 21 Oct |
-| Whether you will run the privacy connector in your own environment during testing, or use the copy in the sandbox | 26 Oct |
-| Your XML schema or sample payloads, if available | Any time; earlier is better |
+| The machine where you will install the connector for testing (OS and Python version), and whether it has internet access | 26 Oct |
+| A few real-format sample emails as `.eml` (personal details replaced) and a sample web-form submission | Any time; earlier is better |

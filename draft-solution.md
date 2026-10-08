@@ -8,7 +8,7 @@ Status: **draft.** Anything waiting on RSTN/NTU is marked **ASSUMPTION** and has
 
 ## 1. Solution in one paragraph
 
-A **headless Correspondence Intelligence engine** behind an API. RSTN posts an enquiry (XML): current email, permitted thread context, attachments. The engine returns: the issues in the email, the programme and owner of each, whether approved knowledge answers it, one treatment per issue (Reply directly / Refer to receiving team / Ask for clarification / Manual handling), one verified reply covering the answerable issues, and a full decision trace with cost and latency. **The engine never sends, routes or invents facts.** RSTN executes; PaCE staff decide. This is slide 2's "Synvo AI" lane, without the UI.
+A **headless Correspondence Intelligence engine** behind an API. RSTN posts an enquiry (raw email, `.eml`, with a small JSON envelope): current email, permitted thread context, attachments. The engine returns: the issues in the email, the programme and owner of each, whether approved knowledge answers it, one treatment per issue (Reply directly / Refer to receiving team / Ask for clarification / Manual handling), one verified reply covering the answerable issues, and a full decision trace with cost and latency. **The engine never sends, routes or invents facts.** RSTN executes; PaCE staff decide. This is slide 2's "Synvo AI" lane, without the UI.
 
 We keep the POC's intelligence core and drop its workflow shell (UI, case lifecycle, database, execution adapters), which RSTN already owns.
 
@@ -34,7 +34,7 @@ Two paths: an **online path** per email (the API RSTN calls), and an **offline k
 ```
  ONLINE — per email (async + callback proposed; TBC)          stage code   model call?
  ──────────────────────────────────────────────────────────────────────────────────────
- RSTN ──XML──► [1] Intake & validation                          —           no
+ RSTN ──eml──► [1] Intake & validation                          —           no
                    schema, idempotency key, correlation IDs,
                    keep sender / thread / institutional inputs separate
                [2] Attachment reading (only if attachments)     new         OCR or vision
@@ -51,7 +51,7 @@ Two paths: an **online path** per email (the API RSTN calls), and an **offline k
               [10] Application validation                        —           no (rules)
               [11] Independent verification  PASS / BLOCK        P0-E        yes
               [12] Decision trace + cost/latency per stage       —           no
- RSTN ◄──XML── result
+ RSTN ◄─JSON── result
 
  OVERRIDE — staff change a treatment (slide 6)
  RSTN ──► re-run [8]–[11] for the changed issue with the staff choice as input;
@@ -100,7 +100,7 @@ RSTN system ─► privacy connector ── masked request ─► engine (7 step
 ```
 
 Why it is the best fit:
-- **For NTU:** real names, email addresses, phone numbers, NRIC and payment references never leave NTU. There is nothing to host except one small CPU-only container, and no GPU. Improvements arrive without a redeploy.
+- **For NTU:** real names, email addresses, phone numbers, NRIC and payment references never leave NTU. There is nothing to run except one small CPU-only Python package, and no GPU. Improvements arrive without a redeploy.
 - **For us:** the engine, prompts, rules and evaluation stay on our side, and metering, monitoring, hotfixes and phase-2 learning stay central. Revenue is recurring per email. We never hold identifiable enquirer data, which shrinks our PDPA exposure. The connector holds no business logic, so handing it over costs us no IP.
 
 | Option | Engine | What leaves NTU | Position |
@@ -118,7 +118,7 @@ Connector scope (TODO B24):
 - placeholder mapping kept in memory only;
 - restoring names in the reply, issue summaries and handoff notes.
 
-It ships as a signed container image with a version check against the engine. No prompts, rules or engine logic are inside it.
+It ships as a signed Python package (wheel, pinned dependencies, offline install), with a version check against the engine; a Docker image wrapping it only on request (decided 2026-10-08). No prompts, rules or engine logic are inside it.
 
 ### 5.2 Data protection: keep the risk off our side
 
@@ -162,6 +162,8 @@ What to ask for: a few hundred de-identified emails covering the main programmes
 ## 7. API contract (semantics now, XSD with RSTN)
 
 ### 7.1 Request
+
+Input format (2026-10-08): RSTN handles raw email text, so the request carries the **raw email as RFC 5322 / MIME (`.eml`)** plus a small JSON envelope (request ID, channel, sender reference, callback, options). The connector, or the engine in the hosted-only fallback, parses headers, body, thread links and attachments from the MIME and drops addresses. The fields below are what the engine works with after parsing.
 
 ```
 Request
@@ -276,7 +278,7 @@ These ranges are estimates, not measurements. Before quoting, re-price at today'
 | Stale or contradictory knowledge | Versioned sources; `CONFLICTING` / `STALE` states; gap list from §6 |
 | Prompt injection in email text | Email is data, never instructions; facts only from retrieval |
 | Programme ambiguity (`Data Science`, `Cyber Security` variants) | Registry returns `AMBIGUOUS` + candidates → Ask for clarification |
-| XML contract churn | Freeze semantics now, version the schema |
+| Input contract churn | Freeze semantics now, version the schema |
 | Unit cost drifting from the estimate | Per-stage cost in every trace from day one; shadow run before commitment |
 | Residency blocks the hosted API | Lead with the privacy connector (identifiers never leave NTU) + statelessness + zero-retention provider; on-prem licence as priced fallback |
 | RSTN cannot or will not run the connector | Fall back to hosted engine only: mask on arrival, store nothing, disclose the residual risk |

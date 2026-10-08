@@ -34,15 +34,15 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 
 **Week 1 (8–14 Oct)**
 - [ ] **Mon 12 Oct:** decide where the sandbox runs (S2). It must be reachable from outside with access control; the GPU router today is internal with no auth.
-- [ ] B6 headless engine extracted from the POC; B7 API v0 (our own JSON schema plus an XML adapter, since RSTN has no schema yet) firm enough to publish; B31 local model gateway.
+- [ ] B6 headless engine extracted from the POC; B7 API v0 firm enough to publish: input is the **raw email (RFC 5322 / MIME, `.eml`)** plus a small JSON envelope (request ID, channel, sender reference, callback); JSON-only and plain-text input also accepted; `.msg` converted; B31 local model gateway.
 - [ ] M1–M4 mock data (50 emails); M5 started.
 - [ ] **Wed 14 Oct:** send S1 protocol draft (`sandbox-testing-protocol.md`) and the API spec draft to RSTN.
 
 **Week 2 (15–21 Oct)**
 - [ ] S2 sandbox v1 deployed (engine only, mock data, keys, rate limits, reset); S3 access sent to RSTN on **Wed 21 Oct**.
-- [ ] B24 / B19 connector v0: masking, attachment tiers (B11: text extraction, classic OCR, optional GLM-OCR), restore.
+- [ ] B24 / B19 connector v0 as a **Python package**: parse `.eml`, drop addresses, masking, attachment tiers (B11: text extraction, pip-installable classic OCR), restore. Usable as a library or as a local HTTP service.
 - [ ] B8 / B25 staff-change re-check; B12 / B26 trace and no-payload logging; B27 tenant IDs.
-- [ ] B35 mock RSTN client (XML in, callback out).
+- [ ] B35 mock RSTN client (`.eml` in, callback out).
 - [ ] B15 evaluation harness pointed at the mock set; first run.
 
 **Week 3 (22–28 Oct)**
@@ -60,7 +60,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 
 ### Phase 2 — Pilot with NTU data (after the POC; dates depend on NTU)
 - Swap mock data for real: sample emails (A5), approved knowledge (A1, A6), programme registry and routing (A3, A4), templates.
-- RSTN's real XML schema (A8) replaces our v0.
+- RSTN's real envelope and sample emails (A8) confirm or replace our v0.
 - Singapore cloud deployment (B13, B28, B30, B37); provider approval (B23); security pack and DPA (B21, A18).
 - Accuracy on labelled NTU samples (B14b, B15), then a 1–2 week shadow run (B16); acceptance targets (A16).
 - Pricing (B4, B17).
@@ -99,7 +99,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 - [ ] **A7. Institutional state.** Any authorised read interface for payment, application or TMS status? If not, confirm these stay Manual handling for phase 1.
 
 ### Integration contract
-- [ ] **A8. XML input contract.** Schema or sample payloads; how thread/reply links are identified; attachments inline (base64) or by reference; size limits; web-form fields.
+- [ ] **A8. Input contract.** After the call: RSTN handles raw email text; we propose raw `.eml` plus a JSON envelope. Still need sample emails, the web-form format, how thread/reply links are identified; attachments inline (base64) or by reference; size limits; web-form fields.
 - [ ] **A9. Output consumption.** Which result fields RSTN's UI will show; XML or JSON back; sync response or callback.
 - [ ] **A10. Staff overrides.** Will RSTN call us to validate a staff change of handling (slide 6 behaviour), or handle it on their side?
 - [ ] **A11. Failure policy.** What RSTN does on `FAILED` / `BLOCKED` runs; who owns the static fallback acknowledgement wording.
@@ -139,7 +139,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 - [ ] **B32. Open-model baseline** (Guowei): re-run the Round A scenarios and the new test set on the local models; compare quality, latency and calls per email with the hosted model. This also sizes the on-prem licence option (hosting-and-scaling.md §2.4) and gives a fallback if a hosted provider is not approved.
 - [ ] **B33. Connector OCR on CPU** (Guowei / Li-kai): we told RSTN the connector needs about 2–4 vCPU, 8 GB and no GPU. Benchmark GLM-OCR (and Tesseract/PaddleOCR as a fallback) on CPU per page, and adjust the sizing we quote if needed. Use the GPU server only as the reference for accuracy. **First measurement (2026-10-07):** GLM-OCR Q8 via llama.cpp, CPU only, 4 threads, one made-up 900×1200 receipt: ~45 s per page once loaded (33 s image encoding, ~11 s decoding), plus ~14 s to load; peak memory ~10.7 GB; text correct apart from one masked digit (`****` read as `*****`). So no GPU is needed at PaCE volume, but 8 GB is too tight: quote 4 vCPU / 16 GB if GLM-OCR stays, or use classic OCR (Tesseract/PaddleOCR, ~1–3 s per page, ~1–2 GB, and gives word boxes needed for image redaction) by default with GLM-OCR as an option.
 - [ ] **B34. Synthetic test set** (Guowei): extend the 7 POC scenarios to ~50 made-up emails (several questions, follow-ups, referrals, attachments, ambiguous programmes) until NTU samples arrive (A5). Include made-up receipts and screenshots for B11.
-- [ ] **B35. Mock RSTN client** (Li-kai): small caller that sends XML through the connector to the engine and receives the callback; used for the live demo and for RSTN's sandbox.
+- [ ] **B35. Mock RSTN client** (Li-kai): small caller that sends `.eml` files through the connector to the engine and receives the callback; used for the live demo and for RSTN's sandbox.
 - [ ] **B36. Live-demo hygiene** (RSTN question 16): hide model or provider names in POC screens (evaluation pages, settings, trace model field); pick 3–4 safe scenarios; no live screenshot tests while image reading is a fixture.
 - [ ] **B37. Accounts and budget** (Li-kai): cloud project in Singapore (GCP, and check AWS since RSTN mentioned Bedrock), provider API access with zero retention, budget for test and production environments.
 - [ ] **B38. POC plan for RSTN** (Guowei with Li-kai): `response-to-rstn.md` promises a plan after the call. Draft it from the internal 10-week outline (weeks 1–2 contract, samples, knowledge sync; 3–6 integration, connector, labelling; 7–10 UAT, accuracy, shadow run).
@@ -148,7 +148,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 
 ### Engine (after A1–A3, A8 answers)
 - [ ] **B6. Extract headless engine** from the POC: drop UI, case lifecycle, persistence, execution adapters. Do **not** carry over content tables (`Message.body`, `AiCapabilityRun.structuredOutput`, `ReliabilityRun.result`); trace keeps stage/status/tokens/latency/versions/masked-input hash only (deployment-options.md G2).
-- [ ] **B7. XML request/response contract** + XSD + versioning; contract tests.
+- [ ] **B7. Request/response contract**: raw `.eml` + JSON envelope in, JSON (XML optional) out; versioning; contract tests.
 - [ ] **B8. Override validation API** (slide 6 behaviour as a service).
 - [ ] **B9. Indexed retrieval** against RSTN's store (replace POC full-load retriever); evidence carries URL, version, authority.
 - [ ] **B10. Registry adapter** for programme/owner resolution; handle `AMBIGUOUS` aliases.
@@ -160,7 +160,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 - [ ] **B29. Knowledge sync + withdrawal webhook** with RSTN; second-call pattern for institutional data (phase 2).
 - [ ] **B30. Provider region check**: Singapore + ZDR for the selected model; evaluate Vertex AI (`asia-southeast1`) on the test set as alternative.
 - [ ] **B23. Model provider zero-data-retention approval in writing**; list provider + region as sub-processor (deployment-options.md G7).
-- [ ] **B24. Privacy connector — core of the proposed setup** (runs in RSTN's network): local OCR, masking, image redaction, in-memory placeholder map, name restore in reply/summaries/handoff notes. Signed container image, CPU only, version check against the engine, no business logic. Measure masking miss rate on the sample set.
+- [ ] **B24. Privacy connector — core of the proposed setup** (runs in RSTN's network): local OCR, masking, image redaction, in-memory placeholder map, name restore in reply/summaries/handoff notes. Delivered as a **Python package** (decided 2026-10-08: RSTN runs it on the NTU side, where updating a Docker image is inconvenient): signed wheel with pinned dependencies and an offline wheelhouse, Python 3.10–3.12, CPU only, all dependencies pip-installable (no system binaries such as Tesseract; prefer ONNX-based OCR), OCR and masking model files fetched from our release or bundled, version check against the engine, no business logic. A Docker image wrapping the same package only if RSTN asks later. Measure masking miss rate on the sample set.
 - [ ] **B25. Stateless override contract**: resend original request + signed previous result (G1); drop sender address/To/CC from request (G3).
 - [ ] **B26. No-payload logging**: scrub logger, disable APM body capture, test that fails if a body hits logs (G6).
 - [ ] **B19. Masking quality**: shared masking library for the connector and the hosted-only fallback; re-run test set with masking on.
@@ -188,6 +188,8 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
 | 2026-10-08 | After the call: build the POC on our side in 3 weeks (8–28 Oct) with mock data; hand RSTN a sandbox and testing protocol; self-learning not required in the POC | Group |
 | 2026-10-08 | Dates for RSTN: protocol and API spec drafts 14 Oct, sandbox v1 21 Oct, sandbox v2 and handover 28 Oct, 1-week testing window, review ~5 Nov | Guowei |
+| 2026-10-08 | Privacy connector delivered as a Python package (RSTN runs it on the NTU side; image updates are inconvenient there); Docker image only on request | Group (call) |
+| 2026-10-08 | Input is the raw email (RFC 5322 `.eml`) plus a small JSON envelope, since RSTN handles raw email text; no XML schema of our own | Guowei |
 | 2026-10-07 | `response-to-rstn.md` kept high level (no step list, call counts, field names or sizing); technical detail only on the call if asked | Group |
 | 2026-10-07 | Engine build owned by Guowei, with Li-kai; our GPU server (local llama.cpp router, GLM-OCR, Qwen VL) is the dev/test environment before cloud deployment | Guowei |
 | 2026-10-07 | Promote option C first: hosted engine + privacy connector in RSTN's network; hosted-only and on-prem licence as fallbacks | Group |
