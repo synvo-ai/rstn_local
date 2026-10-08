@@ -6,7 +6,71 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 
 ---
 
+## 0. Plan after the 2026-10-08 call
+
+**Where we are:** the technical call is done. Most questions ended without an answer. RSTN has no sample emails, reply templates, knowledge base or timeline from NTU yet. So we build the whole POC on our side with **mock data**, and give RSTN a **sandbox and a testing protocol** so they can try it. Self-learning is not part of the POC.
+
+**Goal:** finish the POC on our side in **3 weeks: Thu 8 Oct – Wed 28 Oct 2026**, ending with a working sandbox handed to RSTN.
+
+### Phase 1 — POC on our side (3 weeks)
+
+| Week | Dates | Focus | Done when |
+|---|---|---|---|
+| 1 | 8–14 Oct | Foundations and mock data | Engine runs headless behind API v0 on our GPU server; mock knowledge, registry, templates and 50 mock emails exist; sandbox protocol drafted |
+| 2 | 15–21 Oct | Connector and integration | Connector v0 masks, reads attachments and restores names; staff-change re-check works; mock RSTN client runs end to end; sandbox reachable by RSTN; first evaluation on the mock set |
+| 3 | 22–28 Oct | Evaluation, hardening, handover | Mock set at ~150 emails with an accuracy, cost and latency report; data-handling note; sandbox protocol final; demo run; handover to RSTN on 28 Oct |
+
+**Week 1 (8–14 Oct)**
+- [ ] B6 headless engine extracted from the POC; B7 API v0 (our own JSON schema plus an XML adapter, since RSTN has no schema yet); B31 local model gateway.
+- [ ] M1–M5 mock data (below).
+- [ ] S1 sandbox testing protocol, first draft.
+- [ ] Decide where the sandbox runs (S2).
+
+**Week 2 (15–21 Oct)**
+- [ ] B24 / B19 connector v0: masking, attachment tiers (B11: text extraction, classic OCR, optional GLM-OCR), restore.
+- [ ] B8 / B25 staff-change re-check; B12 / B26 trace and no-payload logging; B27 tenant IDs.
+- [ ] B35 mock RSTN client (XML in, callback out).
+- [ ] S2 sandbox deployed with mock data only; S3 sandbox access for RSTN.
+- [ ] B15 evaluation harness pointed at the mock set; first run.
+
+**Week 3 (22–28 Oct)**
+- [ ] M4 mock set grown to ~150 emails; B15 accuracy report; B32 / B33 cost and latency per email type, including attachments.
+- [ ] B36 demo; S1 protocol final; S4 feedback channel for RSTN's test results.
+- [ ] Data-handling note for RSTN (cut-down B21: data flow, retention, masking).
+- [ ] Handover to RSTN on 28 Oct.
+
+**Out of scope for the 3-week POC:** self-learning (B5), real NTU data and knowledge, cloud production deployment (B13, B28), DPA and security assessment (B21 full, B23), shadow run (B16), institutional data (A7, B29), final pricing (B17).
+
+### Phase 2 — Pilot with NTU data (after the POC; dates depend on NTU)
+- Swap mock data for real: sample emails (A5), approved knowledge (A1, A6), programme registry and routing (A3, A4), templates.
+- RSTN's real XML schema (A8) replaces our v0.
+- Singapore cloud deployment (B13, B28, B30, B37); provider approval (B23); security pack and DPA (B21, A18).
+- Accuracy on labelled NTU samples (B14b, B15), then a 1–2 week shadow run (B16); acceptance targets (A16).
+- Pricing (B4, B17).
+
+### Phase 3 — Later
+- Self-learning from staff feedback (B5).
+- Institutional data via RSTN lookups (A7, B29).
+- Further customers on the same engine (B27, hosting-and-scaling.md §3).
+
+### M. Mock data (we build it, because RSTN has none)
+- [ ] **M1. Mock knowledge base** from public NTU PaCE pages (programme pages, FAQs, fee and intake information): crawl, version, index. Mark every item as mock; NTU still has to approve real sources (A6).
+- [ ] **M2. Mock programme registry and routing table**: programmes, aliases, owning teams, made-up team inboxes, owner by question type.
+- [ ] **M3. Mock reply templates and style**: greeting, sign-off, acknowledgement, the fallback acknowledgement, handoff note format.
+- [ ] **M4. Mock email set**: 50 in week 1, ~150 by week 3, each labelled with expected issues, programme, owner, action and reply points. Cover single and multi-question, follow-ups, referrals, ambiguous programmes, out-of-scope, payment and status questions, and web-form enquiries. Made-up people only.
+- [ ] **M5. Mock attachments**: text PDFs, scanned PDFs, receipts, certificates, portal screenshots, logos; made-up personal details so masking can be tested.
+
+### S. Sandbox for RSTN
+- [ ] **S1. Sandbox testing protocol** (next deliverable): what RSTN can test, how to call the API, test scenarios and expected results, how to report issues, what the sandbox does not do.
+- [ ] **S2. Sandbox environment**: decide where it runs (our GPU server behind a gateway, or a small cloud test environment calling the local or a hosted model); mock data only; API keys per tester; rate limits; reset button.
+- [ ] **S3. Access for RSTN**: endpoint, keys, mock RSTN client, sample requests.
+- [ ] **S4. Feedback loop**: issue template and a weekly check-in during testing.
+
+---
+
 ## A. Questions for RSTN / NTU
+
+**After the 2026-10-08 call:** mostly unanswered. RSTN has no sample emails, templates, knowledge base or NTU timeline. Items below stay open for phase 2; for the POC we mock them (section 0, M1–M5).
 
 ### Knowledge and data sources
 - [ ] **A1. Knowledge base access.** Where does approved knowledge live on RSTN's on-prem server, and what interface do we get: query API, versioned snapshot export, or a vector index? Who approves and revokes content, and how are versions exposed? *(We propose syncing a versioned copy to our hosted index; live query API as fallback.)*
@@ -45,13 +109,13 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 - Do not use the uncensored community fine-tune (`DavidAU/Qwen3.6-27B-Fable-Fus-711`) for this project.
 
 
-### Now (this week)
+### Before the 8 Oct call
 - [~] **B1. Requirement summary and draft solution** — `requirements-summary.md`, `draft-solution.md` (Guowei). Revised after reviewing images.
 - [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost `unit-cost.html` (Guowei → Lisa for the 1-pager).
-- [~] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md` (Part 1: our understanding to confirm; Part 2: questions with our proposals). Whether to share the Workflow and Architecture PDF is a separate business decision (not yet). Commercial 1-pager goes separately (Saim → Steven). Also send `response-to-rstn.md`: answers to RSTN's 16 questions, with questions back R1–R14.
-- [ ] **B22. Prepare for the call**: draft request/response field list to walk through (`draft-solution.md` §7); agree internally who answers what (Guowei: engine/API; Li-kai: models/data; Lisa: scope/commercial).
+- [x] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md` (Part 1: our understanding to confirm; Part 2: questions with our proposals). Whether to share the Workflow and Architecture PDF is a separate business decision (not yet). Commercial 1-pager goes separately (Saim → Steven). Also send `response-to-rstn.md`: answers to RSTN's 16 questions, with questions back R1–R14.
+- [x] **B22. Prepare for the call**: draft request/response field list to walk through (`draft-solution.md` §7); agree internally who answers what (Guowei: engine/API; Li-kai: models/data; Lisa: scope/commercial).
 - [ ] **B4. Re-price Round A token usage at current provider rates** (Li-kai). The Round A price snapshot was not retained; record the dated price source this time.
-- [ ] **B5. Self-Learning phase-2 one-pager** — feedback loop as in LoadStone diagram, scoped and priced separately (Faye / Saim).
+- [-] **B5. Self-Learning phase-2 one-pager** — not required in the POC (2026-10-08); phase 3. — feedback loop as in LoadStone diagram, scoped and priced separately (Faye / Saim).
 
 ### Start now (no RSTN input needed)
 - [ ] **B31. Dev environment on the GPU server** (Guowei): point the engine's model gateway at the local router; one config per step (OCR, vision, text). Before any NTU sample data lands: bind the router to localhost or a firewall allow-list and add an API key (it currently listens on `0.0.0.0:8080` without auth).
@@ -105,6 +169,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10 | Guowei is AI tech lead, working with Li-kai | Group |
 | 2026-10 | "RL" renamed Self-Learning and parked to phase 2 | Saim / Faye |
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
+| 2026-10-08 | After the call: build the POC on our side in 3 weeks (8–28 Oct) with mock data; hand RSTN a sandbox and testing protocol; self-learning not required in the POC | Group |
 | 2026-10-07 | `response-to-rstn.md` kept high level (no step list, call counts, field names or sizing); technical detail only on the call if asked | Group |
 | 2026-10-07 | Engine build owned by Guowei, with Li-kai; our GPU server (local llama.cpp router, GLM-OCR, Qwen VL) is the dev/test environment before cloud deployment | Guowei |
 | 2026-10-07 | Promote option C first: hosted engine + privacy connector in RSTN's network; hosted-only and on-prem licence as fallbacks | Group |
