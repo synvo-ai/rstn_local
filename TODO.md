@@ -168,7 +168,27 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 - [ ] **B39. Per-email token budget guard** (Guowei): measured 2026-10-08 (`cost-bench/`, `unit-cost.html`): every realistic case is S$0.003–0.04 against the agreed S$0.30 cap, but a naive path (quoted thread + 3 × 10-page scans sent as images to every call + re-check) reaches S$0.31 on Gemini 3.8 Flash at 2027 prices. Enforce in the engine: max 10 pages and 2,000 extracted tokens per attachment; attachments seen by one call only, then a ~300-token digest; deduplicate quoted thread history; resize images (≤ 2048 px) and set resolution or detail explicitly; a running token budget per email that degrades to Manual handling instead of overspending.
 - [ ] **B40. MinerU for PDF parsing** (complex layouts: tables, columns, mixed scans): we use MinerU. Decide where it runs (inside the connector on CPU, or on our side), measure CPU time per page with the 10-page cap, and check its install footprint (it pulls in PyTorch and model weights), since the connector is a pip package. If it is too heavy for the connector, keep plain text extraction + ONNX OCR in the connector and use MinerU only in the hosted-only fallback or as an optional extra.
 - [ ] **B41. Multi-language module** (Li-kai): port the reusable multi-language handling from Li-kai's earlier code into the engine as one module; tests on made-up non-English and mixed-language emails (protocol scenario A10).
-- [ ] **B42. Self-learning explanation for RSTN** (Guowei with Lisa): high-level material in `response-to-rstn.md` §3 (confirmed-answer memory + confidence check calibrated on staff decisions; gradual, per-category reduction of review). Lisa and Guowei align technical and commercial wording before it is sent.
+- [ ] **B42. Self-learning explanation for RSTN** (Guowei with Lisa): high-level material in `response-to-rstn.md` §2 (confirmed-answer memory + confidence check calibrated on staff decisions; gradual, per-category reduction of review). Lisa and Guowei align technical and commercial wording before it is sent. Implementation candidate for the confidence check: a Jeff decision model (B43); not named to RSTN.
+- [ ] **B43. Jeff decision models: spike, latency-gated** (Guowei; week 2–3, time-boxed to 2 days, not on the critical path). Jeff (github.com/firelex/jeff; code MIT, weights Apache 2.0) fine-tunes Qwen3.5 0.8B / 2B to return a **calibrated probability per option in one forward pass** (`choice` over up to 254 options, `noul` yes/no, `score`), with LoRA adapters trained on our own labels and a fitted temperature. Published latency: ~22–30 ms per decision on a GPU, ~0.5–1 s on a 32-thread CPU (~200 input tokens).
+  - **Where it fits:**
+    - (a) **Phase 2 confidence check:** a `noul` "would staff approve this draft unchanged?" adapter, trained and calibrated on PaCE staff decisions. This is the natural fit for B42.
+    - (b) **Fast pre-checks in phase 1:** not-an-enquiry / auto-reply (scenario A9), question category, owning team (`choice`). These run alongside the understand call, so they add no wall time, and they could replace an LLM call.
+  - **Not for:** drafting, verification or anything needing multi-step reasoning. The models are weak there.
+  - **Limits to respect:**
+    - English and text only, which clashes with B41 multi-language: run it after language handling, or skip it for non-English emails;
+    - 8,192 input tokens per question;
+    - `jeff-serve` handles one request at a time;
+    - some published adapters are non-commercial, so we train our own;
+    - adapters are tied to the base model version;
+    - independent reports range from parity with Jev down to 70% vs 94% on one user's task, so it must be measured on our set.
+  - **Spike steps:**
+    1. Run the 0.8B model on our GPU server (GPU 0, or behind the llama.cpp router if GGUF + LoRA works) and on a 4-vCPU CPU, with realistic input sizes (500–2,000 tokens, not 200).
+    2. Train a `choice` adapter for category / owning team, and a `noul` adapter for not-an-enquiry, on the M4 mock set.
+    3. Compare accuracy, calibration and latency against the LLM step on the same emails.
+  - **Adopt only if:**
+    - added wall time per email < 300 ms (it runs in parallel with the understand call);
+    - accuracy on the mock set is no worse than the LLM step;
+    - it can run without a dedicated GPU, or a shared one is justified (a cloud GPU is a fixed cost; see `hosting-and-scaling.md` §2.4).
 
 Also unblocked now, from the lists below: B6 headless engine, B7 contract draft (semantics), B8/B25 override, B9 retrieval over public NTU pages, B10 registry draft from NTU web pages, B11 attachment reader, B12 telemetry, B24/B19 connector masking and OCR, B26 no-payload logging, B27 tenant IDs, B28 infra template.
 
@@ -217,6 +237,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10-08 | Model cost cap S$0.30 per email (agreed with RSTN/NTU); attachments capped at 10 pages (tentative); local text extraction or OCR before any model call | Group |
 | 2026-10-08 | Li-kai's earlier code mostly not reused; keep only multi-language handling; Guowei agrees the split with Li-kai on 9 Oct | Group |
 | 2026-10-08 | Self-learning described to RSTN at a high level only (confirmed-answer memory + calibrated confidence check); aligned by Lisa and Guowei before sending | Group |
+| 2026-10-08 | Consider Jeff decision models (small calibrated classifiers) for the confidence check and fast pre-checks, only if latency stays low; spike first (B43) | Guowei |
 | 2026-10-08 | Privacy connector delivered as a Python package (RSTN runs it on the NTU side; image updates are inconvenient there); Docker image only on request | Group (call) |
 | 2026-10-08 | Input is the raw email (RFC 5322 `.eml`) plus a small JSON envelope, since RSTN handles raw email text; no XML schema of our own | Guowei |
 | 2026-10-07 | `response-to-rstn.md` kept high level (no step list, call counts, field names or sizing); technical detail only on the call if asked | Group |
