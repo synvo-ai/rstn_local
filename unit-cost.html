@@ -201,6 +201,7 @@ attachment payload = text pages × 620 (capped 2,000 per attachment)       ← t
     <div class="caveat"><b>Conclusion.</b> Every realistic case costs <b>S$0.003–0.04</b> at today's prices, roughly <b>8–90× under</b> the S$0.30 cap. The proposed path (text layer or OCR in the connector, 2,000-token cap per attachment, attachment read once, deduplicated thread) stays under S$0.08 even on 3.8 Flash at 2027 prices with 3× evidence and a staff re-check. Only the deliberately naive worst case on 3.8 Flash after the 2027 price rise reaches the cap. The guarantee therefore comes from four engine rules, not from the model price: <b>(1)</b> cap pages (10) and text kept per attachment (2,000 tokens); <b>(2)</b> attachments seen by one call only, then a short digest; <b>(3)</b> deduplicate quoted thread history; <b>(4)</b> resize images and set the resolution explicitly. Add a per-email token budget check in the engine that degrades to Manual handling rather than overspend (TODO B39).</div>
 
     <h3>Calculator</h3>
+    <p class="lede" style="font-size:13px">On the proposed route, adding pages barely moves the total: extracted text is capped per attachment (default 2,000 tokens, about 3 dense pages), is read by one call only, and input tokens are cheap (2,000 tokens ≈ S$0.0006 on Flash-Lite). Pages matter on the image routes, on Luna, and when the model transcribes. Set "Text kept per attachment" to 0 to see a 10-page document passed in full. The cap must keep the <i>relevant</i> passages (selected by the question), not just the first pages.</p>
     <div id="calc" class="calc">
       <label>Model <select id="c-model">
         <option value="0.20,1.20,2574,2800">GPT-5.6 Luna</option>
@@ -220,6 +221,7 @@ attachment payload = text pages × 620 (capped 2,000 per attachment)       ← t
         <option value="transcribe">model transcribes first</option>
         <option value="every">images to every call (naive)</option>
       </select></label>
+      <label>Text kept per attachment <input id="c-cap" type="number" min="0" step="500" value="2000" title="0 = no cap"></label>
       <label>Evidence factor <input id="c-ev" type="number" min="1" max="5" step="0.5" value="1"></label>
       <label>Staff re-checks <input id="c-rc" type="number" min="0" max="3" value="0"></label>
       <label>USD → SGD <input id="c-fx" type="number" step="0.01" value="1.29"></label>
@@ -230,7 +232,7 @@ attachment payload = text pages × 620 (capped 2,000 per attachment)       ← t
     <div class="tablewrap"><table>
       <thead><tr><th>Attachment</th><th>What happens</th><th>Where it runs</th><th class="n">Reading cost to us</th><th class="n">Added prompt tokens</th></tr></thead>
       <tbody>
-        <tr><td>PDF with a text layer, Word, Excel, plain text</td><td>Tier 1: text extraction, no model. Complex layouts (tables, columns): Hansong's PDF parser (MinerU 2.5.4 level)</td><td>Connector (CPU); parser placement TBD (B40)</td><td class="n">$0</td><td class="n">≤ 2,000 per attachment, once</td></tr>
+        <tr><td>PDF with a text layer, Word, Excel, plain text</td><td>Tier 1: text extraction, no model. Complex layouts (tables, columns): MinerU</td><td>Connector (CPU); MinerU placement TBD (B40)</td><td class="n">$0</td><td class="n">≤ 2,000 per attachment, once</td></tr>
         <tr><td>Scanned PDF, photo or screenshot of a document (receipt, certificate)</td><td>Tier 2: OCR, first 10 pages only</td><td>Connector (CPU)</td><td class="n">$0 to us; RSTN's CPU</td><td class="n">≤ 2,000 per attachment, once</td></tr>
         <tr><td>Screenshot where layout matters (portal error, form state) and OCR text is not enough</td><td>Tier 3: personal details blacked out in the connector, then read once by the model at medium resolution</td><td>Engine (hosted model)</td><td class="n">S$0.0002–0.0010 per image</td><td class="n">~530 (Gemini) / ~2,500 (Luna) + ~200 output</td></tr>
         <tr><td>Logos, signatures, tiny inline images</td><td>Filtered by size and repeat detection</td><td>Connector</td><td class="n">$0</td><td class="n">0</td></tr>
@@ -277,10 +279,11 @@ attachment payload = text pages × 620 (capped 2,000 per attachment)       ← t
   function run() {
     const [pin, pout, pageTok, imgTok] = $("c-model").value.split(",").map(Number);
     const n = +$("c-thread").value, tp = +$("c-text").value, sp = Math.min(+$("c-scan").value, 30), im = +$("c-img").value;
+    const capIn = +$("c-cap").value, CAP = capIn > 0 ? capIn : Infinity;
     const route = $("c-route").value, ev = +$("c-ev").value, rc = +$("c-rc").value, fx = +$("c-fx").value;
     const thread = $("c-quoted").value === "1" ? Math.round(QUOTED_PER_MSG * n * (n + 1) / 2) : PER_MSG * n;
     const textPdf = Math.min(tp * TEXT_PAGE, CAP);
-    const scanText = Math.min(sp * TEXT_PAGE, CAP * Math.ceil(sp / 10));
+    const scanText = Math.min(sp * TEXT_PAGE, CAP);
     const visual = sp * pageTok + im * imgTok;
     const any = tp + sp + im > 0;
     let att = 0, carry = any ? 2 * DIGEST : 0, extraOut = any ? UND_OUT : 0;
@@ -292,7 +295,10 @@ attachment payload = text pages × 620 (capped 2,000 per attachment)       ← t
     const tin = BASE_IN + (ev - 1) * DV_IN + 2 * thread + att + carry + recheckIn;
     const tout = BASE_OUT + extraOut + rc * DV_OUT;
     const usd = (tin * pin + tout * pout) / 1e6, sgd = usd * fx;
-    $("c-out").innerHTML = `input ${Math.round(tin).toLocaleString()} · output ${Math.round(tout).toLocaleString()} tokens → $${usd.toFixed(4)} = <b>S$${sgd.toFixed(4)}</b> per email · ${(sgd / 0.30 * 100).toFixed(1)}% of the S$0.30 cap`;
+    const part = (i, o) => "S$" + ((i * pin + o * pout) / 1e6 * fx).toFixed(4);
+    const base = part(BASE_IN + (ev - 1) * DV_IN, BASE_OUT), thr = part(2 * thread, 0);
+    const attS = part(att + carry, extraOut), rcS = part(recheckIn, rc * DV_OUT);
+    $("c-out").innerHTML = `input ${Math.round(tin).toLocaleString()} · output ${Math.round(tout).toLocaleString()} tokens → $${usd.toFixed(4)} = <b>S$${sgd.toFixed(4)}</b> per email · ${(sgd / 0.30 * 100).toFixed(1)}% of the S$0.30 cap<br>base ${base} · thread ${thr} · attachments ${attS} · re-checks ${rcS}`;
   }
   document.querySelectorAll("#calc input, #calc select").forEach(el => el.addEventListener("input", run));
   run();
