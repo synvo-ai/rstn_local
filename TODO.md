@@ -28,11 +28,11 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 
 **Findings from the 8 Oct internal technical meeting:**
 - **Most of Li-kai's earlier code cannot be reused.** Its business logic does not fit the NTU POC flow, and it has no OCR or attachment parsing.
-- **Only the multi-language handling is worth keeping.**
+- **Only the multi-language handling is worth keeping**, and RSTN has since said phase 1 covers **English emails only**, so it is parked until later (B41).
 - **The hard part is not the models but the system integration.** That means connecting to RSTN/NTU's existing systems and data, and agreeing the interface and the input and output schemas early.
 
 **Agenda for the call:**
-1. **Li-kai's module scope.** Port the multi-language handling into the engine as one module with a clear interface (B41); retire the rest of the old code.
+1. **Li-kai's module scope.** With multi-language parked (English only in phase 1), Li-kai's main scope is the integration side: `.eml` parsing and envelope, mock RSTN client, knowledge store and registry, database schema, sandbox. Retire the old code, keeping the multi-language part aside for later.
 2. **Backend interfaces.** Agree the API v0 contract (B7: raw `.eml` + JSON envelope in, JSON out, re-check call), the connector ↔ engine interface, and what the engine stores (knowledge copy, programme registry, traces; no email content).
 3. **One code structure.** One repository and module layout, shared types for request and result, and who reviews whose code, so the two sides do not diverge or build the same thing twice.
 
@@ -40,7 +40,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 
 | Area | Guowei | Li-kai |
 |---|---|---|
-| Engine core | B6 headless engine, workflow, verify, evaluation (B15), cost and latency (B32, B33) | B41 multi-language module |
+| Engine core | B6 headless engine, workflow, verify, evaluation (B15), cost and latency (B32, B33) | Language check: non-English emails go to Manual handling (B41 later) |
 | Interfaces | B7 API contract and result schema (owner) | B7 `.eml` parsing and envelope adapter; B35 mock RSTN client |
 | Connector | B24 / B19 masking, OCR, restore; Python package | — |
 | Data | M3, M4 mock emails and labels | M1 knowledge crawl and store, M2 registry and routing; database schema for knowledge, registry and traces |
@@ -88,6 +88,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 - Pricing (B4, B17).
 
 ### Phase 3 — Later
+- Emails in languages other than English (B41).
 - Self-learning from staff feedback (B5).
 - Institutional data via RSTN lookups (A7, B29).
 - Further customers on the same engine (B27, hosting-and-scaling.md §3).
@@ -167,7 +168,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 - [x] **B38. POC plan for RSTN** (superseded by section 0, 2026-10-08) (Guowei with Li-kai): `response-to-rstn.md` promises a plan after the call. Draft it from the internal 10-week outline (weeks 1–2 contract, samples, knowledge sync; 3–6 integration, connector, labelling; 7–10 UAT, accuracy, shadow run).
 - [ ] **B39. Per-email token budget guard** (Guowei): measured 2026-10-08 (`cost-bench/`, `unit-cost.html`): every realistic case is S$0.003–0.04 against the agreed S$0.30 cap, but a naive path (quoted thread + 3 × 10-page scans sent as images to every call + re-check) reaches S$0.31 on Gemini 3.8 Flash at 2027 prices. Enforce in the engine: max 10 pages and 2,000 extracted tokens per attachment; attachments seen by one call only, then a ~300-token digest; deduplicate quoted thread history; resize images (≤ 2048 px) and set resolution or detail explicitly; a running token budget per email that degrades to Manual handling instead of overspending.
 - [ ] **B40. MinerU for PDF parsing** (complex layouts: tables, columns, mixed scans): we use MinerU. Decide where it runs (inside the connector on CPU, or on our side), measure CPU time per page with the 10-page cap, and check its install footprint (it pulls in PyTorch and model weights), since the connector is a pip package. If it is too heavy for the connector, keep plain text extraction + ONNX OCR in the connector and use MinerU only in the hosted-only fallback or as an optional extra.
-- [ ] **B41. Multi-language module** (Li-kai): port the reusable multi-language handling from Li-kai's earlier code into the engine as one module; tests on made-up non-English and mixed-language emails (protocol scenario A10).
+- [-] **B41. Multi-language module** (Li-kai; **parked**: RSTN says phase 1 is English only, 2026-10-08; phase 1 only needs a language check that sends non-English emails to Manual handling): port the reusable multi-language handling from Li-kai's earlier code into the engine as one module; tests on made-up non-English and mixed-language emails (protocol scenario A10).
 - [ ] **B42. Self-learning explanation for RSTN** (Guowei with Lisa): high-level material in `response-to-rstn.md` §2 (confirmed-answer memory + confidence check calibrated on staff decisions; gradual, per-category reduction of review). Lisa and Guowei align technical and commercial wording before it is sent. Implementation candidate for the confidence check: a Jeff decision model (B43); not named to RSTN.
 - [ ] **B43. Jeff decision models: spike, latency-gated** (Guowei; week 2–3, time-boxed to 2 days, not on the critical path). Jeff (github.com/firelex/jeff; code MIT, weights Apache 2.0) fine-tunes Qwen3.5 0.8B / 2B to return a **calibrated probability per option in one forward pass** (`choice` over up to 254 options, `noul` yes/no, `score`), with LoRA adapters trained on our own labels and a fitted temperature. Published latency: ~22–30 ms per decision on a GPU, ~0.5–1 s on a 32-thread CPU (~200 input tokens).
   - **Where it fits:**
@@ -175,7 +176,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
     - (b) **Fast pre-checks in phase 1:** not-an-enquiry / auto-reply (scenario A9), question category, owning team (`choice`). These run alongside the understand call, so they add no wall time, and they could replace an LLM call.
   - **Not for:** drafting, verification or anything needing multi-step reasoning. The models are weak there.
   - **Limits to respect:**
-    - English and text only, which clashes with B41 multi-language: run it after language handling, or skip it for non-English emails;
+    - English and text only: fine for phase 1 (English only), but revisit when multi-language returns (B41);
     - 8,192 input tokens per question;
     - `jeff-serve` handles one request at a time;
     - some published adapters are non-commercial, so we train our own;
@@ -236,6 +237,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10-08 | Dates for RSTN: protocol and API spec drafts 14 Oct, sandbox v1 21 Oct, sandbox v2 and handover 28 Oct, 1-week testing window, review ~5 Nov | Guowei |
 | 2026-10-08 | Model cost cap S$0.30 per email (agreed with RSTN/NTU); attachments capped at 10 pages (tentative); local text extraction or OCR before any model call | Group |
 | 2026-10-08 | Li-kai's earlier code mostly not reused; keep only multi-language handling; Guowei agrees the split with Li-kai on 9 Oct | Group |
+| 2026-10-08 | Phase 1 handles English emails only; non-English emails go to Manual handling; multi-language later (B41 parked) | RSTN |
 | 2026-10-08 | Self-learning described to RSTN at a high level only (confirmed-answer memory + calibrated confidence check); aligned by Lisa and Guowei before sending | Group |
 | 2026-10-08 | Consider Jeff decision models (small calibrated classifiers) for the confidence check and fast pre-checks, only if latency stays low; spike first (B43) | Guowei |
 | 2026-10-08 | Privacy connector delivered as a Python package (RSTN runs it on the NTU side; image updates are inconvenient there); Docker image only on request | Group (call) |

@@ -115,7 +115,7 @@ Each mock email in the test pack is tagged with one of the scenario IDs below an
 | A7 | Follow-up in a thread, earlier messages passed in the request | Earlier context used; questions already answered are not repeated | v1 |
 | A8 | Web-form enquiry | Same handling as email; form fields used where present | v1 |
 | A9 | Not an enquiry (auto-reply, newsletter, spam) | No issues to answer; **Manual handling** or flagged as not an enquiry, no reply draft | v1 |
-| A10 | Email not in English, or mixing languages | Handled or sent to **Manual handling** with reason; no wrong-language reply | v1 |
+| A10 | Email not in English, or mostly not in English | **Manual handling** with the reason "language not supported in phase 1"; no reply draft | v1 |
 
 ### B. Staff changes
 
@@ -196,6 +196,7 @@ We aim to acknowledge issues within one working day and to fix blockers within t
 - Production hosting, authentication, security assessment and data processing agreement.
 - Learning from staff feedback (later phase).
 - Payment, application or status lookups.
+- Emails in languages other than English (phase 1 is English only).
 
 ## 12. Inputs from RSTN that would help
 
