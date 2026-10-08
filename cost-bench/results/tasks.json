@@ -1,0 +1,202 @@
+[
+ {
+  "model": "gemini-3.8-flash",
+  "task": "transcribe 10-page scan (PDF, medium)",
+  "prompt": 5339,
+  "by_modality": {
+   "TEXT": 19,
+   "IMAGE": 5320
+  },
+  "output": 5867,
+  "thinking": 0,
+  "seconds": 36.9,
+  "text": "Graduate Certificate in Applied Data Analytics · Programme Handbook 2026\n\nSingapore Citizens aged 40 and above may qualify for the Mid-Career Enhanced Subsidy, subject to the funding rules in force. Each module is assessed through a combination of individual assignments, a group project and a closed-book examination. The programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application. Applicants must hold a recognised bachelor's degree and at least two years of relevant working experience.\n\nCourse fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees. Applicants whose degree was not taught in English must provide an IELTS score of 6.5 or an equivalent qualification. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees. Singapore Citizens aged 40 and above may qualify for the Mid-Career Enhanced Subsidy, subject to the funding rules in force. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years.\n\nApplicants must hold a recognised bachelor's degree and at least two years of relevant working experience. Applicants whose degree was not taught in English must provide an IELTS score of 6.5 or an equivalent qualification. Learners who miss more than 25 per cent of contact hours will not be eligible for the certificate of completion. Applicants must hold a recognised bachelor's degree and at least two years of relevant working experience. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.\n\nThe programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. The programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees. Learners who miss more than 25 per cent of contact hours will not be eligible for the certificate of completion. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.\n\nApplicants whose degree was not taught in English must provide an IELTS score of 6.5 or an equivalent qualification. The programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. Applicants must hold a recognised bachelor's degree and at least two years of relevant working experience. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.\n\nPage 1 of 10\n\nFlexiMasters in IC Design · Programme Handbook 2026\n\nLearners who miss more than 25 per cent of contact hours will not be eligible for the certificate of completion. Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application. Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. Applicants must hold a recognised bachelor's degree and at least two years of relevant working experience.\n\nCredits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. The programme is delivered in a blended format"
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "task": "transcribe receipt photo 4032×3024",
+  "prompt": 1083,
+  "by_modality": {
+   "TEXT": 19,
+   "IMAGE": 1064
+  },
+  "output": 151,
+  "thinking": 0,
+  "seconds": 3.5,
+  "text": "DBS iBanking — Transfer Successful\n\nDate\n02 Oct 2026, 14:37\n\nFrom\nPOSB Savings 123-45678-9\n\nTo\nNANYANG TECHNOLOGICAL UNIVERSITY\n\nAmount\nSGD 3,924.00\n\nReference\nPACE-FMIC-2026-08817\n\nPayer\nTan Wei Ming\n\nNRIC\nS8812345D\n\nMobile\n+65 9123 4567\n\nTransaction ID\nTXN20261002143711892\n\nPlease keep this receipt for your records."
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "task": "transcribe portal screenshot",
+  "prompt": 1119,
+  "by_modality": {
+   "IMAGE": 1100,
+   "TEXT": 19
+  },
+  "output": 222,
+  "thinking": 0,
+  "seconds": 3.9,
+  "text": "**NTU PaCE Learner Portal**  \nLogged in as: Priya Ramasamy\n\n---\n\n### Navigation\n- Dashboard\n- My Applications\n- Payments\n- Course Materials\n- Profile\n- Help\n\n---\n\n### Application PACE-APP-2026-30412 — Graduate Certificate in Applied Data Analytics\n\n> **Error 4021: Payment could not be matched to this application.**  \n> Please contact PaCE with your payment reference. Status: PENDING VERIFICATION\n\n| Field | Details |\n| :--- | :--- |\n| **Applicant** | Priya Ramasamy |\n| **Email** | priya.r@example.com |\n| **Intake** | January 2027 |\n| **Fee** | SGD 2,616.00 |\n| **Payment ref** | PACE-GCADA-2026-11903 |\n| **Submitted** | 28 Sep 2026 |\n\n[ Retry payment ]"
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "task": "understand: email only",
+  "prompt": 283,
+  "by_modality": {
+   "TEXT": 283
+  },
+  "output": 310,
+  "thinking": 0,
+  "seconds": 3.9,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Bank transfer payment shows portal error 4021 and could not be matched to application.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"payment_matching_investigation\",\n      \"evidence_from_attachments\": [\n        \"Bank transfer receipt dated 2 October\",\n        \"Screenshot showing 'Error 4021: Payment could not be matched to this application'\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry on applying SkillsFuture Credit retroactively and procedure for refunding the overpaid difference.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"skillsfuture_credit_and_refund_enquiry\",\n      \"evidence_from_attachments\": [\n        \"Programme handbook\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry on employer sponsorship submission deadline and form applicability for module 2.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"employer_sponsorship_process_enquiry\",\n      \"evidence_from_attachments\": [\n        \"Programme handbook\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer receipt\",\n    \"Learner portal error screenshot\",\n    \"Downloaded programme handbook\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "task": "understand: email + 10-message thread",
+  "prompt": 1798,
+  "by_modality": {
+   "TEXT": 1798
+  },
+  "output": 329,
+  "thinking": 0,
+  "seconds": 4.3,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Bank transfer payment shows Error 4021: Payment could not be matched to application on the portal\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"payment_issue\",\n      \"evidence_from_attachments\": [\n        \"Bank transfer receipt for course fee payment on 2 October\",\n        \"Screenshot showing 'Error 4021: Payment could not be matched to this application'\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry on retroactive claim of SkillsFuture Credit and refund procedure after paying full fee\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"financial_aid_enquiry\",\n      \"evidence_from_attachments\": []\n    },\n    {\n      \"summary\": \"Enquiry regarding employer sponsorship form and submission deadline for the second module\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"application_enquiry\",\n      \"evidence_from_attachments\": [\n        \"Downloaded programme handbook\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer payment made on 2 October\",\n    \"Learner portal displays Error 4021: Payment could not be matched to this application\",\n    \"Application reference PACE-GCADA-2026-11903 (from thread)\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "task": "understand: email + thread + attachments as images/PDF (scan PDF medium, photo, screenshot)",
+  "prompt": 8185,
+  "by_modality": {
+   "IMAGE": 6387,
+   "TEXT": 1798
+  },
+  "output": 575,
+  "thinking": 0,
+  "seconds": 6.6,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Learner portal displays Error 4021 stating bank transfer payment could not be matched to the application.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"payment_issue\",\n      \"evidence_from_attachments\": [\n        \"Learner portal shows 'Error 4021: Payment could not be matched to this application.' under application PACE-APP-2026-30412 for Graduate Certificate in Applied Data Analytics.\",\n        \"Portal displays fee of SGD 2,616.00 and payment ref PACE-GCADA-2026-11903.\",\n        \"Attached bank transfer receipt shows payment of SGD 3,924.00 made by Tan Wei Ming with reference PACE-FMIC-2026-08817 on 02 Oct 2026.\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiring about using SkillsFuture Credit retroactively to offset course fees and obtaining a refund for the difference.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"fee_enquiry\",\n      \"evidence_from_attachments\": [\n        \"Handbook states 'Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.'\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiring about company sponsorship requirements, form consistency, and submission deadlines for module 2.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"company_sponsorship\",\n      \"evidence_from_attachments\": [\n        \"Handbook states 'Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application.'\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer receipt indicates SGD 3,924.00 transferred to Nanyang Technological University on 02 Oct 2026 by Tan Wei Ming (Ref: PACE-FMIC-2026-08817).\",\n    \"Learner portal screenshot shows application PACE-APP-2026-30412 for Priya Ramasamy with Error 4021, expected fee SGD 2,616.00, and expected payment ref PACE-GCADA-2026-11903.\",\n    \"Programme handbook PDF pages covering Graduate Certificate in Applied Data Analytics and other programmes.\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "task": "understand: email + thread + attachments as extracted text (PDF text + OCR of images)",
+  "prompt": 8402,
+  "by_modality": {
+   "TEXT": 8402
+  },
+  "output": 570,
+  "thinking": 0,
+  "seconds": 5.7,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Learner portal displays Error 4021 stating bank transfer payment could not be matched to application PACE-APP-2026-30412.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"payment_matching_investigation\",\n      \"evidence_from_attachments\": [\n        \"Portal screenshot shows Application PACE-APP-2026-30412 for Graduate Certificate in Applied Data Analytics with 'Error 4021: Payment could not be matched to this application.'\",\n        \"Portal screenshot lists expected fee SGD 2,616.00 and payment ref PACE-GCADA-2026-11903 under status PENDING VERIFICATION.\",\n        \"DBS iBanking receipt shows payment of SGD 3,924.00 made by Tan Wei Ming with reference PACE-FMIC-2026-08817.\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry on retroactive claim of SkillsFuture Credit to offset module fees and the refund process for overpayment.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"skillsfuture_credit_claim\",\n      \"evidence_from_attachments\": [\n        \"Handbook specifies course fees are payable in full before the start of each module, and SkillsFuture Credit may be used to offset eligible fees.\"\n      ]\n    },\n    {\n      \"summary\": \"Query regarding employer sponsorship submission timeline and form requirements for subsequent module.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"company_sponsorship_process\",\n      \"evidence_from_attachments\": [\n        \"Handbook states company-sponsored learners should ask HR to submit sponsorship form together with application.\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"DBS iBanking receipt indicates SGD 3,924.00 transferred on 02 Oct 2026 referencing PACE-FMIC-2026-08817 from Tan Wei Ming.\",\n    \"Portal screenshot displays Application PACE-APP-2026-30412 for Graduate Certificate in Applied Data Analytics with Error 4021, Fee SGD 2,616.00, and reference PACE-GCADA-2026-11903.\",\n    \"Programme handbook contains policies on SkillsFuture Credit fee offset and company sponsorship form submission.\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "task": "understand: email + thread + attachments as extracted text, capped 2,000 tokens each",
+  "prompt": 3797,
+  "by_modality": {
+   "TEXT": 3797
+  },
+  "output": 544,
+  "thinking": 0,
+  "seconds": 5.4,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Learner portal displays Error 4021 stating bank transfer payment could not be matched to application\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"payment_inquiry\",\n      \"evidence_from_attachments\": [\n        \"Receipt shows transfer of SGD 3,924.00 by payer Tan Wei Ming with reference PACE-FMIC-2026-08817 on 02 Oct 2026\",\n        \"Portal screenshot shows Application PACE-APP-2026-30412 for Priya Ramasamy with fee SGD 2,616.00 and payment ref PACE-GCADA-2026-11903 showing Error 4021: Payment could not be matched to this application\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiring about using SkillsFuture Credit retroactively to offset course fees and obtaining a refund for the difference\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"financial_aid_enquiry\",\n      \"evidence_from_attachments\": [\n        \"Handbook states course fees are payable in full before the start of each module, and SkillsFuture Credit may be used to offset eligible fees\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiring about employer sponsorship form requirements and submission deadlines for module two\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"sponsorship_inquiry\",\n      \"evidence_from_attachments\": [\n        \"Handbook states company-sponsored learners should ask HR department to submit sponsorship form together with application\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer receipt for SGD 3,924.00 to NTU under payer Tan Wei Ming with reference PACE-FMIC-2026-08817 (differs from applicant's portal ref PACE-GCADA-2026-11903 and fee SGD 2,616.00)\",\n    \"Screenshot showing portal Error 4021: Payment could not be matched to application PACE-APP-2026-30412\",\n    \"Excerpt from Programme Handbook 2026 covering Graduate Certificate in Applied Data Analytics\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "transcribe 10-page scan (PDF, medium)",
+  "prompt": 5339,
+  "by_modality": {
+   "TEXT": 19,
+   "IMAGE": 5320
+  },
+  "output": 5894,
+  "thinking": 0,
+  "seconds": 15.0,
+  "text": "Graduate Certificate in Applied Data Analytics · Programme Handbook 2026\n\nSingapore Citizens aged 40 and above may qualify for the Mid-Career Enhanced Subsidy, subject to the funding rules in force. Each module is assessed through a combination of individual assignments, a group project and a closed-book examination. The programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application. Applicants must hold a recognised bachelor's degree and at least two years of relevant working experience.\n\nCourse fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees. Applicants whose degree was not taught in English must provide an IELTS score of 6.5 or an equivalent qualification. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees. Singapore Citizens aged 40 and above may qualify for the Mid-Career Enhanced Subsidy, subject to the funding rules in force. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years.\n\nApplicants must hold a recognised bachelor's degree and at least two years of relevant working experience. Applicants whose degree was not taught in English must provide an IELTS score of 6.5 or an equivalent qualification. Learners who miss more than 25 per cent of contact hours will not be eligible for the certificate of completion. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.\n\nThe programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. The programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees. Learners who miss more than 25 per cent of contact hours will not be eligible for the certificate of completion. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.\n\nApplicants whose degree was not taught in English must provide an IELTS score of 6.5 or an equivalent qualification. The programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. Applicants must hold a recognised bachelor's degree and at least two years of relevant working experience. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.\n\nPage 1 of 10\n\nFlexiMasters in IC Design · Programme Handbook 2026\n\nLearners who miss more than 25 per cent of contact hours will not be eligible for the certificate of completion. Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application. Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. Applicants must hold a recognised bachelor's degree and at least two years of relevant working experience.\n\nCredits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. Credits earned in stackable certificates may be recognised towards the corresponding master's degree within five years. The programme is delivered in a blended format, with weekday evening classes on campus and self-paced online content. Applicants must hold a recognised b"
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "transcribe receipt photo 4032×3024",
+  "prompt": 1083,
+  "by_modality": {
+   "TEXT": 19,
+   "IMAGE": 1064
+  },
+  "output": 152,
+  "thinking": 0,
+  "seconds": 2.6,
+  "text": "DBS iBanking — Transfer Successful\n\nDate: 02 Oct 2026, 14:37\nFrom: POSB Savings 123-45678-9\nTo: NANYANG TECHNOLOGICAL UNIVERSITY\nAmount: SGD 3,924.00\nReference: PACE-FMIC-2026-08817\nPayer: Tan Wei Ming\nNRIC: S8812345D\nMobile: +65 9123 4567\nTransaction ID: TXN20261002143711892\n\nPlease keep this receipt for your records."
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "transcribe portal screenshot",
+  "prompt": 1119,
+  "by_modality": {
+   "TEXT": 19,
+   "IMAGE": 1100
+  },
+  "output": 161,
+  "thinking": 0,
+  "seconds": 1.7,
+  "text": "NTU PaCE Learner Portal\n\nLogged in as: Priya Ramasamy\n\nDashboard\nMy Applications\nPayments\nCourse Materials\nProfile\nHelp\n\nApplication PACE-APP-2026-30412 — Graduate Certificate in Applied Data Analytics\n\nError 4021: Payment could not be matched to this application.\nPlease contact PaCE with your payment reference. Status: PENDING VERIFICATION\n\nApplicant: Priya Ramasamy\nEmail: priya.r@example.com\nIntake: January 2027\nFee: SGD 2,616.00\nPayment ref: PACE-GCADA-2026-11903\nSubmitted: 28 Sep 2026\n\nRetry payment"
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "understand: email only",
+  "prompt": 283,
+  "by_modality": {
+   "TEXT": 283
+  },
+  "output": 280,
+  "thinking": 124,
+  "seconds": 2.3,
+  "text": "{\n  \"issues\": [\n    {\n      \"summary\": \"Payment mismatch error (4021) for Jan 2027 intake application\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Resolution of payment verification\",\n      \"evidence_from_attachments\": [\n        \"Bank transfer receipt\",\n        \"Screenshot of portal error 4021\"\n      ]\n    },\n    {\n      \"summary\": \"Inquiry regarding eligibility and procedure for SkillsFuture Credit usage post-payment\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on refund process for partial credit usage\",\n      \"evidence_from_attachments\": []\n    },\n    {\n      \"summary\": \"Inquiry regarding employer sponsorship process for the second module\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on forms and submission timelines\",\n      \"evidence_from_attachments\": [\n        \"Programme handbook\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"Applicant Name: Priya Ramasamy\",\n    \"Payment Date: 2 October\",\n    \"Application Intake: January 2027\"\n  ]\n}"
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "understand: email + 10-message thread",
+  "prompt": 1798,
+  "by_modality": {
+   "TEXT": 1798
+  },
+  "output": 298,
+  "thinking": 119,
+  "seconds": 2.0,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Payment error encountered (Error 4021: Payment could not be matched to application) for bank transfer made on 2 October.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Resolution of payment matching error\",\n      \"evidence_from_attachments\": [\n        \"Bank transfer receipt\",\n        \"Screenshot of the learner portal showing Error 4021\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry regarding SkillsFuture Credit eligibility and refund process for already paid fees.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on funding/reimbursement\",\n      \"evidence_from_attachments\": []\n    },\n    {\n      \"summary\": \"Enquiry regarding sponsorship form requirements and submission timeline for the second module.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on administrative process\",\n      \"evidence_from_attachments\": []\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer made on 2 October\",\n    \"Reference number: PACE-GCADA-2026-11903 (from previous correspondence)\",\n    \"Programme handbook\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "understand: email + thread + attachments as images/PDF (scan PDF medium, photo, screenshot)",
+  "prompt": 8185,
+  "by_modality": {
+   "TEXT": 1798,
+   "IMAGE": 6387
+  },
+  "output": 478,
+  "thinking": 117,
+  "seconds": 3.6,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Payment error: Learner reports 'Error 4021: Payment could not be matched' on the portal for their application.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Resolution of payment matching error\",\n      \"evidence_from_attachments\": [\n        \"Bank transfer receipt (Amount: SGD 3,924.00, Reference: PACE-FMIC-2026-08817)\",\n        \"Portal screenshot showing 'Error 4021: Payment could not be matched' for Application PACE-APP-2026-30412 with Reference PACE-GCADA-2026-11903\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry regarding SkillsFuture Credit usage for course fees after full payment.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on retroactive use of SkillsFuture Credit and potential refund process\",\n      \"evidence_from_attachments\": [\n        \"Programme handbook indicates 'SkillsFuture Credit may be used to offset eligible fees'\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry regarding company sponsorship procedure for a subsequent module.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on sponsorship form consistency and submission timeline\",\n      \"evidence_from_attachments\": [\n        \"Programme handbook states 'Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application'\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer made on 2 October 2026\",\n    \"Application fee on portal is SGD 2,616.00, but payment receipt is for SGD 3,924.00 (mismatch)\",\n    \"Payment reference on portal is PACE-GCADA-2026-11903, while receipt shows PACE-FMIC-2026-08817 (mismatch)\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "understand: email + thread + attachments as extracted text (PDF text + OCR of images)",
+  "prompt": 8342,
+  "by_modality": {
+   "TEXT": 8342
+  },
+  "output": 510,
+  "thinking": 120,
+  "seconds": 2.7,
+  "text": "```json\n{\n  \"issues\": [\n    {\n      \"summary\": \"Payment mismatch error (4021) for application PACE-APP-2026-30412. The student provided a payment reference (PACE-GCADA-2026-11903) which does not match the reference on the bank receipt (PACE-FMIC-2026-08817).\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Resolve payment reconciliation issue.\",\n      \"evidence_from_attachments\": [\n        \"Payment reference on portal: PACE-GCADA-2026-11903\",\n        \"Payment reference on bank receipt: PACE-FMIC-2026-08817\",\n        \"Bank receipt payer: Tan Wei Ming (not Priya Ramasamy)\",\n        \"Portal Error: 4021: Payment could not be matched to this application\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry regarding use of SkillsFuture Credit and subsequent refund process.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on funding policy.\",\n      \"evidence_from_attachments\": [\n        \"Handbook states: 'Course fees are payable in full before the start of each module, and the SkillsFuture Credit may be used to offset eligible fees.'\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry regarding employer sponsorship process for a second module.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on sponsorship procedures.\",\n      \"evidence_from_attachments\": [\n        \"Handbook states: 'Company-sponsored learners should ask their HR department to submit the sponsorship form together with the application.'\"\n      ]\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer receipt dated 02 Oct 2026 showing SGD 3,924.00 paid by Tan Wei Ming with reference PACE-FMIC-2026-08817\",\n    \"Portal screenshot showing Application PACE-APP-2026-30412 status 'PENDING VERIFICATION' with Error 4021\"\n  ]\n}\n```"
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "task": "understand: email + thread + attachments as extracted text, capped 2,000 tokens each",
+  "prompt": 3737,
+  "by_modality": {
+   "TEXT": 3737
+  },
+  "output": 359,
+  "thinking": 1379,
+  "seconds": 5.8,
+  "text": "{\n  \"issues\": [\n    {\n      \"summary\": \"Payment error 4021: Provided payment (SGD 3,924.00) does not match application details. The bank receipt uses reference PACE-FMIC-2026-08817 and payer Tan Wei Ming, while the application requires reference PACE-GCADA-2026-11903.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Resolve payment reconciliation\",\n      \"evidence_from_attachments\": [\n        \"Bank receipt lists Reference: PACE-FMIC-2026-08817 and Payer: Tan Wei Ming\",\n        \"Portal lists expected reference: PACE-GCADA-2026-11903\"\n      ]\n    },\n    {\n      \"summary\": \"Enquiry on using SkillsFuture Credit retroactively and associated refund process.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Apply for subsidy\",\n      \"evidence_from_attachments\": [\n        \"Handbook states: SkillsFuture Credit may be used to offset eligible fees\"\n      ]\n    },\n    {\n      \"summary\": \"Inquiry regarding sponsorship form process for a subsequent module.\",\n      \"programme\": \"Graduate Certificate in Applied Data Analytics\",\n      \"intent\": \"Clarification on sponsorship policy\",\n      \"evidence_from_attachments\": []\n    }\n  ],\n  \"sender_evidence\": [\n    \"Bank transfer receipt\",\n    \"Learner portal screenshot\",\n    \"Programme handbook\"\n  ]\n}"
+ }
+]

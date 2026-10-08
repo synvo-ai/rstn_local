@@ -1,2 +1,4 @@
 lark_docs/
 ntu-pace-correspondence-intelligence/
+*.swp
+cost-bench/assets/

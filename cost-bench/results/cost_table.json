@@ -1,0 +1,412 @@
+{
+ "usd_sgd": 1.29,
+ "image_tokens": {
+  "gemini": [
+   532,
+   540,
+   527
+  ],
+  "gpt-5.6-luna": [
+   2574,
+   3063,
+   2448
+  ]
+ },
+ "table": {
+  "gpt-5.6-luna": [
+   {
+    "case": "Plain email (Round A)",
+    "extra_in": 0,
+    "extra_out": 0,
+    "usd": 0.00253,
+    "sgd": 0.00326
+   },
+   {
+    "case": "+ 10 earlier messages, deduplicated (into understand + draft)",
+    "extra_in": 3020,
+    "extra_out": 0,
+    "usd": 0.00313,
+    "sgd": 0.00404
+   },
+   {
+    "case": "+ 10 earlier messages, each quoting all before (naive)",
+    "extra_in": 20372,
+    "extra_out": 0,
+    "usd": 0.0066,
+    "sgd": 0.00852
+   },
+   {
+    "case": "Thread + receipt photo, read once by the model",
+    "extra_in": 6683,
+    "extra_out": 260,
+    "usd": 0.00418,
+    "sgd": 0.00539
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, all sent as images to every call (naive)",
+    "extra_in": 128024,
+    "extra_out": 260,
+    "usd": 0.02845,
+    "sgd": 0.03669
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, images read once, digest passed on",
+    "extra_in": 34871,
+    "extra_out": 260,
+    "usd": 0.00982,
+    "sgd": 0.01266
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, model transcribes everything first",
+    "extra_in": 37271,
+    "extra_out": 6540,
+    "usd": 0.01783,
+    "sgd": 0.023
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, OCR in the connector, text capped (proposed)",
+    "extra_in": 6020,
+    "extra_out": 260,
+    "usd": 0.00404,
+    "sgd": 0.00522
+   },
+   {
+    "case": "Proposed path + 3\u00d7 knowledge evidence in draft/verify + one staff re-check",
+    "extra_in": 23610,
+    "extra_out": 976,
+    "usd": 0.00842,
+    "sgd": 0.01086
+   },
+   {
+    "case": "Worst case: naive quoted thread + 3 \u00d7 10-page scans as images to every call",
+    "extra_in": 329252,
+    "extra_out": 260,
+    "usd": 0.06869,
+    "sgd": 0.08861
+   },
+   {
+    "case": "Worst case above + 3\u00d7 evidence + one staff re-check",
+    "extra_in": 509358,
+    "extra_out": 976,
+    "usd": 0.10557,
+    "sgd": 0.13619
+   }
+  ],
+  "gemini-3.1-flash-lite": [
+   {
+    "case": "Plain email (Round A)",
+    "extra_in": 0,
+    "extra_out": 0,
+    "usd": 0.00316,
+    "sgd": 0.00408
+   },
+   {
+    "case": "+ 10 earlier messages, deduplicated (into understand + draft)",
+    "extra_in": 3020,
+    "extra_out": 0,
+    "usd": 0.00392,
+    "sgd": 0.00505
+   },
+   {
+    "case": "+ 10 earlier messages, each quoting all before (naive)",
+    "extra_in": 20372,
+    "extra_out": 0,
+    "usd": 0.00825,
+    "sgd": 0.01065
+   },
+   {
+    "case": "Thread + receipt photo, read once by the model",
+    "extra_in": 4160,
+    "extra_out": 260,
+    "usd": 0.00459,
+    "sgd": 0.00592
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, all sent as images to every call (naive)",
+    "extra_in": 28568,
+    "extra_out": 260,
+    "usd": 0.01069,
+    "sgd": 0.01379
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, images read once, digest passed on",
+    "extra_in": 10007,
+    "extra_out": 260,
+    "usd": 0.00605,
+    "sgd": 0.00781
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, model transcribes everything first",
+    "extra_in": 12407,
+    "extra_out": 6540,
+    "usd": 0.01607,
+    "sgd": 0.02073
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, OCR in the connector, text capped (proposed)",
+    "extra_in": 6020,
+    "extra_out": 260,
+    "usd": 0.00506,
+    "sgd": 0.00652
+   },
+   {
+    "case": "Proposed path + 3\u00d7 knowledge evidence in draft/verify + one staff re-check",
+    "extra_in": 23610,
+    "extra_out": 976,
+    "usd": 0.01053,
+    "sgd": 0.01358
+   },
+   {
+    "case": "Worst case: naive quoted thread + 3 \u00d7 10-page scans as images to every call",
+    "extra_in": 84212,
+    "extra_out": 260,
+    "usd": 0.0246,
+    "sgd": 0.03174
+   },
+   {
+    "case": "Worst case above + 3\u00d7 evidence + one staff re-check",
+    "extra_in": 141798,
+    "extra_out": 976,
+    "usd": 0.04007,
+    "sgd": 0.0517
+   }
+  ],
+  "gemini-2.5-flash": [
+   {
+    "case": "Plain email (Round A)",
+    "extra_in": 0,
+    "extra_out": 0,
+    "usd": 0.00472,
+    "sgd": 0.00609
+   },
+   {
+    "case": "+ 10 earlier messages, deduplicated (into understand + draft)",
+    "extra_in": 3020,
+    "extra_out": 0,
+    "usd": 0.00562,
+    "sgd": 0.00725
+   },
+   {
+    "case": "+ 10 earlier messages, each quoting all before (naive)",
+    "extra_in": 20372,
+    "extra_out": 0,
+    "usd": 0.01083,
+    "sgd": 0.01397
+   },
+   {
+    "case": "Thread + receipt photo, read once by the model",
+    "extra_in": 4160,
+    "extra_out": 260,
+    "usd": 0.00662,
+    "sgd": 0.00853
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, all sent as images to every call (naive)",
+    "extra_in": 28568,
+    "extra_out": 260,
+    "usd": 0.01394,
+    "sgd": 0.01798
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, images read once, digest passed on",
+    "extra_in": 10007,
+    "extra_out": 260,
+    "usd": 0.00837,
+    "sgd": 0.0108
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, model transcribes everything first",
+    "extra_in": 12407,
+    "extra_out": 6540,
+    "usd": 0.02479,
+    "sgd": 0.03198
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, OCR in the connector, text capped (proposed)",
+    "extra_in": 6020,
+    "extra_out": 260,
+    "usd": 0.00717,
+    "sgd": 0.00925
+   },
+   {
+    "case": "Proposed path + 3\u00d7 knowledge evidence in draft/verify + one staff re-check",
+    "extra_in": 23610,
+    "extra_out": 976,
+    "usd": 0.01424,
+    "sgd": 0.01837
+   },
+   {
+    "case": "Worst case: naive quoted thread + 3 \u00d7 10-page scans as images to every call",
+    "extra_in": 84212,
+    "extra_out": 260,
+    "usd": 0.03063,
+    "sgd": 0.03951
+   },
+   {
+    "case": "Worst case above + 3\u00d7 evidence + one staff re-check",
+    "extra_in": 141798,
+    "extra_out": 976,
+    "usd": 0.0497,
+    "sgd": 0.06411
+   }
+  ],
+  "gemini-3.8-flash (2026)": [
+   {
+    "case": "Plain email (Round A)",
+    "extra_in": 0,
+    "extra_out": 0,
+    "usd": 0.00849,
+    "sgd": 0.01096
+   },
+   {
+    "case": "+ 10 earlier messages, deduplicated (into understand + draft)",
+    "extra_in": 3020,
+    "extra_out": 0,
+    "usd": 0.01076,
+    "sgd": 0.01388
+   },
+   {
+    "case": "+ 10 earlier messages, each quoting all before (naive)",
+    "extra_in": 20372,
+    "extra_out": 0,
+    "usd": 0.02377,
+    "sgd": 0.03067
+   },
+   {
+    "case": "Thread + receipt photo, read once by the model",
+    "extra_in": 4160,
+    "extra_out": 260,
+    "usd": 0.01259,
+    "sgd": 0.01624
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, all sent as images to every call (naive)",
+    "extra_in": 28568,
+    "extra_out": 260,
+    "usd": 0.03089,
+    "sgd": 0.03985
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, images read once, digest passed on",
+    "extra_in": 10007,
+    "extra_out": 260,
+    "usd": 0.01697,
+    "sgd": 0.0219
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, model transcribes everything first",
+    "extra_in": 12407,
+    "extra_out": 6540,
+    "usd": 0.04232,
+    "sgd": 0.0546
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, OCR in the connector, text capped (proposed)",
+    "extra_in": 6020,
+    "extra_out": 260,
+    "usd": 0.01398,
+    "sgd": 0.01804
+   },
+   {
+    "case": "Proposed path + 3\u00d7 knowledge evidence in draft/verify + one staff re-check",
+    "extra_in": 23610,
+    "extra_out": 976,
+    "usd": 0.02986,
+    "sgd": 0.03852
+   },
+   {
+    "case": "Worst case: naive quoted thread + 3 \u00d7 10-page scans as images to every call",
+    "extra_in": 84212,
+    "extra_out": 260,
+    "usd": 0.07263,
+    "sgd": 0.09369
+   },
+   {
+    "case": "Worst case above + 3\u00d7 evidence + one staff re-check",
+    "extra_in": 141798,
+    "extra_out": 976,
+    "usd": 0.1185,
+    "sgd": 0.15287
+   }
+  ],
+  "gemini-3.8-flash (from 1 Jan 2027)": [
+   {
+    "case": "Plain email (Round A)",
+    "extra_in": 0,
+    "extra_out": 0,
+    "usd": 0.01699,
+    "sgd": 0.02191
+   },
+   {
+    "case": "+ 10 earlier messages, deduplicated (into understand + draft)",
+    "extra_in": 3020,
+    "extra_out": 0,
+    "usd": 0.02152,
+    "sgd": 0.02776
+   },
+   {
+    "case": "+ 10 earlier messages, each quoting all before (naive)",
+    "extra_in": 20372,
+    "extra_out": 0,
+    "usd": 0.04754,
+    "sgd": 0.06133
+   },
+   {
+    "case": "Thread + receipt photo, read once by the model",
+    "extra_in": 4160,
+    "extra_out": 260,
+    "usd": 0.02518,
+    "sgd": 0.03248
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, all sent as images to every call (naive)",
+    "extra_in": 28568,
+    "extra_out": 260,
+    "usd": 0.06179,
+    "sgd": 0.07971
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, images read once, digest passed on",
+    "extra_in": 10007,
+    "extra_out": 260,
+    "usd": 0.03395,
+    "sgd": 0.04379
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, model transcribes everything first",
+    "extra_in": 12407,
+    "extra_out": 6540,
+    "usd": 0.08465,
+    "sgd": 0.10919
+   },
+   {
+    "case": "Thread + 10-page scan + photo + screenshot, OCR in the connector, text capped (proposed)",
+    "extra_in": 6020,
+    "extra_out": 260,
+    "usd": 0.02797,
+    "sgd": 0.03608
+   },
+   {
+    "case": "Proposed path + 3\u00d7 knowledge evidence in draft/verify + one staff re-check",
+    "extra_in": 23610,
+    "extra_out": 976,
+    "usd": 0.05972,
+    "sgd": 0.07704
+   },
+   {
+    "case": "Worst case: naive quoted thread + 3 \u00d7 10-page scans as images to every call",
+    "extra_in": 84212,
+    "extra_out": 260,
+    "usd": 0.14525,
+    "sgd": 0.18738
+   },
+   {
+    "case": "Worst case above + 3\u00d7 evidence + one staff re-check",
+    "extra_in": 141798,
+    "extra_out": 976,
+    "usd": 0.237,
+    "sgd": 0.30573
+   }
+  ]
+ }
+}

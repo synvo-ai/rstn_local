@@ -1,0 +1,2152 @@
+[
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "baseline",
+  "resolution": "default",
+  "prompt": 5,
+  "by_modality": {
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.0,
+  "text": null,
+  "input_tokens": 0
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "email body",
+  "resolution": "default",
+  "prompt": 199,
+  "by_modality": {
+   "TEXT": 199
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 0.7,
+  "text": null,
+  "input_tokens": 194
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "thread, 10 earlier messages (deduplicated)",
+  "resolution": "default",
+  "prompt": 1517,
+  "by_modality": {
+   "TEXT": 1517
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.1,
+  "text": null,
+  "input_tokens": 1512
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "thread, 10 earlier messages (each quoting all before)",
+  "resolution": "default",
+  "prompt": 10191,
+  "by_modality": {
+   "TEXT": 10191
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.2,
+  "text": null,
+  "input_tokens": 10186
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page PDF, text extracted locally",
+  "resolution": "default",
+  "prompt": 6202,
+  "by_modality": {
+   "TEXT": 6202
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 0.8,
+  "text": null,
+  "input_tokens": 6197
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 5325,
+  "by_modality": {
+   "IMAGE": 5320,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.8,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2660
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.5,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "IMAGE": 5320,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.8,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 10920
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 6.6,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.6,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "IMAGE": 2660,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.8,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "IMAGE": 5320,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.6,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "IMAGE": 10920,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 6.7,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "default",
+  "prompt": 10925,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 10920
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 5.9,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "IMAGE": 2660,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.7,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.1,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 10920
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.2,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "default",
+  "prompt": 1069,
+  "by_modality": {
+   "IMAGE": 1064,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.6,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "low",
+  "prompt": 271,
+  "by_modality": {
+   "IMAGE": 266,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.1,
+  "text": null,
+  "input_tokens": 266
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "medium",
+  "prompt": 545,
+  "by_modality": {
+   "IMAGE": 540,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.6,
+  "text": null,
+  "input_tokens": 540
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "high",
+  "prompt": 1069,
+  "by_modality": {
+   "IMAGE": 1064,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.5,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "default",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.3,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "low",
+  "prompt": 271,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 266
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.9,
+  "text": null,
+  "input_tokens": 266
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "medium",
+  "prompt": 545,
+  "by_modality": {
+   "IMAGE": 540,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.5,
+  "text": null,
+  "input_tokens": 540
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "high",
+  "prompt": 1069,
+  "by_modality": {
+   "IMAGE": 1064,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.7,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "default",
+  "prompt": 1105,
+  "by_modality": {
+   "IMAGE": 1100,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.8,
+  "text": null,
+  "input_tokens": 1100
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "low",
+  "prompt": 269,
+  "by_modality": {
+   "IMAGE": 264,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.7,
+  "text": null,
+  "input_tokens": 264
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "medium",
+  "prompt": 532,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 527
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.7,
+  "text": null,
+  "input_tokens": 527
+ },
+ {
+  "model": "gemini-3.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "high",
+  "prompt": 1105,
+  "by_modality": {
+   "IMAGE": 1100,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.8,
+  "text": null,
+  "input_tokens": 1100
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "baseline",
+  "resolution": "default",
+  "prompt": 5,
+  "by_modality": {
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 0.8,
+  "text": null,
+  "input_tokens": 0
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "email body",
+  "resolution": "default",
+  "prompt": 199,
+  "by_modality": {
+   "TEXT": 199
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 0.7,
+  "text": null,
+  "input_tokens": 194
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "thread, 10 earlier messages (deduplicated)",
+  "resolution": "default",
+  "prompt": 1517,
+  "by_modality": {
+   "TEXT": 1517
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 0.8,
+  "text": null,
+  "input_tokens": 1512
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "thread, 10 earlier messages (each quoting all before)",
+  "resolution": "default",
+  "prompt": 10191,
+  "by_modality": {
+   "TEXT": 10191
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 0.9,
+  "text": null,
+  "input_tokens": 10186
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page PDF, text extracted locally",
+  "resolution": "default",
+  "prompt": 6202,
+  "by_modality": {
+   "TEXT": 6202
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 0.8,
+  "text": null,
+  "input_tokens": 6197
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 5325,
+  "by_modality": {
+   "IMAGE": 5320,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.9,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2660
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.9,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.5,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "IMAGE": 10920,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.8,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.4,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "IMAGE": 2660,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.6,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "IMAGE": 5320,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.8,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "IMAGE": 10920,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.4,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "default",
+  "prompt": 10925,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 10920
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.3,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2660
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.3,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.3,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "IMAGE": 10920,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.4,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "default",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.2,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "low",
+  "prompt": 271,
+  "by_modality": {
+   "IMAGE": 266,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.2,
+  "text": null,
+  "input_tokens": 266
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "medium",
+  "prompt": 545,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 540
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.8,
+  "text": null,
+  "input_tokens": 540
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "high",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.1,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "default",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.6,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "low",
+  "prompt": 271,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 266
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.7,
+  "text": null,
+  "input_tokens": 266
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "medium",
+  "prompt": 545,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 540
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.9,
+  "text": null,
+  "input_tokens": 540
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "high",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.6,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "default",
+  "prompt": 1105,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1100
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.0,
+  "text": null,
+  "input_tokens": 1100
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "low",
+  "prompt": 269,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 264
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.6,
+  "text": null,
+  "input_tokens": 264
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "medium",
+  "prompt": 532,
+  "by_modality": {
+   "IMAGE": 527,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.6,
+  "text": null,
+  "input_tokens": 527
+ },
+ {
+  "model": "gemini-3.1-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "high",
+  "prompt": 1105,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1100
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.4,
+  "text": null,
+  "input_tokens": 1100
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "baseline",
+  "resolution": "default",
+  "prompt": 5,
+  "by_modality": {
+   "TEXT": 5
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.1,
+  "text": null,
+  "input_tokens": 0
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "email body",
+  "resolution": "default",
+  "prompt": 199,
+  "by_modality": {
+   "TEXT": 199
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 0.9,
+  "text": null,
+  "input_tokens": 194
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "thread, 10 earlier messages (deduplicated)",
+  "resolution": "default",
+  "prompt": 1517,
+  "by_modality": {
+   "TEXT": 1517
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.0,
+  "text": null,
+  "input_tokens": 1512
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "thread, 10 earlier messages (each quoting all before)",
+  "resolution": "default",
+  "prompt": 10191,
+  "by_modality": {
+   "TEXT": 10191
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.1,
+  "text": null,
+  "input_tokens": 10186
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page PDF, text extracted locally",
+  "resolution": "default",
+  "prompt": 6202,
+  "by_modality": {
+   "TEXT": 6202
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.0,
+  "text": null,
+  "input_tokens": 6197
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.3,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 665,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 660
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.9,
+  "text": null,
+  "input_tokens": 660
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 7.7,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.5,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 9.3,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 665,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 660
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 5.4,
+  "text": null,
+  "input_tokens": 660
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 6.3,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 7.3,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "default",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.6,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "low",
+  "prompt": 665,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 660
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.9,
+  "text": null,
+  "input_tokens": 660
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "medium",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 5.0,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "high",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.9,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "default",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.3,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "low",
+  "prompt": 71,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 66
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.9,
+  "text": null,
+  "input_tokens": 66
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "medium",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.0,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "high",
+  "prompt": 1295,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1290
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.1,
+  "text": null,
+  "input_tokens": 1290
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "default",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.6,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "low",
+  "prompt": 71,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 66
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.1,
+  "text": null,
+  "input_tokens": 66
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "medium",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.2,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "high",
+  "prompt": 3359,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 3354
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.8,
+  "text": null,
+  "input_tokens": 3354
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "default",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.6,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "low",
+  "prompt": 71,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 66
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.2,
+  "text": null,
+  "input_tokens": 66
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "medium",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.0,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "high",
+  "prompt": 1811,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1806
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.5,
+  "text": null,
+  "input_tokens": 1806
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "baseline",
+  "resolution": "default",
+  "prompt": 5,
+  "by_modality": {
+   "TEXT": 5
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.0,
+  "text": null,
+  "input_tokens": 0
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "email body",
+  "resolution": "default",
+  "prompt": 199,
+  "by_modality": {
+   "TEXT": 199
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 0.9,
+  "text": null,
+  "input_tokens": 194
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "thread, 10 earlier messages (deduplicated)",
+  "resolution": "default",
+  "prompt": 1517,
+  "by_modality": {
+   "TEXT": 1517
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 0.9,
+  "text": null,
+  "input_tokens": 1512
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "thread, 10 earlier messages (each quoting all before)",
+  "resolution": "default",
+  "prompt": 10191,
+  "by_modality": {
+   "TEXT": 10191
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 0.9,
+  "text": null,
+  "input_tokens": 10186
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page PDF, text extracted locally",
+  "resolution": "default",
+  "prompt": 6202,
+  "by_modality": {
+   "TEXT": 6202
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 0.9,
+  "text": null,
+  "input_tokens": 6197
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 7.1,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 665,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 660
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.3,
+  "text": null,
+  "input_tokens": 660
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.6,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.4,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.1,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 665,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 660
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.7,
+  "text": null,
+  "input_tokens": 660
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.6,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "DOCUMENT": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 5.0,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "default",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 5.0,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "low",
+  "prompt": 665,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 660
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.6,
+  "text": null,
+  "input_tokens": 660
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "medium",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 5.3,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "high",
+  "prompt": 2585,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2580
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.4,
+  "text": null,
+  "input_tokens": 2580
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "default",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.1,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "low",
+  "prompt": 71,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 66
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.9,
+  "text": null,
+  "input_tokens": 66
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "medium",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.8,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "receipt image 900×1200",
+  "resolution": "high",
+  "prompt": 1295,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1290
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.7,
+  "text": null,
+  "input_tokens": 1290
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "default",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.9,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "low",
+  "prompt": 71,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 66
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.0,
+  "text": null,
+  "input_tokens": 66
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "medium",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 3.0,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "phone photo 4032×3024",
+  "resolution": "high",
+  "prompt": 3359,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 3354
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 5.7,
+  "text": null,
+  "input_tokens": 3354
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "default",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 4.0,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "low",
+  "prompt": 71,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 66
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 1.9,
+  "text": null,
+  "input_tokens": 66
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "medium",
+  "prompt": 263,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 258
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.2,
+  "text": null,
+  "input_tokens": 258
+ },
+ {
+  "model": "gemini-2.5-flash-lite",
+  "input": "screenshot 1920×1080",
+  "resolution": "high",
+  "prompt": 1811,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1806
+  },
+  "output": 1,
+  "thinking": 0,
+  "seconds": 2.5,
+  "text": null,
+  "input_tokens": 1806
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "baseline",
+  "resolution": "default",
+  "prompt": 5,
+  "by_modality": {
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.5,
+  "text": null,
+  "input_tokens": 0
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "email body",
+  "resolution": "default",
+  "prompt": 199,
+  "by_modality": {
+   "TEXT": 199
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.7,
+  "text": null,
+  "input_tokens": 194
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "thread, 10 earlier messages (deduplicated)",
+  "resolution": "default",
+  "prompt": 1517,
+  "by_modality": {
+   "TEXT": 1517
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.6,
+  "text": null,
+  "input_tokens": 1512
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "thread, 10 earlier messages (each quoting all before)",
+  "resolution": "default",
+  "prompt": 10191,
+  "by_modality": {
+   "TEXT": 10191
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 1.8,
+  "text": null,
+  "input_tokens": 10186
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page PDF, text extracted locally",
+  "resolution": "default",
+  "prompt": 6202,
+  "by_modality": {
+   "TEXT": 6202
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.5,
+  "text": null,
+  "input_tokens": 6197
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.3,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "IMAGE": 2660,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.5,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "IMAGE": 5320,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.8,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page text PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 10920
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.3,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "default",
+  "prompt": 5325,
+  "by_modality": {
+   "IMAGE": 5320,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.8,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 2660
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.6,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 5.1,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scanned PDF, sent as PDF",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "IMAGE": 10920,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 5.0,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "default",
+  "prompt": 10925,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 10920
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.8,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "low",
+  "prompt": 2665,
+  "by_modality": {
+   "IMAGE": 2660,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 5.1,
+  "text": null,
+  "input_tokens": 2660
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "medium",
+  "prompt": 5325,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 5320
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.1,
+  "text": null,
+  "input_tokens": 5320
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "10-page scan, sent as 10 images (150 dpi)",
+  "resolution": "high",
+  "prompt": 10925,
+  "by_modality": {
+   "IMAGE": 10920,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 4.5,
+  "text": null,
+  "input_tokens": 10920
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "default",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.1,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "low",
+  "prompt": 271,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 266
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.4,
+  "text": null,
+  "input_tokens": 266
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "medium",
+  "prompt": 545,
+  "by_modality": {
+   "IMAGE": 540,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.1,
+  "text": null,
+  "input_tokens": 540
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "receipt image 900×1200",
+  "resolution": "high",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.7,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "default",
+  "prompt": 1069,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1064
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.6,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "low",
+  "prompt": 271,
+  "by_modality": {
+   "IMAGE": 266,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.0,
+  "text": null,
+  "input_tokens": 266
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "medium",
+  "prompt": 545,
+  "by_modality": {
+   "IMAGE": 540,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.0,
+  "text": null,
+  "input_tokens": 540
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "phone photo 4032×3024",
+  "resolution": "high",
+  "prompt": 1069,
+  "by_modality": {
+   "IMAGE": 1064,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 3.0,
+  "text": null,
+  "input_tokens": 1064
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "default",
+  "prompt": 1105,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 1100
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.4,
+  "text": null,
+  "input_tokens": 1100
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "low",
+  "prompt": 269,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 264
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.3,
+  "text": null,
+  "input_tokens": 264
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "medium",
+  "prompt": 532,
+  "by_modality": {
+   "TEXT": 5,
+   "IMAGE": 527
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.6,
+  "text": null,
+  "input_tokens": 527
+ },
+ {
+  "model": "gemini-3.8-flash",
+  "input": "screenshot 1920×1080",
+  "resolution": "high",
+  "prompt": 1105,
+  "by_modality": {
+   "IMAGE": 1100,
+   "TEXT": 5
+  },
+  "output": 0,
+  "thinking": 0,
+  "seconds": 2.7,
+  "text": null,
+  "input_tokens": 1100
+ }
+]

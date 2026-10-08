@@ -6,7 +6,9 @@
 
 **Attached:** *Pre-read for the technical call* (our question list)
 
-Thank you for the questions. Our answers are below, in your numbering. They set out our approach. Where an answer depends on something only RSTN or NTU can tell us, we have added a short question back. These are collected in section 2.
+**Updated:** after the 8 October call, with section 2 on self-learning
+
+Thank you for the questions. Our answers are below, in your numbering. They set out our approach. Where an answer depends on something only RSTN or NTU can tell us, we have added a short question back. These are collected in section 3.
 
 ---
 
@@ -16,7 +18,7 @@ Thank you for the questions. Our answers are below, in your numbering. They set 
 - **It recommends; it never acts.** Sending, forwarding and case updates stay with RSTN and PaCE staff.
 - **Proposed setup:** Synvo hosts the engine in Singapore. A small **privacy connector**, supplied by Synvo, runs in RSTN's network. It masks personal details before anything leaves NTU and puts them back in the result. Nothing is kept after the response.
 - **It follows a fixed, auditable workflow,** not an open-ended agent. Every run returns a trace linked to your request ID.
-- **No learning from staff feedback in phase 1.** It is planned for phase 2 as a reviewed, reversible process.
+- **Staff review goes down over time.** Every reply is reviewed at first. As staff approve and correct drafts, the engine learns which ones are safe, and review can be reduced category by category. This self-learning is planned for phase 2 (section 2).
 
 ---
 
@@ -79,11 +81,11 @@ We keep a versioned copy on our side and handle search ourselves. Withdrawn cont
 
 ### 9. How does the engine learn from reviewer feedback?
 
-Learning from staff feedback is **phase 2**. In phase 1 the engine changes only through tested, versioned releases. Our phase 2 principles:
+Learning from staff feedback is **phase 2**; section 2 explains how it works. In phase 1 the engine changes only through tested, versioned releases. Our phase 2 principles:
 
 - **a. Signals:** approvals, edits, reroutes and explicit feedback.
-- **b. What gets updated:** only reviewable items such as routing rules, programme aliases and reply examples. The underlying models are not retrained on NTU data.
-- **c. How quickly:** each change is confirmed by a person and tested before release, so not instantly.
+- **b. What gets updated:** reviewable items such as confirmed answers, routing rules and programme aliases, and the confidence check described in section 2. The underlying language models are not retrained on NTU data.
+- **c. How quickly:** a confirmed answer can be reused once staff have confirmed it. Changes to the confidence check, and any release of a category, are tested before use, so not instantly.
 - **d. Inspect and roll back:** yes, each learned item can be inspected and rolled back on its own.
 - **e. Stopping one wrong correction from spreading:** human confirmation, testing before release, and a narrow scope for each change.
 
@@ -134,7 +136,46 @@ Yes. We are happy to run another online session with the engine processing sampl
 
 ---
 
-## 2. Our questions back
+## 2. Self-learning: how the need for review goes down
+
+**The goal:** at go-live, PaCE staff review every draft. Over time, the share of emails that need a person should fall steadily, without lowering the quality of what is sent.
+
+**How it works.** Two mechanisms learn from what staff already do in the review console. Nobody has to label anything separately.
+
+```mermaid
+flowchart TD
+    A[Incoming enquiry] --> B[Engine drafts a reply<br>from approved knowledge]
+    M[(Confirmed answers)] -. similar question:<br>reuse the confirmed answer .-> B
+    B --> C{Confidence check}
+    C -- high, in a category PaCE has released --> D[Ready to send<br>quick approval or automatic, per category]
+    C -- low, or not released --> E[Staff review and correct]
+    E --> M
+    E -. staff decisions calibrate .-> C
+    D -. random sample still reviewed .-> E
+```
+
+1. **Confirmed answers.** When staff approve or correct a reply, the confirmed answer is kept as a reviewed example, without personal details. When a similar question arrives, the engine starts from that confirmed answer. It still checks the answer against the current approved knowledge, so outdated content is not reused.
+2. **Confidence check.** A separate check estimates, for each draft, how likely staff are to approve it unchanged. It is calibrated against PaCE's own past decisions (approved, edited or rerouted), not against the model's view of itself. This is not the kind of single, self-reported score we cautioned against in answer 7: it is measured against real outcomes and tested before anyone relies on it. As decisions accumulate, the check becomes more reliable, and more drafts qualify as ready to send.
+
+**How review is reduced, step by step:**
+
+| Stage | What staff do | Moves to the next stage when |
+|---|---|---|
+| 1. Learn | Review every draft, as at go-live. The engine records decisions and measures itself. | The confidence check proves reliable on PaCE's own decisions |
+| 2. Fast track | Drafts marked "ready to send" need a quick approval; the rest get full review. | A category meets the agreed accuracy target over an agreed period |
+| 3. Release by category | For categories PaCE releases (e.g. intake dates, fees, general programme questions), ready-to-send replies can go out without review. A random sample is still checked. | Ongoing, with monthly reporting |
+
+**Safeguards:**
+- **PaCE decides.** Releasing a category, and the threshold for it, is PaCE's decision, based on measured results. Sending stays with RSTN's system; the engine only marks a draft as ready.
+- **Some categories are never released.** For example: payment and application status, complaints, personal circumstances, and anything the engine marks Ask for clarification or Manual handling.
+- **Everything is reversible.** Each confirmed answer can be inspected and removed, and any category can be returned to full review at once.
+- **Visible progress.** A regular report shows the share of emails needing review, approval and edit rates, and the results of spot checks, by category.
+
+**When:** self-learning is not part of the current proof of concept. Staff decisions from the pilot provide the data for stage 1, so the design is in place from the start.
+
+---
+
+## 3. Our questions back
 
 Items marked **★** are the ones we would most like to settle on the call. The full list, with our proposal for each, is in the attached pre-read; the IDs in brackets refer to it.
 

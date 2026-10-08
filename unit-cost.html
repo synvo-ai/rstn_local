@@ -51,6 +51,11 @@ pre { font-family: var(--mono); font-size: 13px; background: var(--surface); bor
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
 .two > div { display: grid; gap: 10px; align-content: start; min-width: 0; }
 footer { font-size: 13px; color: var(--muted); }
+.calc { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; font-size: 14px; }
+.calc label { display: grid; gap: 4px; color: var(--muted); }
+.calc input, .calc select { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; min-width: 0; }
+.calc-out { grid-column: 1 / -1; font-family: var(--mono); font-size: 13.5px; color: var(--fg); border-top: 1px solid var(--line); padding-top: 10px; }
+.calc-out b { font-size: 18px; color: var(--accent); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -66,7 +71,7 @@ footer { font-size: 13px; color: var(--muted); }
   <section aria-labelledby="cost">
     <h2 id="cost">Cost per email processed</h2>
     <p>Only steps 3 (Understand) and 7 (Draft &amp; verify) always call a model. Step 2 calls one only for attachments and step 4 only when the programme is unclear; steps 1, 5 and 6 are rules. That is why the unit cost is low and predictable.</p>
-    <p>Measured on the POC's formal evaluation (Round A, 28 Sep 2026): seven fixed test emails, GPT-5.6 Luna, run one at a time. Token counts are retained originals. The dollar figure is the documented Round A result; the price list used that day was not kept, so it must be re-priced before it goes to the customer.</p>
+    <p>Measured on the POC's formal evaluation (Round A, 28 Sep 2026): seven fixed test emails, GPT-5.6 Luna, run one at a time. Token counts are retained originals. Re-priced on 8 Oct 2026 at Luna's list price ($0.20 input, $1.20 output per 1M tokens): 4,724 × 0.20 + 1,320 × 1.20 = <b>$0.0025 (S$0.0033)</b>, matching the documented result.</p>
     <div class="tiles">
       <div class="tile"><b>~$0.0025</b><span>model cost per email, measured</span></div>
       <div class="tile"><b>~4.3</b><span>model calls per email</span></div>
@@ -106,8 +111,8 @@ footer { font-size: 13px; color: var(--muted); }
 
     <h3>Unit cost formula for the 1-pager</h3>
 <pre>cost per email = Σ stages ( calls × (input tokens × input price + output tokens × output price) )
-               + attachment share × ( vision calls × image cost            ← tier 3 only
-                                      + extracted tokens × later calls × input price )
+               + thread tokens × 2 calls × input price
+               + attachment payload × calls that see it × input price   ← see "Attachments" below
                + retrieval cost per query (embeddings, search)
                + (hosting + monitoring per month) ÷ emails per month
 
@@ -122,62 +127,174 @@ fixed, priced separately = integration build · privacy connector · sample-emai
       <li><b>Fixed infrastructure at one customer.</b> One dedicated hosting environment is <i>est.</i> a few hundred USD per month, the same order as PaCE's model bill (~$100–170 per month). Multi-tenancy matters for margin (<code>hosting-and-scaling.md</code> §2.3).</li>
       <li><b>Data protection overhead.</b> Masking and OCR run in the connector. Zero-retention enterprise endpoints may be priced differently from standard APIs; check when re-pricing (TODO B4).</li>
       <li><b>Size of retrieved evidence.</b> Real NTU pages, FAQs and policies are larger than the POC store. Capping evidence per issue keeps draft and verify in check.</li>
-      <li><b>Attachments.</b> Small: about $0.001 per vision call and under $0.001 per attachment of extracted text, inside the caps. See <a href="#att">Attachment processing cost</a>.</li>
+      <li><b>Attachments and long threads.</b> Under the caps, S$0.005–0.04 per email even with a 10-page scan, two images and 10 earlier messages, against a S$0.30 budget. See <a href="#att">Attachments, long threads and the S$0.30 cap</a>.</li>
       <li><b>Model choice per stage.</b> Through the model gateway, simple stages can use a cheaper model without touching business rules. In Round A, Luna was the cheapest and also scored highest in blind review (18.5 of 21).</li>
     </ul>
   </section>
 
 
   <section aria-labelledby="att">
-    <h2 id="att">Attachment processing cost</h2>
-    <p>Attachments are handled in tiers. Each tier runs only when the cheaper one before it is not enough, and every attachment is capped (pages read, text kept). In the proposed setup tiers 1–2 run in the privacy connector on RSTN's hardware, so they cost us nothing per email; only tier 3 is a model call we pay for. Every tier also adds extracted text to the prompts that follow (understand, draft, verify), which is usually the larger part of the cost.</p>
+    <h2 id="att">Attachments, long threads and the S$0.30 cap</h2>
+    <p>Agreed with RSTN/NTU: model cost per email must stay <b>under S$0.30</b>, with attachments of up to <b>10 pages</b> (tentative cap) and long threads (~10 earlier messages). Measured on 8 Oct 2026 with made-up inputs (<code>cost-bench/</code>): token counts from the Gemini API's usage metadata, real calls for output and thinking tokens, and the published patch formula for GPT-5.6 Luna. All figures are model cost only, in SGD at 1 USD = 1.29 SGD.</p>
+    <div class="tiles">
+      <div class="tile"><b>S$0.30</b><span>budget per email (hard cap)</span></div>
+      <div class="tile"><b>S$0.003–0.011</b><span>plain email, Luna → Gemini 3.8 Flash</span></div>
+      <div class="tile"><b>S$0.005–0.018</b><span>thread + 10-page scan + photo + screenshot, proposed path</span></div>
+      <div class="tile"><b>S$0.05–0.15</b><span>worst designed-around case, today's prices</span></div>
+    </div>
 
+    <h3>Measured tokens per input (8 Oct 2026)</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Input</th><th class="n">Gemini 3.x, low</th><th class="n">Gemini 3.x, medium</th><th class="n">Gemini 3.x, high / default</th><th class="n">Gemini 2.5, default</th><th class="n">GPT-5.6 Luna, high <i>(formula)</i></th></tr></thead>
+      <tbody>
+        <tr><td>Email body (~150 words)</td><td class="n" colspan="3">194</td><td class="n">194</td><td class="n">—</td></tr>
+        <tr><td>10 earlier messages, deduplicated</td><td class="n" colspan="3">1,512 (151 per message)</td><td class="n">1,512</td><td class="n">—</td></tr>
+        <tr><td>10 earlier messages, each quoting all before</td><td class="n" colspan="3">10,186 (grows with n²)</td><td class="n">10,186</td><td class="n">—</td></tr>
+        <tr><td>10-page dense PDF, text extracted locally</td><td class="n" colspan="3">6,197 (620 per page)</td><td class="n">6,197</td><td class="n">—</td></tr>
+        <tr><td>10-page PDF sent as PDF (text layer or scan: same count)</td><td class="n">2,660</td><td class="n">5,320</td><td class="n">10,920 / 5,320</td><td class="n">2,580</td><td class="n">25,740</td></tr>
+        <tr><td>10 scanned pages sent as 10 images (150 dpi)</td><td class="n">2,660</td><td class="n">5,320</td><td class="n">10,920</td><td class="n">2,580</td><td class="n">25,740</td></tr>
+        <tr><td>Receipt image 900×1200</td><td class="n">266</td><td class="n">540</td><td class="n">1,064</td><td class="n">258</td><td class="n">1,334</td></tr>
+        <tr><td>Phone photo 4032×3024 (12 MP)</td><td class="n">266</td><td class="n">540</td><td class="n">1,064</td><td class="n">258</td><td class="n">3,063 <i>(resized)</i></td></tr>
+        <tr><td>Screenshot 1920×1080</td><td class="n">264</td><td class="n">527</td><td class="n">1,100</td><td class="n">258</td><td class="n">2,448</td></tr>
+      </tbody>
+    </table></div>
+    <ul class="notes">
+      <li><b>Gemini 3.x</b> (3.8 Flash, 3.5 Flash-Lite, 3.1 Flash-Lite gave identical counts): a fixed budget per image or page set by <code>media_resolution</code>, regardless of pixel size. A PDF's text layer is <b>not</b> billed separately and not used to save tokens: a text PDF costs the same as its scan. The default is <i>high</i> for images and <i>medium</i> for PDFs; images sent page by page fall back to <i>high</i>, so set <code>medium</code> explicitly. Medium transcribed our receipt, screenshot and 10 scanned pages correctly.</li>
+      <li><b>GPT-5.6 Luna</b> counts 32-px patches × 1.2, up to 2,500 patches at <code>detail: high</code>. At <code>auto</code>/<code>original</code> it keeps the original size: a 12 MP photo would be ~14,400 tokens. Always resize (≤ 2048 px) and set the detail level. An A4 page at 150 dpi is ~2,600 tokens, ~5× Gemini medium.</li>
+      <li><b>Output is the expensive part of transcription.</b> Transcribing 10 scanned pages produced ~5,900 output tokens (590 per page) on both 3.8 Flash and 3.1 Flash-Lite, at 3.75 to 6× the input price. Receipt and screenshot: 150–220 output tokens each.</li>
+      <li><b>Thinking tokens</b> are billed as output. At <code>thinking_level: low</code>, 3.1 Flash-Lite added 120–1,400 per understand call; 3.8 Flash reported none. 3.8 Flash does not accept <code>minimal</code>.</li>
+    </ul>
+
+    <h3>Cost formula</h3>
+<pre>cost per email = [ Σ calls ( input tokens ) × input price  +  Σ calls ( output + thinking tokens ) × output price ] × USD→SGD
+
+input tokens   = base (Round A: 4,724 over ~4.3 calls)
+               + (evidence factor − 1) × 3,096                    ← draft + verify grow with real NTU knowledge
+               + thread tokens × 2                                ← understand + draft; 151 per deduplicated message
+               + attachment payload × calls that see it            ← the main lever: 1 (read once) or 4 (every call)
+               + 2 × 300 digest                                   ← attachment facts passed to draft + verify
+               + re-checks × (evidence × 3,096 + thread + 600)     ← staff change re-runs draft + verify
+output tokens  = base (1,320) + 260 with attachments + transcription (590 per page, if the model transcribes)
+               + re-checks × 716
+attachment payload = text pages × 620 (capped 2,000 per attachment)       ← text layer or OCR in the connector
+                   | pages × image tokens per page  + images × image tokens  ← sent to the model as images</pre>
+
+    <h3>Scenarios, SGD per email</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Case</th><th class="n">GPT-5.6 Luna</th><th class="n">Gemini 3.1 Flash-Lite</th><th class="n">Gemini 3.8 Flash</th><th class="n">3.8 Flash from 1 Jan 2027</th></tr></thead>
+      <tbody>
+        <tr><td>Plain email (Round A)</td><td class="n">0.0033</td><td class="n">0.0041</td><td class="n">0.0110</td><td class="n">0.0219</td></tr>
+        <tr><td>+ 10 earlier messages, deduplicated</td><td class="n">0.0040</td><td class="n">0.0050</td><td class="n">0.0139</td><td class="n">0.0278</td></tr>
+        <tr><td>+ 10 earlier messages, each quoting all before</td><td class="n">0.0085</td><td class="n">0.0106</td><td class="n">0.0307</td><td class="n">0.0613</td></tr>
+        <tr><td>Thread + receipt photo, read once</td><td class="n">0.0054</td><td class="n">0.0059</td><td class="n">0.0162</td><td class="n">0.0325</td></tr>
+        <tr class="total"><td>Thread + 10-page scan + photo + screenshot: <b>OCR in the connector, text capped (proposed)</b></td><td class="n">0.0052</td><td class="n">0.0065</td><td class="n">0.0180</td><td class="n">0.0361</td></tr>
+        <tr><td>… same attachments as images, read once, digest passed on</td><td class="n">0.0127</td><td class="n">0.0078</td><td class="n">0.0219</td><td class="n">0.0438</td></tr>
+        <tr><td>… model transcribes everything first, then text</td><td class="n">0.0230</td><td class="n">0.0207</td><td class="n">0.0546</td><td class="n">0.1092</td></tr>
+        <tr><td>… same attachments as images to every call (naive)</td><td class="n">0.0367</td><td class="n">0.0138</td><td class="n">0.0398</td><td class="n">0.0797</td></tr>
+        <tr><td>Proposed path + 3× knowledge evidence + one staff re-check</td><td class="n">0.0109</td><td class="n">0.0136</td><td class="n">0.0385</td><td class="n">0.0770</td></tr>
+        <tr><td>Worst: quoted thread + 3 × 10-page scans as images to every call</td><td class="n">0.0886</td><td class="n">0.0317</td><td class="n">0.0937</td><td class="n">0.1874</td></tr>
+        <tr><td>Worst above + 3× evidence + one staff re-check</td><td class="n">0.1362</td><td class="n">0.0517</td><td class="n">0.1529</td><td class="n" style="color:var(--new)">0.3057</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lede" style="font-size:13px">Prices per 1M tokens, standard tier, checked 8 Oct 2026: Luna $0.20 / $1.20; 3.1 Flash-Lite $0.25 / $1.50; 3.8 Flash $0.75 / $3.75, doubling to $1.50 / $7.50 on 1 Jan 2027. Batch is half price; regional (data-residency) OpenAI endpoints add 10%. Base calls and tokens are Round A (Luna) applied to every model, so output for other models is indicative. Gemini image counts at medium. Script: <code>cost-bench/cost_model.py</code>.</p>
+
+    <div class="caveat"><b>Conclusion.</b> Every realistic case costs <b>S$0.003–0.04</b> at today's prices, roughly <b>8–90× under</b> the S$0.30 cap. The proposed path (text layer or OCR in the connector, 2,000-token cap per attachment, attachment read once, deduplicated thread) stays under S$0.08 even on 3.8 Flash at 2027 prices with 3× evidence and a staff re-check. Only the deliberately naive worst case on 3.8 Flash after the 2027 price rise reaches the cap. The guarantee therefore comes from four engine rules, not from the model price: <b>(1)</b> cap pages (10) and text kept per attachment (2,000 tokens); <b>(2)</b> attachments seen by one call only, then a short digest; <b>(3)</b> deduplicate quoted thread history; <b>(4)</b> resize images and set the resolution explicitly. Add a per-email token budget check in the engine that degrades to Manual handling rather than overspend (TODO B39).</div>
+
+    <h3>Calculator</h3>
+    <div id="calc" class="calc">
+      <label>Model <select id="c-model">
+        <option value="0.20,1.20,2574,2800">GPT-5.6 Luna</option>
+        <option value="0.25,1.50,532,540" selected>Gemini 3.1 Flash-Lite</option>
+        <option value="0.30,2.50,258,258">Gemini 2.5 Flash</option>
+        <option value="0.75,3.75,532,540">Gemini 3.8 Flash (2026)</option>
+        <option value="1.50,7.50,532,540">Gemini 3.8 Flash (from 2027)</option>
+      </select></label>
+      <label>Earlier messages <input id="c-thread" type="number" min="0" max="30" value="10"></label>
+      <label>Thread <select id="c-quoted"><option value="0">deduplicated</option><option value="1">each quotes all before</option></select></label>
+      <label>Text-PDF pages <input id="c-text" type="number" min="0" max="10" value="0"></label>
+      <label>Scanned pages <input id="c-scan" type="number" min="0" max="30" value="10"></label>
+      <label>Photos / screenshots <input id="c-img" type="number" min="0" max="10" value="2"></label>
+      <label>Attachment route <select id="c-route">
+        <option value="ocr" selected>OCR / text in connector, capped (proposed)</option>
+        <option value="once">images read once, digest</option>
+        <option value="transcribe">model transcribes first</option>
+        <option value="every">images to every call (naive)</option>
+      </select></label>
+      <label>Evidence factor <input id="c-ev" type="number" min="1" max="5" step="0.5" value="1"></label>
+      <label>Staff re-checks <input id="c-rc" type="number" min="0" max="3" value="0"></label>
+      <label>USD → SGD <input id="c-fx" type="number" step="0.01" value="1.29"></label>
+      <output id="c-out" class="calc-out"></output>
+    </div>
+
+    <h3>Attachment tiers</h3>
     <div class="tablewrap"><table>
       <thead><tr><th>Attachment</th><th>What happens</th><th>Where it runs</th><th class="n">Reading cost to us</th><th class="n">Added prompt tokens</th></tr></thead>
       <tbody>
-        <tr><td>PDF with a text layer, Word, Excel, plain text</td><td>Tier 1: text extraction, no model</td><td>Connector (CPU, milliseconds)</td><td class="n">$0</td><td class="n">≤ 2,000 per attachment</td></tr>
-        <tr><td>Scanned PDF, photo or screenshot of a document (receipt, certificate)</td><td>Tier 2: OCR, first 5 pages only</td><td>Connector (CPU)</td><td class="n">$0 to us; RSTN's CPU</td><td class="n">≤ 2,000 per attachment</td></tr>
-        <tr><td>Screenshot where layout matters (portal error, form state) and OCR text is not enough</td><td>Tier 3: personal details blacked out in the connector, then one vision model call</td><td>Engine (hosted model)</td><td class="n"><i>est.</i> ~$0.001 per image</td><td class="n">~1,100–1,400 image + ~700 prompt/output</td></tr>
+        <tr><td>PDF with a text layer, Word, Excel, plain text</td><td>Tier 1: text extraction, no model. Complex layouts (tables, columns): Hansong's PDF parser (MinerU 2.5.4 level)</td><td>Connector (CPU); parser placement TBD (B40)</td><td class="n">$0</td><td class="n">≤ 2,000 per attachment, once</td></tr>
+        <tr><td>Scanned PDF, photo or screenshot of a document (receipt, certificate)</td><td>Tier 2: OCR, first 10 pages only</td><td>Connector (CPU)</td><td class="n">$0 to us; RSTN's CPU</td><td class="n">≤ 2,000 per attachment, once</td></tr>
+        <tr><td>Screenshot where layout matters (portal error, form state) and OCR text is not enough</td><td>Tier 3: personal details blacked out in the connector, then read once by the model at medium resolution</td><td>Engine (hosted model)</td><td class="n">S$0.0002–0.0010 per image</td><td class="n">~530 (Gemini) / ~2,500 (Luna) + ~200 output</td></tr>
         <tr><td>Logos, signatures, tiny inline images</td><td>Filtered by size and repeat detection</td><td>Connector</td><td class="n">$0</td><td class="n">0</td></tr>
-        <tr><td>Zip, audio, video, password-protected, over the page cap</td><td>Not read; issue flagged for Manual handling with the reason</td><td>—</td><td class="n">$0</td><td class="n">0</td></tr>
+        <tr><td>Zip, audio, video, password-protected, pages beyond 10</td><td>Not read; issue flagged for Manual handling with the reason</td><td>—</td><td class="n">$0</td><td class="n">0</td></tr>
       </tbody>
     </table></div>
+    <p class="lede" style="font-size:13px">Why local text first, when a dense page is ~620 text tokens against ~530 image tokens at Gemini medium: text can be masked, capped and passed on cheaply; images cannot be masked without redaction, cost ~5× more on Luna, and turning them into text costs ~590 output tokens per page.</p>
 
     <div class="two">
       <div>
-        <h3>Measured on our GPU server (8 Oct 2026)</h3>
+        <h3>Local OCR measured on our GPU server (8 Oct 2026)</h3>
         <div class="tablewrap"><table>
           <thead><tr><th>Engine · hardware</th><th class="n">Per page, warm</th><th class="n">Tokens in / out</th><th class="n">Memory</th></tr></thead>
           <tbody>
             <tr><td>GLM-OCR Q8 · CPU, 4 threads (i7-8700)</td><td class="n">~45 s</td><td class="n">— / ~130</td><td class="n">~10.7 GB</td></tr>
-            <tr><td>GLM-OCR Q8 · GPU (RTX 8000)</td><td class="n">~0.8 s</td><td class="n">1,387 / 131</td><td class="n"><i>est.</i> <td class="n">&lt; 2 GB VRAM</td>lt; 2 GB VRAM</td></tr>
+            <tr><td>GLM-OCR Q8 · GPU (RTX 8000)</td><td class="n">~0.8 s</td><td class="n">1,387 / 131</td><td class="n"><i>est.</i> &lt; 2 GB VRAM</td></tr>
             <tr><td>Qwen3.8-27B Q4 vision · GPU (RTX 8000)</td><td class="n">~8.5 s</td><td class="n">1,125 / 160</td><td class="n"><i>est.</i> ~20 GB VRAM</td></tr>
             <tr><td>Classic OCR (Tesseract / PaddleOCR) · CPU</td><td class="n"><i>est.</i> 1–3 s</td><td class="n">—</td><td class="n"><i>est.</i> 1–2 GB</td></tr>
           </tbody>
         </table></div>
-        <p class="lede" style="font-size:13px">One made-up 900×1200 bank-transfer receipt; cold model load adds ~10–15 s (OCR) to ~2 min (27B vision) on first use. GLM-OCR text was correct apart from one masked digit. Classic OCR not yet measured (TODO B33). Image token counts from the local models; hosted models count image tokens differently, so re-check when re-pricing.</p>
+        <p class="lede" style="font-size:13px">One made-up 900×1200 bank-transfer receipt; cold model load adds ~10–15 s (OCR) to ~2 min (27B vision). GLM-OCR text was correct apart from one masked digit. Classic OCR not yet measured (TODO B33). At 10 pages, GLM-OCR on CPU would take ~7.5 minutes per attachment: too slow for the connector, so classic or ONNX OCR by default.</p>
       </div>
       <div>
-        <h3>Per-email impact</h3>
-        <div class="tablewrap"><table>
-          <thead><tr><th>Case</th><th class="n">Per email with attachment</th><th class="n">Averaged over all email</th></tr></thead>
-          <tbody>
-            <tr><td>One text PDF or OCR'd receipt<br><span class="lede" style="font-size:12.5px">~700 extracted tokens × 3 later calls</span></td><td class="n">+$0.0009</td><td class="n">+$0.0001–0.0002</td></tr>
-            <tr><td>Plus a vision call<br><span class="lede" style="font-size:12.5px">one screenshot needing tier 3</span></td><td class="n">+$0.002</td><td class="n">+$0.0002–0.0004</td></tr>
-            <tr><td>Worst case within caps<br><span class="lede" style="font-size:12.5px">3 attachments × 2,000 tokens × 3 calls, 1 vision call</span></td><td class="n">+$0.009</td><td class="n">rare</td></tr>
-          </tbody>
-        </table></div>
-        <p class="lede" style="font-size:13px">"Averaged" assumes 10–20% of emails carry an attachment. Dollar figures use the Round A blended rate of ~$0.42 per million tokens ($0.0025 ÷ ~6,000 tokens), which overstates input-only tokens; re-price with B4.</p>
+        <h3>If OCR runs on our side instead</h3>
+        <ul class="notes">
+          <li><b>Hosted-engine-only fallback</b> (RSTN cannot run the connector): OCR moves to our cloud. Classic OCR is <i>est.</i> under $0.0001 per page of CPU time. GLM-OCR on CPU is 4 vCPU × 45 s ≈ 0.05 vCPU-hours, <i>est.</i> ~$0.002 per page.</li>
+          <li><b>Model transcription</b> instead of OCR: ~S$0.004 (Flash-Lite) to ~S$0.03 (3.8 Flash) per 10 pages, mostly output tokens. Still far under the cap, but 3–10× the proposed path.</li>
+          <li><b>GPU</b> makes GLM-OCR ~50× faster, but a GPU node is a fixed cost of thousands of USD per month (<code>hosting-and-scaling.md</code> §2.4). At PaCE volume it would sit idle; worth it only when shared across customers or required on-prem.</li>
+          <li><b>Connector sizing follows the OCR choice:</b> classic or ONNX OCR keeps "2–4 vCPU, 8 GB".</li>
+        </ul>
       </div>
     </div>
-
-    <h3>If OCR runs on our side instead</h3>
-    <ul class="notes">
-      <li><b>Hosted-engine-only fallback</b> (RSTN cannot run the connector): OCR moves to our cloud. Classic OCR is <i>est.</i> under $0.0001 per page of CPU time. GLM-OCR on CPU is 4 vCPU × 45 s ≈ 0.05 vCPU-hours, <i>est.</i> ~$0.002 per page at ~$0.04 per vCPU-hour including memory (check the GCP calculator).</li>
-      <li><b>GPU</b> makes GLM-OCR ~50× faster, but a GPU node is a fixed cost of thousands of USD per month (<code>hosting-and-scaling.md</code> §2.4). At PaCE volume (~100–200 attachment pages a day) it would sit idle; worth it only when shared across customers or required on-prem.</li>
-      <li><b>Connector sizing follows the OCR choice:</b> classic OCR keeps "2–4 vCPU, 8 GB"; GLM-OCR by default needs 4 vCPU and 16 GB.</li>
-    </ul>
   </section>
 
   <footer>Sources: slide 2 of synvo_sample_slides_2026.10.02.pdf; POC Round A call metrics (evaluation/reports/PHASE_6_ROUND_A_2026-09-28T09-36-11-001Z); PHASE_6_MODEL_SELECTION_DECISION_RECORD.md. </footer>
 </div>
+
+<script>
+// Mirrors cost-bench/cost_model.py. Constants measured 8 Oct 2026 (see the formula above).
+(() => {
+  const $ = id => document.getElementById(id);
+  const BASE_IN = 4724, BASE_OUT = 1320, DV_IN = 3096, DV_OUT = 716, DIGEST = 300, CAP = 2000;
+  const PER_MSG = 151, QUOTED_PER_MSG = 185.2, TEXT_PAGE = 620, TRANSCRIBE_PAGE = 590, IMG_OCR = 190, UND_OUT = 260;
+  function run() {
+    const [pin, pout, pageTok, imgTok] = $("c-model").value.split(",").map(Number);
+    const n = +$("c-thread").value, tp = +$("c-text").value, sp = Math.min(+$("c-scan").value, 30), im = +$("c-img").value;
+    const route = $("c-route").value, ev = +$("c-ev").value, rc = +$("c-rc").value, fx = +$("c-fx").value;
+    const thread = $("c-quoted").value === "1" ? Math.round(QUOTED_PER_MSG * n * (n + 1) / 2) : PER_MSG * n;
+    const textPdf = Math.min(tp * TEXT_PAGE, CAP);
+    const scanText = Math.min(sp * TEXT_PAGE, CAP * Math.ceil(sp / 10));
+    const visual = sp * pageTok + im * imgTok;
+    const any = tp + sp + im > 0;
+    let att = 0, carry = any ? 2 * DIGEST : 0, extraOut = any ? UND_OUT : 0;
+    if (route === "ocr") att = textPdf + scanText + im * IMG_OCR;
+    if (route === "once") att = textPdf + visual;
+    if (route === "transcribe") { att = visual + textPdf + scanText + im * IMG_OCR; extraOut += sp * TRANSCRIBE_PAGE + im * IMG_OCR; }
+    if (route === "every") { att = 4 * (textPdf + visual); carry = 0; }
+    const recheckIn = rc * (ev * DV_IN + thread + (route === "every" ? 2 * (textPdf + visual) : carry));
+    const tin = BASE_IN + (ev - 1) * DV_IN + 2 * thread + att + carry + recheckIn;
+    const tout = BASE_OUT + extraOut + rc * DV_OUT;
+    const usd = (tin * pin + tout * pout) / 1e6, sgd = usd * fx;
+    $("c-out").innerHTML = `input ${Math.round(tin).toLocaleString()} · output ${Math.round(tout).toLocaleString()} tokens → $${usd.toFixed(4)} = <b>S$${sgd.toFixed(4)}</b> per email · ${(sgd / 0.30 * 100).toFixed(1)}% of the S$0.30 cap`;
+  }
+  document.querySelectorAll("#calc input, #calc select").forEach(el => el.addEventListener("input", run));
+  run();
+})();
+</script>

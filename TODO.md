@@ -24,6 +24,28 @@ Status: `[ ]` open · `[~]` in progress · `[x]` done · `[-]` dropped Owners ar
 
 Results on mock data show the engine works end to end; they are not an accuracy figure for NTU.
 
+### Division of work with Li-kai (Guowei to agree with Li-kai online, Fri 9 Oct)
+
+**Findings from the 8 Oct internal technical meeting:**
+- **Most of Li-kai's earlier code cannot be reused.** Its business logic does not fit the NTU POC flow, and it has no OCR or attachment parsing.
+- **Only the multi-language handling is worth keeping.**
+- **The hard part is not the models but the system integration.** That means connecting to RSTN/NTU's existing systems and data, and agreeing the interface and the input and output schemas early.
+
+**Agenda for the call:**
+1. **Li-kai's module scope.** Port the multi-language handling into the engine as one module with a clear interface (B41); retire the rest of the old code.
+2. **Backend interfaces.** Agree the API v0 contract (B7: raw `.eml` + JSON envelope in, JSON out, re-check call), the connector ↔ engine interface, and what the engine stores (knowledge copy, programme registry, traces; no email content).
+3. **One code structure.** One repository and module layout, shared types for request and result, and who reviews whose code, so the two sides do not diverge or build the same thing twice.
+
+**Proposed split** (to confirm on the call):
+
+| Area | Guowei | Li-kai |
+|---|---|---|
+| Engine core | B6 headless engine, workflow, verify, evaluation (B15), cost and latency (B32, B33) | B41 multi-language module |
+| Interfaces | B7 API contract and result schema (owner) | B7 `.eml` parsing and envelope adapter; B35 mock RSTN client |
+| Connector | B24 / B19 masking, OCR, restore; Python package | — |
+| Data | M3, M4 mock emails and labels | M1 knowledge crawl and store, M2 registry and routing; database schema for knowledge, registry and traces |
+| Sandbox and infra | S1 protocol, S4 feedback | S2 / S3 sandbox deployment and access; B28 infra, B37 accounts |
+
 ### Phase 1 — POC on our side (3 weeks)
 
 | Week | Dates | Focus | Done when |
@@ -131,18 +153,22 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 - [~] **B2. Workflow + architecture diagram and cost-per-email draft** — customer version `workflow-and-architecture.html`, internal cost `unit-cost.html` (Guowei → Lisa for the 1-pager).
 - [x] **B3. Send question list to RSTN before the technical call on Thu 2026-10-08 10:00** — `questions-for-rstn.md` (Part 1: our understanding to confirm; Part 2: questions with our proposals). Whether to share the Workflow and Architecture PDF is a separate business decision (not yet). Commercial 1-pager goes separately (Saim → Steven). Also send `response-to-rstn.md`: answers to RSTN's 16 questions, with questions back R1–R14.
 - [x] **B22. Prepare for the call**: draft request/response field list to walk through (`draft-solution.md` §7); agree internally who answers what (Guowei: engine/API; Li-kai: models/data; Lisa: scope/commercial).
-- [ ] **B4. Re-price Round A token usage at current provider rates** (Li-kai). The Round A price snapshot was not retained; record the dated price source this time.
+- [x] **B4. Re-price Round A token usage at current provider rates.** Done 2026-10-08: Luna list price ($0.20 / $1.20 per 1M) gives $0.0025 per email, matching Round A. Prices for Luna and Gemini, dated, in `unit-cost.html` (attachments section).
 - [-] **B5. Self-Learning phase-2 one-pager** — not required in the POC (2026-10-08); phase 3. — feedback loop as in LoadStone diagram, scoped and priced separately (Faye / Saim).
 
 ### Start now (no RSTN input needed)
 - [ ] **B31. Dev environment on the GPU server** (Guowei): point the engine's model gateway at the local router; one config per step (OCR, vision, text). Before any NTU sample data lands: bind the router to localhost or a firewall allow-list and add an API key (it currently listens on `0.0.0.0:8080` without auth).
 - [ ] **B32. Open-model baseline** (Guowei): re-run the Round A scenarios and the new test set on the local models; compare quality, latency and calls per email with the hosted model. This also sizes the on-prem licence option (hosting-and-scaling.md §2.4) and gives a fallback if a hosted provider is not approved.
-- [ ] **B33. Connector OCR on CPU** (Guowei / Li-kai): we told RSTN the connector needs about 2–4 vCPU, 8 GB and no GPU. Benchmark GLM-OCR (and Tesseract/PaddleOCR as a fallback) on CPU per page, and adjust the sizing we quote if needed. Use the GPU server only as the reference for accuracy. **First measurement (2026-10-07):** GLM-OCR Q8 via llama.cpp, CPU only, 4 threads, one made-up 900×1200 receipt: ~45 s per page once loaded (33 s image encoding, ~11 s decoding), plus ~14 s to load; peak memory ~10.7 GB; text correct apart from one masked digit (`****` read as `*****`). So no GPU is needed at PaCE volume, but 8 GB is too tight: quote 4 vCPU / 16 GB if GLM-OCR stays, or use classic OCR (Tesseract/PaddleOCR, ~1–3 s per page, ~1–2 GB, and gives word boxes needed for image redaction) by default with GLM-OCR as an option.
+- [ ] **B33. Connector OCR on CPU** (Guowei / Li-kai): we told RSTN the connector needs about 2–4 vCPU, 8 GB and no GPU. Benchmark GLM-OCR (and Tesseract/PaddleOCR as a fallback) on CPU per page, and adjust the sizing we quote if needed. Use the GPU server only as the reference for accuracy. **First measurement (2026-10-07):** GLM-OCR Q8 via llama.cpp, CPU only, 4 threads, one made-up 900×1200 receipt: ~45 s per page once loaded (33 s image encoding, ~11 s decoding), plus ~14 s to load; peak memory ~10.7 GB; text correct apart from one masked digit (`****` read as `*****`). So no GPU is needed at PaCE volume, but 8 GB is too tight: quote 4 vCPU / 16 GB if GLM-OCR stays, or use classic OCR (Tesseract/PaddleOCR, ~1–3 s per page, ~1–2 GB, and gives word boxes needed for image redaction) by default with GLM-OCR as an option. **With the 10-page cap (2026-10-08):** GLM-OCR on CPU would take ~7.5 minutes per attachment, so the Python connector uses ONNX-based classic OCR (pip-installable) by default.
 - [ ] **B34. Synthetic test set** (Guowei): extend the 7 POC scenarios to ~50 made-up emails (several questions, follow-ups, referrals, attachments, ambiguous programmes) until NTU samples arrive (A5). Include made-up receipts and screenshots for B11.
 - [ ] **B35. Mock RSTN client** (Li-kai): small caller that sends `.eml` files through the connector to the engine and receives the callback; used for the live demo and for RSTN's sandbox.
 - [ ] **B36. Live-demo hygiene** (RSTN question 16): hide model or provider names in POC screens (evaluation pages, settings, trace model field); pick 3–4 safe scenarios; no live screenshot tests while image reading is a fixture.
 - [ ] **B37. Accounts and budget** (Li-kai): cloud project in Singapore (GCP, and check AWS since RSTN mentioned Bedrock), provider API access with zero retention, budget for test and production environments.
-- [ ] **B38. POC plan for RSTN** (Guowei with Li-kai): `response-to-rstn.md` promises a plan after the call. Draft it from the internal 10-week outline (weeks 1–2 contract, samples, knowledge sync; 3–6 integration, connector, labelling; 7–10 UAT, accuracy, shadow run).
+- [x] **B38. POC plan for RSTN** (superseded by section 0, 2026-10-08) (Guowei with Li-kai): `response-to-rstn.md` promises a plan after the call. Draft it from the internal 10-week outline (weeks 1–2 contract, samples, knowledge sync; 3–6 integration, connector, labelling; 7–10 UAT, accuracy, shadow run).
+- [ ] **B39. Per-email token budget guard** (Guowei): measured 2026-10-08 (`cost-bench/`, `unit-cost.html`): every realistic case is S$0.003–0.04 against the agreed S$0.30 cap, but a naive path (quoted thread + 3 × 10-page scans sent as images to every call + re-check) reaches S$0.31 on Gemini 3.8 Flash at 2027 prices. Enforce in the engine: max 10 pages and 2,000 extracted tokens per attachment; attachments seen by one call only, then a ~300-token digest; deduplicate quoted thread history; resize images (≤ 2048 px) and set resolution or detail explicitly; a running token budget per email that degrades to Manual handling instead of overspending.
+- [ ] **B40. Hansong's PDF parser** (MinerU 2.5.4 level) for complex layouts (tables, columns): decide where it runs (connector on CPU vs our side), its CPU speed per page, and whether it is in the Python package or an optional extra.
+- [ ] **B41. Multi-language module** (Li-kai): port the reusable multi-language handling from Li-kai's earlier code into the engine as one module; tests on made-up non-English and mixed-language emails (protocol scenario A10).
+- [ ] **B42. Self-learning explanation for RSTN** (Guowei with Lisa): high-level material in `response-to-rstn.md` §3 (confirmed-answer memory + confidence check calibrated on staff decisions; gradual, per-category reduction of review). Lisa and Guowei align technical and commercial wording before it is sent.
 
 Also unblocked now, from the lists below: B6 headless engine, B7 contract draft (semantics), B8/B25 override, B9 retrieval over public NTU pages, B10 registry draft from NTU web pages, B11 attachment reader, B12 telemetry, B24/B19 connector masking and OCR, B26 no-payload logging, B27 tenant IDs, B28 infra template.
 
@@ -188,6 +214,9 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10 | Build internal architecture diagram now, in parallel with requesting RSTN's | Saim |
 | 2026-10-08 | After the call: build the POC on our side in 3 weeks (8–28 Oct) with mock data; hand RSTN a sandbox and testing protocol; self-learning not required in the POC | Group |
 | 2026-10-08 | Dates for RSTN: protocol and API spec drafts 14 Oct, sandbox v1 21 Oct, sandbox v2 and handover 28 Oct, 1-week testing window, review ~5 Nov | Guowei |
+| 2026-10-08 | Model cost cap S$0.30 per email (agreed with RSTN/NTU); attachments capped at 10 pages (tentative); local text extraction or OCR before any model call | Group |
+| 2026-10-08 | Li-kai's earlier code mostly not reused; keep only multi-language handling; Guowei agrees the split with Li-kai on 9 Oct | Group |
+| 2026-10-08 | Self-learning described to RSTN at a high level only (confirmed-answer memory + calibrated confidence check); aligned by Lisa and Guowei before sending | Group |
 | 2026-10-08 | Privacy connector delivered as a Python package (RSTN runs it on the NTU side; image updates are inconvenient there); Docker image only on request | Group (call) |
 | 2026-10-08 | Input is the raw email (RFC 5322 `.eml`) plus a small JSON envelope, since RSTN handles raw email text; no XML schema of our own | Guowei |
 | 2026-10-07 | `response-to-rstn.md` kept high level (no step list, call counts, field names or sizing); technical detail only on the call if asked | Group |
