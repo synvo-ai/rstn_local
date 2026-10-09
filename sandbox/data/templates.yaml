@@ -1,0 +1,14 @@
+# MOCK reply style and templates (M3). Replace with PaCE's own wording when available.
+# Sentences marked "controlled" are copied into the reply draft word for word.
+greeting_named: "Dear {name},"
+greeting_unnamed: "Dear Sir or Madam,"
+opening: "Thank you for your email."
+sign_off: "Best regards,\nPaCE General Enquiries\n(mock reply style for the sandbox)"
+# controlled
+refer: "Your question about {topic} has been passed to our {team} team, who will reply to you directly."
+clarify: "Could you let us know which programme you are asking about? For example: {candidates}."
+clarify_unknown: "Could you tell us the full name of the programme you are asking about?"
+manual: "We are looking into your question about {topic} and will get back to you."
+handoff_note: "Referred by PaCE General Enquiries. Programme: {programme}. Question: {summary} Reason: {reason}"
+# What RSTN's system can send if a run fails (scenario E5); owned by PaCE in production (A11).
+fallback_acknowledgement: "Thank you for your email. We have received your enquiry and will reply as soon as possible."

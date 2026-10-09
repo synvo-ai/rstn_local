@@ -34,7 +34,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 **Agenda for the call:**
 1. **Li-kai's module scope.** With multi-language parked (English only in phase 1), Li-kai's main scope is the integration side: `.eml` parsing and envelope, mock RSTN client, knowledge store and registry, database schema, sandbox. Retire the old code, keeping the multi-language part aside for later.
 2. **Backend interfaces.** Agree the API v0 contract (B7: raw `.eml` + JSON envelope in, JSON out, re-check call), the connector ↔ engine interface, and what the engine stores (knowledge copy, programme registry, traces; no email content).
-3. **One code structure.** One repository and module layout, shared types for request and result, and who reviews whose code, so the two sides do not diverge or build the same thing twice.
+3. **One code structure.** One repository and module layout, shared types for request and result, and who reviews whose code, so the two sides do not diverge or build the same thing twice. Proposal: start from `sandbox/` (Python, 9 Oct). Li-kai's pieces plug in at fixed points: `.eml` parsing in `pace_engine/mime.py`, M1 knowledge in the `data/knowledge/*.yaml` format, M2 registry in `data/registry.yaml`, the mock client from `tools/client.py`, deployment around `python -m pace_engine`.
 
 **Proposed split** (to confirm on the call):
 
@@ -56,7 +56,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 
 **Week 1 (8–14 Oct)**
 - [ ] **Mon 12 Oct:** decide where the sandbox runs (S2). It must be reachable from outside with access control; the GPU router today is internal with no auth.
-- [ ] B6 headless engine extracted from the POC; B7 API v0 firm enough to publish: input is the **raw email (RFC 5322 / MIME, `.eml`)** plus a small JSON envelope (request ID, channel, sender reference, callback); JSON-only and plain-text input also accepted; `.msg` converted; B31 local model gateway.
+- [~] B6 headless engine, **rewritten in Python** in `sandbox/` (9 Oct; runs end to end on Gemini, 20/20 mock cases); B7 API v0 firm enough to publish: input is the **raw email (RFC 5322 / MIME, `.eml`)** plus a small JSON envelope (request ID, channel, sender reference, callback); JSON-only and plain-text input also accepted; `.msg` converted; B31 local model gateway.
 - [ ] M1–M4 mock data (50 emails); M5 started.
 - [ ] **Wed 14 Oct:** send S1 protocol draft (`sandbox-testing-protocol.md`) and the API spec draft to RSTN.
 
@@ -97,7 +97,7 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 - [ ] **M1. Mock knowledge base** from public NTU PaCE pages (programme pages, FAQs, fee and intake information): crawl, version, index. Mark every item as mock; NTU still has to approve real sources (A6).
 - [ ] **M2. Mock programme registry and routing table**: programmes, aliases, owning teams, made-up team inboxes, owner by question type.
 - [ ] **M3. Mock reply templates and style**: greeting, sign-off, acknowledgement, the fallback acknowledgement, handoff note format.
-- [ ] **M4. Mock email set**: 50 in week 1, ~150 by week 3, each labelled with expected issues, programme, owner, action and reply points. Cover single and multi-question, follow-ups, referrals, ambiguous programmes, out-of-scope, payment and status questions, and web-form enquiries. Made-up people only.
+- [~] **M4. Mock email set** (seed of 20 cases in `sandbox/testpack/cases.yaml`, 9 Oct): 50 in week 1, ~150 by week 3, each labelled with expected issues, programme, owner, action and reply points. Cover single and multi-question, follow-ups, referrals, ambiguous programmes, out-of-scope, payment and status questions, and web-form enquiries. Made-up people only.
 - [ ] **M5. Mock attachments**: text PDFs, scanned PDFs, receipts, certificates, portal screenshots, logos; made-up personal details so masking can be tested.
 
 ### S. Sandbox for RSTN
@@ -194,8 +194,8 @@ Results on mock data show the engine works end to end; they are not an accuracy 
 Also unblocked now, from the lists below: B6 headless engine, B7 contract draft (semantics), B8/B25 override, B9 retrieval over public NTU pages, B10 registry draft from NTU web pages, B11 attachment reader, B12 telemetry, B24/B19 connector masking and OCR, B26 no-payload logging, B27 tenant IDs, B28 infra template.
 
 ### Engine (after A1–A3, A8 answers)
-- [ ] **B6. Extract headless engine** from the POC: drop UI, case lifecycle, persistence, execution adapters. Do **not** carry over content tables (`Message.body`, `AiCapabilityRun.structuredOutput`, `ReliabilityRun.result`); trace keeps stage/status/tokens/latency/versions/masked-input hash only (deployment-options.md G2).
-- [ ] **B7. Request/response contract**: raw `.eml` + JSON envelope in, JSON (XML optional) out; versioning; contract tests.
+- [~] **B6. Headless engine**: rewritten in Python (`sandbox/pace_engine`, 9 Oct) instead of extracting the TS POC; same split as the POC (model reads and drafts, rules decide, verifier critiques). Original plan: extract from the POC: drop UI, case lifecycle, persistence, execution adapters. Do **not** carry over content tables (`Message.body`, `AiCapabilityRun.structuredOutput`, `ReliabilityRun.result`); trace keeps stage/status/tokens/latency/versions/masked-input hash only (deployment-options.md G2).
+- [~] **B7. Request/response contract**: raw `.eml` + JSON envelope in, JSON (XML optional) out; versioning; contract tests. Schemas in `sandbox/pace_engine/models.py`, tests in `sandbox/tests/test_api.py`; re-check endpoint named `/v0/enquiries/{runId}/recheck`.
 - [ ] **B8. Override validation API** (slide 6 behaviour as a service).
 - [ ] **B9. Indexed retrieval** against RSTN's store (replace POC full-load retriever); evidence carries URL, version, authority.
 - [ ] **B10. Registry adapter** for programme/owner resolution; handle `AMBIGUOUS` aliases.
@@ -217,7 +217,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 ### Sample emails (after A5)
 - [-] ~~B14. Historical-email curation pipeline~~ — dropped: NTU will not share historical emails.
 - [ ] **B14b. Label sample emails** (expected programme, owner, treatment, reply points) with PaCE confirming.
-- [ ] **B15. Test set + accuracy report** for routing, treatment and reply, on the labelled samples; extend the POC evaluation harness. Re-run after every prompt/model/knowledge change.
+- [~] **B15. Test set + accuracy report** for routing, treatment and reply, on the labelled samples; harness in `sandbox/tools/evaluate.py` (9 Oct). Re-run after every prompt/model/knowledge change.
 - [ ] **B15b. Knowledge-gap list** for NTU: sample questions no approved source answers.
 
 ### Before commercial commitment
@@ -241,6 +241,7 @@ Also unblocked now, from the lists below: B6 headless engine, B7 contract draft 
 | 2026-10-08 | Self-learning described to RSTN at a high level only (confirmed-answer memory + calibrated confidence check); aligned by Lisa and Guowei before sending | Group |
 | 2026-10-08 | Consider Jeff decision models (small calibrated classifiers) for the confidence check and fast pre-checks, only if latency stays low; spike first (B43) | Guowei |
 | 2026-10-08 | Privacy connector delivered as a Python package (RSTN runs it on the NTU side; image updates are inconvenient there); Docker image only on request | Group (call) |
+| 2026-10-09 | Sandbox engine rewritten in Python (`sandbox/` in this repo) rather than extracted from the TS POC, so engine and connector share one language; Gemini behind the sandbox, one model per stage, names kept internal | Guowei |
 | 2026-10-08 | Input is the raw email (RFC 5322 `.eml`) plus a small JSON envelope, since RSTN handles raw email text; no XML schema of our own | Guowei |
 | 2026-10-07 | `response-to-rstn.md` kept high level (no step list, call counts, field names or sizing); technical detail only on the call if asked | Group |
 | 2026-10-07 | Engine build owned by Guowei, with Li-kai; our GPU server (local llama.cpp router, GLM-OCR, Qwen VL) is the dev/test environment before cloud deployment | Guowei |

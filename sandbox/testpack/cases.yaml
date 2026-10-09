@@ -1,0 +1,348 @@
+# MOCK test emails (M4 seed) with expected results. All people, numbers and programmes are made up.
+# tools/make_testpack.py turns each case into testpack/eml/<id>.eml (plus <id>.thread-N.eml for earlier
+# messages, and <id>.form.json for web forms). Expected issues are matched by action and programme.
+# programme: a programme ID, AMBIGUOUS, UNRESOLVED, or NOT_NEEDED.
+cases:
+  - id: A1-01
+    scenario: A1
+    from: Rachel Lim
+    subject: January intake for the Applied Data Analytics certificate
+    body: |
+      Hello,
+
+      When is the next intake for the Graduate Certificate in Applied Data Analytics, and when do applications close?
+
+      Thank you,
+      Rachel Lim
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: GC-ADA, intent: SCHEDULE}
+
+  - id: A1-02
+    scenario: A1
+    from: Marcus Tan
+    subject: Fees for FlexiMasters in IC Design
+    body: |
+      Dear PaCE,
+
+      Could you tell me how much the FlexiMasters in IC Design costs? Is it charged per module?
+
+      Regards,
+      Marcus
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: FM-ICD, intent: FEES}
+
+  - id: A1-03
+    scenario: A1
+    from: Nur Aisyah
+    subject: Do I need programming experience?
+    body: |
+      Hi,
+
+      I am interested in the Professional Certificate in Data Science and AI. I have a diploma in business but have never programmed. Can I still apply?
+
+      Thanks
+      Aisyah
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: PC-DSAI, intent: ENTRY_REQUIREMENTS}
+
+  - id: A2-01
+    scenario: A2
+    from: Priya Ramasamy
+    subject: Payment not matched and question about the January intake
+    body: |
+      Dear PaCE team,
+
+      I applied for the Graduate Certificate in Applied Data Analytics for the January 2027 intake and paid the course fee by bank transfer on 2 October. The learner portal now shows "Error 4021: Payment could not be matched to this application". Could you please check whether my payment has been received? My payment reference is PACE-GCADA-2026-11903.
+
+      I would also like to know whether I can still use my SkillsFuture Credit for part of the fee, since I have already paid the full amount.
+
+      Finally, when does the January intake start?
+
+      Thank you,
+      Priya Ramasamy
+      Mobile: +65 9123 4567
+    attachments:
+      - {filename: bank_transfer_receipt.jpg, kind: receipt}
+    expected:
+      issues:
+        - {action: MANUAL_HANDLING, programme: GC-ADA, intent: PAYMENT_STATUS}
+        - {action: REPLY_DIRECTLY, programme: ANY, intent: FUNDING}
+        - {action: REPLY_DIRECTLY, programme: GC-ADA, intent: SCHEDULE}
+
+  - id: A2-02
+    scenario: A2
+    from: Daniel Koh
+    subject: Sustainable finance diploma - a few questions
+    body: |
+      Good afternoon,
+
+      I am considering the Specialist Diploma in Sustainable Finance. Three questions:
+      1. What is the fee, and can it be paid in instalments?
+      2. Which day of the week are the classes held?
+      3. My company will sponsor me. What does my HR department need to submit, and by when?
+
+      Best,
+      Daniel Koh
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: SD-SF, intent: FEES}
+        - {action: REPLY_DIRECTLY, programme: SD-SF, intent: COURSE_INFORMATION}
+        - {action: REPLY_DIRECTLY, programme: ANY, intent: FUNDING}
+
+  - id: A3-01
+    scenario: A3
+    from: Marcus Tan
+    subject: Credit for modules I completed at another university
+    body: |
+      Dear PaCE,
+
+      I completed two postgraduate modules in analogue circuit design at another university in 2024. If I enrol in the FlexiMasters in IC Design, can these modules be credited so that I only need to take three modules? I can send my transcript.
+
+      Regards,
+      Marcus Tan
+    expected:
+      issues:
+        - {action: REFER_TO_TEAM, programme: FM-ICD, owner: SCH-EEE, intent: CREDIT_TRANSFER}
+
+  - id: A3-02
+    scenario: A3
+    from: Helen Wong
+    subject: Cybersecurity training for our operations team
+    body: |
+      Hello,
+
+      I manage learning and development at a logistics company. We would like to send about 20 staff from our IT operations team for cybersecurity training, ideally a customised run at our office in the first half of 2027. Could someone discuss options with us?
+
+      Kind regards,
+      Helen Wong
+      L&D Manager
+    expected:
+      issues:
+        - {action: REFER_TO_TEAM, programme: ANY, owner: PACE-CORP, intent: CORPORATE_TRAINING}
+
+  - id: A3-03
+    scenario: A3
+    from: Joseph Lee
+    subject: Withdrawal from cybersecurity programme
+    body: |
+      Dear Sir or Madam,
+
+      Due to a change in my work schedule I need to withdraw from the Professional Certificate in Cybersecurity Operations that starts in February. Please process my withdrawal and refund.
+
+      Thank you,
+      Joseph Lee
+    expected:
+      issues:
+        - {action: REFER_TO_TEAM, programme: ANY, owner: PACE-FIN, intent: WITHDRAWAL_REFUND}
+
+  - id: A4-01
+    scenario: A4
+    from: Kelvin Ong
+    subject: Next intake?
+    body: |
+      Hi,
+
+      When does the data course start next? I saw it on your website last week.
+
+      Thanks,
+      Kelvin
+    expected:
+      issues:
+        - {action: ASK_CLARIFICATION, programme: AMBIGUOUS}
+
+  - id: A4-02
+    scenario: A4
+    from: Siti Rahman
+    subject: Course fee
+    body: |
+      Dear PaCE,
+
+      How much is the course fee for the evening certificate course? Thank you.
+
+      Siti
+    expected:
+      issues:
+        - {action: ASK_CLARIFICATION, programme: UNRESOLVED}
+
+  - id: A5-01
+    scenario: A5
+    from: Wei Jie Chen
+    subject: Parking on Saturdays
+    body: |
+      Hello,
+
+      I will be attending Saturday workshops. Is there car parking on campus on Saturdays, and how much does it cost?
+
+      Thanks,
+      Wei Jie
+    expected:
+      issues:
+        - {action: MANUAL_HANDLING, programme: ANY}
+
+  - id: A6-01
+    scenario: A6
+    from: Tan Wei Ming
+    subject: Has my payment been received?
+    body: |
+      Dear PaCE,
+
+      I paid SGD 3,924.00 for the first module of the FlexiMasters in IC Design by bank transfer on 2 October 2026 (reference PACE-FMIC-2026-08817). The portal still shows the payment as pending. Can you confirm you have received it? I have attached the receipt.
+
+      My NRIC is S8812345D and my mobile is +65 9876 5432 if you need to reach me.
+
+      Thank you,
+      Tan Wei Ming
+    attachments:
+      - {filename: receipt.jpg, kind: receipt}
+    expected:
+      issues:
+        - {action: MANUAL_HANDLING, programme: FM-ICD, owner: PACE-FIN, intent: PAYMENT_STATUS}
+
+  - id: A7-01
+    scenario: A7
+    from: Rachel Lim
+    subject: "Re: January intake for the Applied Data Analytics certificate"
+    body: |
+      Thank you for the quick reply. One more question: how much is the programme fee, and is it paid per module?
+
+      Rachel
+    quote_thread: true
+    thread:
+      - sentBy: SENDER
+        from: Rachel Lim
+        subject: January intake for the Applied Data Analytics certificate
+        body: |
+          Hello,
+
+          When is the next intake for the Graduate Certificate in Applied Data Analytics, and when do applications close?
+
+          Thank you,
+          Rachel Lim
+      - sentBy: PACE
+        from: PaCE General Enquiries
+        subject: "Re: January intake for the Applied Data Analytics certificate"
+        body: |
+          Dear Rachel,
+
+          Thank you for your email. The next intake is in January 2027, and applications close on 15 November 2026.
+
+          Best regards,
+          PaCE General Enquiries
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: GC-ADA, intent: FEES}
+
+  - id: A8-01
+    scenario: A8
+    channel: WEB_FORM
+    form:
+      Name: Arjun Menon
+      Email: arjun.menon@example.com
+      Mobile: "+65 8123 4567"
+      Programme of interest: Professional Certificate in Cybersecurity Operations
+      Enquiry type: Course schedule
+      Message: When does the next run start, and are the classes on weekday evenings?
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: PC-CSO, intent: SCHEDULE}
+        - {action: REPLY_DIRECTLY, programme: PC-CSO, intent: COURSE_INFORMATION}
+
+  - id: A9-01
+    scenario: A9
+    from: Grace Ho
+    subject: "Automatic reply: Your application"
+    body: |
+      Thank you for your email. I am out of the office until 19 October 2026 with limited access to email. For urgent matters please contact my colleague.
+
+      Grace Ho
+    expected:
+      messageType: NOT_ENQUIRY
+      issues: []
+
+  - id: A9-02
+    scenario: A9
+    from: EduTech Weekly
+    subject: "This week in EdTech: 10 tools for hybrid classrooms"
+    body: |
+      EduTech Weekly - Issue 142
+
+      Top stories this week: 10 tools for hybrid classrooms, how universities are using AI tutors, and our webinar on learning analytics on 20 October.
+
+      Register now for the webinar. You are receiving this email because you subscribed to EduTech Weekly. Unsubscribe | Manage preferences
+    expected:
+      messageType: NOT_ENQUIRY
+      issues: []
+
+  - id: A10-01
+    scenario: A10
+    from: 王小明
+    subject: 关于数据分析课程的咨询
+    body: |
+      您好，
+
+      我想了解应用数据分析研究生证书课程的下一期开课时间，以及报名截止日期。另外，学费可以分期付款吗？
+
+      谢谢！
+      王小明
+    expected:
+      languageSupported: false
+      issues: []
+
+  - id: A10-02
+    scenario: A10
+    from: Ahmad Faizal
+    subject: Pertanyaan tentang yuran kursus
+    body: |
+      Salam sejahtera,
+
+      Saya ingin bertanya tentang yuran untuk Sijil Profesional dalam Operasi Keselamatan Siber. Adakah saya boleh menggunakan kredit SkillsFuture untuk membayar yuran tersebut? Bilakah kelas akan bermula?
+
+      Terima kasih,
+      Ahmad Faizal
+    expected:
+      languageSupported: false
+      issues: []
+
+  - id: E8-01
+    scenario: E8
+    from: Dr Lim Hui Min
+    subject: "RE: Healthcare management diploma"
+    html_only: true
+    inline_logo: true
+    body_html: |
+      <html><body>
+      <p>Dear PaCE,</p>
+      <p>Thanks for the brochure. When do applications for the <b>Graduate Diploma in Healthcare Management</b> open and close?</p>
+      <p>Best regards,<br>Dr Lim Hui Min<br><img src="cid:logo001" alt="Clinic logo"></p>
+      <blockquote>
+        <p>From: PaCE General Enquiries<br>Sent: Monday, 5 October 2026<br>Subject: RE: Healthcare management diploma</p>
+        <p>Dear Dr Lim, please find the brochure attached. Is there anything else you would like to know about the fees or the entry requirements?</p>
+        <blockquote><p>Can you send me the brochure for the healthcare management diploma? And what are the fees?</p></blockquote>
+      </blockquote>
+      </body></html>
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: GD-HM, intent: SCHEDULE}
+
+  - id: E8-02
+    scenario: E8
+    from: Benjamin Goh
+    subject: "Re: Cybersecurity certificate"
+    body: |
+      Thanks. Is the Professional Certificate in Cybersecurity Operations held on campus or online?
+
+      Ben
+
+      On Mon, 5 Oct 2026 at 10:12, PaCE General Enquiries <enquiries@pace-mock.example> wrote:
+      > Dear Benjamin,
+      > The programme fee is SGD 4,360.00 including GST.
+      >
+      > On Sun, 4 Oct 2026 at 21:40, Benjamin Goh wrote:
+      >> How much is the cybersecurity operations certificate, and when is the next run?
+      >> Also, can I use SkillsFuture Credit?
+    expected:
+      issues:
+        - {action: REPLY_DIRECTLY, programme: PC-CSO, intent: COURSE_INFORMATION}

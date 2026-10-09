@@ -1,0 +1,281 @@
+# MOCK knowledge seed for the sandbox. Every fact below is made up and is NOT NTU information.
+# M1 replaces or extends this with items crawled from public NTU PaCE pages, in the same format.
+# Fields: id, programmeId (null = applies to all), topic, title, text, url, version.
+items:
+  # ---- Graduate Certificate in Applied Data Analytics (GC-ADA) ----
+  - id: KB-GCADA-OVERVIEW
+    programmeId: GC-ADA
+    topic: COURSE_INFORMATION
+    title: Graduate Certificate in Applied Data Analytics — overview
+    text: >
+      The Graduate Certificate in Applied Data Analytics has four modules taken over two terms. Classes are held on
+      weekday evenings from 7pm to 10pm on campus, with some Saturday workshops and self-paced online content.
+      Modules cover data wrangling in Python, statistical modelling, machine learning and data visualisation.
+    url: https://pace-mock.example/programmes/gc-ada
+    version: "2026-10-01"
+  - id: KB-GCADA-INTAKE
+    programmeId: GC-ADA
+    topic: SCHEDULE
+    title: Graduate Certificate in Applied Data Analytics — intakes
+    text: >
+      The programme has two intakes a year, in January and July. The January 2027 intake starts on 11 January 2027,
+      and applications for it close on 15 November 2026. Applications for the July 2027 intake open on 1 February 2027.
+    url: https://pace-mock.example/programmes/gc-ada#intakes
+    version: "2026-10-01"
+  - id: KB-GCADA-FEES
+    programmeId: GC-ADA
+    topic: FEES
+    title: Graduate Certificate in Applied Data Analytics — fees
+    text: >
+      The full programme fee is SGD 10,464.00 including GST, payable per module at SGD 2,616.00 per module.
+      Singapore Citizens and Permanent Residents may be eligible for course fee subsidies; the net fee after
+      subsidy is shown on the application portal before payment.
+    url: https://pace-mock.example/programmes/gc-ada#fees
+    version: "2026-10-01"
+  - id: KB-GCADA-ENTRY
+    programmeId: GC-ADA
+    topic: ENTRY_REQUIREMENTS
+    title: Graduate Certificate in Applied Data Analytics — entry requirements
+    text: >
+      Applicants need a recognised bachelor's degree and at least two years of working experience. Basic
+      programming knowledge is recommended but not required; a free online Python preparatory course is offered
+      to admitted learners.
+    url: https://pace-mock.example/programmes/gc-ada#entry
+    version: "2026-10-01"
+
+  # ---- Professional Certificate in Data Science and AI (PC-DSAI) ----
+  - id: KB-PCDSAI-OVERVIEW
+    programmeId: PC-DSAI
+    topic: COURSE_INFORMATION
+    title: Professional Certificate in Data Science and AI — overview
+    text: >
+      The Professional Certificate in Data Science and AI is a 12-week online programme with two live online
+      sessions a week, on Tuesday and Thursday evenings. It covers foundations of machine learning, deep
+      learning and responsible AI.
+    url: https://pace-mock.example/programmes/pc-dsai
+    version: "2026-10-01"
+  - id: KB-PCDSAI-INTAKE
+    programmeId: PC-DSAI
+    topic: SCHEDULE
+    title: Professional Certificate in Data Science and AI — intakes
+    text: >
+      The programme runs four times a year, starting in January, April, July and October. The next run starts
+      on 12 January 2027; registration closes two weeks before the start date.
+    url: https://pace-mock.example/programmes/pc-dsai#intakes
+    version: "2026-10-01"
+  - id: KB-PCDSAI-FEES
+    programmeId: PC-DSAI
+    topic: FEES
+    title: Professional Certificate in Data Science and AI — fees
+    text: >
+      The programme fee is SGD 3,270.00 including GST. SkillsFuture Credit can be used for this programme.
+    url: https://pace-mock.example/programmes/pc-dsai#fees
+    version: "2026-10-01"
+  - id: KB-PCDSAI-ENTRY
+    programmeId: PC-DSAI
+    topic: ENTRY_REQUIREMENTS
+    title: Professional Certificate in Data Science and AI — entry requirements
+    text: >
+      Applicants need a diploma or degree in any discipline. No programming experience is required.
+    url: https://pace-mock.example/programmes/pc-dsai#entry
+    version: "2026-10-01"
+
+  # ---- FlexiMasters in IC Design (FM-ICD) ----
+  - id: KB-FMICD-OVERVIEW
+    programmeId: FM-ICD
+    topic: COURSE_INFORMATION
+    title: FlexiMasters in IC Design — overview
+    text: >
+      The FlexiMasters in IC Design consists of five postgraduate modules on analogue and digital integrated
+      circuit design. Learners who complete it may apply for credit recognition towards the related master's
+      degree within five years; the decision on credit recognition is made by the school.
+    url: https://pace-mock.example/programmes/fm-icd
+    version: "2026-10-01"
+  - id: KB-FMICD-INTAKE
+    programmeId: FM-ICD
+    topic: SCHEDULE
+    title: FlexiMasters in IC Design — intakes
+    text: >
+      The FlexiMasters in IC Design has one intake a year, in August. Applications for the August 2027 intake open
+      on 1 March 2027 and close on 30 April 2027.
+    url: https://pace-mock.example/programmes/fm-icd#intakes
+    version: "2026-10-01"
+  - id: KB-FMICD-FEES
+    programmeId: FM-ICD
+    topic: FEES
+    title: FlexiMasters in IC Design — fees
+    text: >
+      The fee is SGD 3,924.00 per module including GST, or SGD 19,620.00 for all five modules.
+    url: https://pace-mock.example/programmes/fm-icd#fees
+    version: "2026-10-01"
+  - id: KB-FMICD-ENTRY
+    programmeId: FM-ICD
+    topic: ENTRY_REQUIREMENTS
+    title: FlexiMasters in IC Design — entry requirements
+    text: >
+      Applicants need a bachelor's degree in electrical or electronic engineering or a related field. Applicants
+      whose degree was not taught in English must provide an IELTS score of 6.5 or equivalent.
+    url: https://pace-mock.example/programmes/fm-icd#entry
+    version: "2026-10-01"
+
+  # ---- Specialist Diploma in Sustainable Finance (SD-SF) ----
+  - id: KB-SDSF-OVERVIEW
+    programmeId: SD-SF
+    topic: COURSE_INFORMATION
+    title: Specialist Diploma in Sustainable Finance — overview
+    text: >
+      The Specialist Diploma in Sustainable Finance is a six-month part-time programme with Saturday morning
+      classes. It covers ESG reporting, green bonds, climate risk and impact investing.
+    url: https://pace-mock.example/programmes/sd-sf
+    version: "2026-10-01"
+  - id: KB-SDSF-INTAKE
+    programmeId: SD-SF
+    topic: SCHEDULE
+    title: Specialist Diploma in Sustainable Finance — intakes
+    text: >
+      The programme starts in March and September each year. The March 2027 intake starts on 6 March 2027.
+    url: https://pace-mock.example/programmes/sd-sf#intakes
+    version: "2026-10-01"
+  - id: KB-SDSF-FEES
+    programmeId: SD-SF
+    topic: FEES
+    title: Specialist Diploma in Sustainable Finance — fees
+    text: >
+      The programme fee is SGD 7,848.00 including GST, payable in two instalments.
+    url: https://pace-mock.example/programmes/sd-sf#fees
+    version: "2026-10-01"
+
+  # ---- Professional Certificate in Cybersecurity Operations (PC-CSO) ----
+  - id: KB-PCCSO-OVERVIEW
+    programmeId: PC-CSO
+    topic: COURSE_INFORMATION
+    title: Professional Certificate in Cybersecurity Operations — overview
+    text: >
+      The Professional Certificate in Cybersecurity Operations is a 10-week programme with hands-on labs in
+      security monitoring, incident response and threat hunting. Classes are on weekday evenings on campus.
+    url: https://pace-mock.example/programmes/pc-cso
+    version: "2026-10-01"
+  - id: KB-PCCSO-INTAKE
+    programmeId: PC-CSO
+    topic: SCHEDULE
+    title: Professional Certificate in Cybersecurity Operations — intakes
+    text: >
+      The programme runs in February, June and October. The next run starts on 2 February 2027.
+    url: https://pace-mock.example/programmes/pc-cso#intakes
+    version: "2026-10-01"
+  - id: KB-PCCSO-FEES
+    programmeId: PC-CSO
+    topic: FEES
+    title: Professional Certificate in Cybersecurity Operations — fees
+    text: >
+      The programme fee is SGD 4,360.00 including GST.
+    url: https://pace-mock.example/programmes/pc-cso#fees
+    version: "2026-10-01"
+
+  # ---- Graduate Diploma in Healthcare Management (GD-HM) ----
+  - id: KB-GDHM-OVERVIEW
+    programmeId: GD-HM
+    topic: COURSE_INFORMATION
+    title: Graduate Diploma in Healthcare Management — overview
+    text: >
+      The Graduate Diploma in Healthcare Management is a one-year part-time programme for healthcare
+      professionals, covering healthcare operations, finance, quality and policy.
+    url: https://pace-mock.example/programmes/gd-hm
+    version: "2026-10-01"
+  - id: KB-GDHM-INTAKE
+    programmeId: GD-HM
+    topic: SCHEDULE
+    title: Graduate Diploma in Healthcare Management — intakes
+    text: >
+      The programme has one intake a year, in July. Applications open on 1 January and close on 31 March.
+    url: https://pace-mock.example/programmes/gd-hm#intakes
+    version: "2026-10-01"
+
+  # ---- General items (all programmes) ----
+  - id: KB-GEN-SKILLSFUTURE
+    programmeId: null
+    topic: FUNDING
+    title: Using SkillsFuture Credit
+    text: >
+      Singapore Citizens aged 25 and above may use their SkillsFuture Credit to pay for eligible programmes. The
+      claim must be submitted on the SkillsFuture portal before the programme starts; it cannot be submitted after
+      the fee has been paid in full. If the full fee has already been paid, the claim cannot be used for that
+      payment.
+    url: https://pace-mock.example/funding/skillsfuture
+    version: "2026-10-01"
+  - id: KB-GEN-MCES
+    programmeId: null
+    topic: FUNDING
+    title: Mid-Career Enhanced Subsidy
+    text: >
+      Singapore Citizens aged 40 and above may qualify for the Mid-Career Enhanced Subsidy on eligible programmes,
+      subject to the funding rules in force at the start of the programme.
+    url: https://pace-mock.example/funding/mces
+    version: "2026-10-01"
+  - id: KB-GEN-SPONSOR
+    programmeId: null
+    topic: FUNDING
+    title: Company sponsorship
+    text: >
+      Company-sponsored learners should ask their HR department to submit the company sponsorship form together
+      with the application. The same sponsorship form is used for all modules and must be submitted at least
+      two weeks before the module starts.
+    url: https://pace-mock.example/funding/company-sponsorship
+    version: "2026-10-01"
+  - id: KB-GEN-PAYMENT
+    programmeId: null
+    topic: FEES
+    title: How to pay course fees
+    text: >
+      Fees can be paid by PayNow, credit card or bank transfer through the application portal. Bank transfers
+      must quote the payment reference shown on the portal. Payments usually show on the portal within five
+      working days.
+    url: https://pace-mock.example/fees/payment
+    version: "2026-10-01"
+  - id: KB-GEN-REFUND
+    programmeId: null
+    topic: WITHDRAWAL_REFUND
+    title: Withdrawal and refund
+    text: >
+      Learners who withdraw in writing before the programme start date receive a refund of fees paid less an
+      administrative fee of SGD 109.00. No refund is given after the programme has started. Refunds are processed
+      within 30 working days.
+    url: https://pace-mock.example/fees/refunds
+    version: "2026-10-01"
+  - id: KB-GEN-DEFER
+    programmeId: null
+    topic: APPLICATION_PROCESS
+    title: Deferring a module
+    text: >
+      Requests to defer a module must be submitted in writing at least ten working days before the module begins.
+      A module can be deferred once, to the next run of the same module.
+    url: https://pace-mock.example/learners/deferral
+    version: "2026-10-01"
+  - id: KB-GEN-APPLY
+    programmeId: null
+    topic: APPLICATION_PROCESS
+    title: How to apply
+    text: >
+      Applications are made online through the PaCE application portal. Applicants upload their degree
+      certificate and transcript as PDF files. Applicants are told the outcome within four weeks of the
+      application closing date.
+    url: https://pace-mock.example/apply
+    version: "2026-10-01"
+  - id: KB-GEN-ATTENDANCE
+    programmeId: null
+    topic: COURSE_INFORMATION
+    title: Attendance requirement
+    text: >
+      Learners must attend at least 75 per cent of contact hours in each module to receive the certificate of
+      completion.
+    url: https://pace-mock.example/learners/attendance
+    version: "2026-10-01"
+  - id: KB-GEN-STACKABLE
+    programmeId: null
+    topic: CREDIT_TRANSFER
+    title: Stackable credits
+    text: >
+      Credits earned in stackable certificates may be recognised towards a related master's degree within five
+      years. Each request is assessed by the school that offers the master's degree.
+    url: https://pace-mock.example/learners/stackable-credits
+    version: "2026-10-01"

@@ -1,0 +1,10 @@
+{
+ "fields": {
+  "Name": "Arjun Menon",
+  "Email": "arjun.menon@example.com",
+  "Mobile": "+65 8123 4567",
+  "Programme of interest": "Professional Certificate in Cybersecurity Operations",
+  "Enquiry type": "Course schedule",
+  "Message": "When does the next run start, and are the classes on weekday evenings?"
+ }
+}

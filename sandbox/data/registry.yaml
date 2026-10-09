@@ -1,0 +1,60 @@
+# MOCK programme registry and routing table (M2). Programmes, facts, teams and inboxes are made up for the
+# sandbox; NTU has to supply the real registry (A3, A4). Format: teams, programmes, routing by intent.
+answerDesk: PACE-ENQ
+
+teams:
+  - {id: PACE-ENQ, name: PaCE General Enquiries, inbox: enquiries@pace-mock.example}
+  - {id: PACE-FIN, name: PaCE Finance, inbox: finance@pace-mock.example}
+  - {id: PACE-ADM, name: PaCE Admissions, inbox: admissions@pace-mock.example}
+  - {id: PACE-CORP, name: PaCE Corporate Learning, inbox: corporate@pace-mock.example}
+  - {id: PACE-LR, name: PaCE Learner Records, inbox: records@pace-mock.example}
+  - {id: SCH-COMP, name: Computing Graduate Programmes Office, inbox: comp-pg@pace-mock.example}
+  - {id: SCH-EEE, name: Engineering Graduate Programmes Office, inbox: eee-pg@pace-mock.example}
+  - {id: SCH-BIZ, name: Business School Executive Education Office, inbox: biz-exec@pace-mock.example}
+  - {id: SCH-HEALTH, name: Health Sciences Programmes Office, inbox: health-pg@pace-mock.example}
+
+programmes:
+  - id: GC-ADA
+    name: Graduate Certificate in Applied Data Analytics
+    aliases: [GCADA, GC-ADA, applied data analytics, data analytics graduate certificate]
+    schoolTeam: SCH-COMP
+  - id: PC-DSAI
+    name: Professional Certificate in Data Science and AI
+    aliases: [PCDSAI, data science and AI, data science and artificial intelligence]
+    schoolTeam: SCH-COMP
+  - id: FM-ICD
+    name: FlexiMasters in IC Design
+    aliases: [FlexiMasters IC Design, IC design FlexiMasters, integrated circuit design]
+    schoolTeam: SCH-EEE
+  - id: SD-SF
+    name: Specialist Diploma in Sustainable Finance
+    aliases: [sustainable finance, sustainable finance diploma]
+    schoolTeam: SCH-BIZ
+  - id: PC-CSO
+    name: Professional Certificate in Cybersecurity Operations
+    aliases: [cybersecurity operations, cyber security operations, cybersecurity certificate]
+    schoolTeam: SCH-COMP
+  - id: GD-HM
+    name: Graduate Diploma in Healthcare Management
+    aliases: [healthcare management, healthcare management diploma]
+    schoolTeam: SCH-HEALTH
+
+# handling: ANSWER_DESK = answer from approved knowledge if it covers the question;
+# REFER = refer to the owning team; INSTITUTIONAL = needs payment/application/record data the engine
+# does not have in phase 1 (Manual handling); MANUAL = no rule, staff decide.
+# owner SCHOOL = the programme's school team (fallbackOwner when no programme is known).
+routing:
+  COURSE_INFORMATION: {owner: PACE-ENQ, handling: ANSWER_DESK}
+  SCHEDULE: {owner: PACE-ENQ, handling: ANSWER_DESK}
+  FEES: {owner: PACE-ENQ, handling: ANSWER_DESK}
+  FUNDING: {owner: PACE-ENQ, handling: ANSWER_DESK}
+  ENTRY_REQUIREMENTS: {owner: PACE-ENQ, handling: ANSWER_DESK}
+  APPLICATION_PROCESS: {owner: PACE-ENQ, handling: ANSWER_DESK}
+  ADMISSION_DECISION: {owner: SCHOOL, fallbackOwner: PACE-ADM, handling: REFER}
+  CREDIT_TRANSFER: {owner: SCHOOL, fallbackOwner: PACE-ADM, handling: REFER}
+  CORPORATE_TRAINING: {owner: PACE-CORP, handling: REFER}
+  WITHDRAWAL_REFUND: {owner: PACE-FIN, handling: REFER}
+  PAYMENT_STATUS: {owner: PACE-FIN, handling: INSTITUTIONAL}
+  APPLICATION_STATUS: {owner: PACE-ADM, handling: INSTITUTIONAL}
+  LEARNER_RECORD: {owner: PACE-LR, handling: INSTITUTIONAL}
+  OTHER: {owner: PACE-ENQ, handling: MANUAL}
